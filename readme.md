@@ -1,6 +1,8 @@
-# Arma 3 Mission: Co10 Escape
+# Arma 3 Mission: Co10 Escape Sable7's Tweaks
 
 This Arma3 mission is the official successor of the original Escape mission from Arma 2, which was the first of its kind. The name is always prefixed with "co10" to differentiate it from the "Escape from XXX" missions that were released with Arma 3 by Bohemia Interactive.
+
+Co10_Escape_Sable7 is a fork of the amazing [co10_Escape](https://github.com/CaptainPStar/co10_Escape) Arma3 custom missions by CaptainPStar and ScruffyAT. Along with additional fixes, options, and gameplay tweaks, that fits my friends and my tastes.
 
 ## Overview
 
@@ -16,7 +18,17 @@ At this point Escape is mostly rewritten
 
 The last official release was 1.10.
 
+## Changes from the Original Co10-Escape Missions
 
+- Fixes for War-Torn mode with factions team-fragging eachother
+- Additional mission parameters to adjust various extra aspects of the mission including
+  - Civilian Spawning options
+  - Additional Artillery and CAS Strike options and slightly tweaked Artillery round count
+  - Scout Helicoptor options
+  - Prison Guard spawn options
+  - Starting weapons backpack options
+  - Expanding Time Scaling and Spawn Distance options  
+- OpFor spawns slightly more ambient patrols than the Independent Faction to better balance faction encounter types.
 
 ## Available Versions
 
@@ -96,6 +108,7 @@ For the old compilation method you may run `compile.py` from the main folder but
 
 ## Credits
 
+- Original Co10-Escape missions by CaptainPStar and ScruffyAT.
 - Original Mission (Arma2) by Engima of Östgöta Ops.
 - Mission ported to Arma3 by Vormulac and HyperZ.
 - Continued development, rewrite of codebase and new features by Captain P. Star and Scruffy.
@@ -113,5 +126,4 @@ For this it is sufficient to rename your mission by adding your tag or server an
 
 ## Feedback
 
-Please post bugs and feedback in our Gitlab at the [Github bugtracker](https://github.com/CaptainPStar/co10_Escape/issues)<br>
-You can join us at our Discord server at https://discord.gg/0kV3JvVEhmnMfmq1
+You can join the original Co10_Escape missions at their Discord server at https://discord.gg/0kV3JvVEhmnMfmq1
