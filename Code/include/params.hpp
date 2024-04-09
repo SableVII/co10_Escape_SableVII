@@ -100,8 +100,8 @@ class Params
 	class A3E_Param_TimeMultiplier	
 	{	
 	    title="Time Multiplier (Fasttime)";
-		values[]={1,6,12,24,36};
-		texts[]={"1:1 (Normal)","1:6 (Day = 4 Hours)","1:12 (Day = 2 Hours)","1:24 (Day = 1 Hour)","1:36 (Day = 40 Minutes)"};
+		values[]={0.01,0.5,1,2,4,6,12,24,36};
+		texts[]={"100:1 (Day = A Really Long Time)","2:1 (Day = 48 Hours)","1:1 (Normal)","1:2 (Day = 12 Hours)","1:3 (Day = 8 Hours)","1:4 (Day = 6 Hours)","1:6 (Day = 4 Hours)","1:12 (Day = 2 Hours)","1:24 (Day = 1 Hour)","1:36 (Day = 40 Minutes)"};
 		livechanges = 1;
 		code = "if(isserver) then {setTimeMultiplier _this;};";
 		default = 6;
