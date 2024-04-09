@@ -78,6 +78,7 @@ if(count(_possibleVehicles) > 0) then {
 		[_group] call a3e_fnc_onEnemyGroupSpawn;
 		{
 			[_x] call a3e_fnc_onEnemySoldierSpawn;
+			[_x] joinSilent _group; // Ensure the spawned Unit knows what side they're on
 		} foreach _crew;
 		
 	} foreach _vehicles;
@@ -96,6 +97,7 @@ if(count(a3e_arr_ComCenStaticWeapons) > 0) then {
 		[_static] call a3e_fnc_onVehicleSpawn;
 		[group _unit] call a3e_fnc_onEnemyGroupSpawn;
 		[_unit] call a3e_fnc_onEnemySoldierSpawn;
+		[_unit] joinSilent _group; // Ensure the spawned Unit knows what side they're on
 		_groups pushback (group _unit);
 	} foreach _statics;
 };

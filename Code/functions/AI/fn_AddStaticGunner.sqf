@@ -13,6 +13,8 @@ if(!(isNull _static)) then {
 	_unit = _group createUnit [_infantryType, getpos _static, [], 0, "FORM"];    
 	_unit assignAsGunner _static;
 	_unit moveInGunner _static;
+	
+	[_unit] joinSilent _group; // Ensure the spawned Static Gunner knows what side they're on
 } else {
 	_unit = objNull;
 };

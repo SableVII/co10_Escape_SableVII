@@ -518,6 +518,7 @@ call A3E_fnc_InitTraps;
             _unit unlinkItem "ItemCompass";
             _unit unlinkItem "ItemGPS";
 
+			[_unit] joinSilent _guardGroup; // Ensure the spawned Guard knows what side they're on
 
 			private _mapItems = missionNamespace getVariable ["A3E_MapItemsUsedInMission",["ItemMap"]];
 			{_unit unlinkItem _x;} foreach _mapItems;

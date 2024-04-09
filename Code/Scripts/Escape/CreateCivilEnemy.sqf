@@ -30,7 +30,8 @@ _vehicle call compile format ["%1=_this;", _vehicleVarName];
 _group = [_vehicle, _side, _unitTypes, _enemyFrequency] call drn_fnc_Escape_PopulateVehicle;
 
 {
-    _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;    
+    _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;   
+	[_x] joinSilent _group; // Ensure the spawned Unit knows what side they're on
 } foreach units _group;
 
 if (_debug) then {

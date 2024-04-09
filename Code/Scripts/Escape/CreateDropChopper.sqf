@@ -56,9 +56,13 @@ _gunner1 moveInTurret [_chopper, [0]];
 // _gunner2 assignAsGunner _chopper;
 // _gunner2 moveInTurret [_chopper, [1]];
 
+[_pilot] joinSilent _group; // Ensure the spawned Pilot knows what side they're on
+[_gunner1] joinSilent _group; // Ensure the spawned Gunner knows what side they're on
+
 {
     _x setUnitRank "LIEUTENANT";
     _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
+	[_x] joinSilent _group // Ensure the spawned Unit knows what side they're on
 } foreach units _group;
 
 [_chopper, _dropUnits, _dropPosition, _onGroupDropped, _debug] execVM "Scripts\Escape\DropChopper.sqf";

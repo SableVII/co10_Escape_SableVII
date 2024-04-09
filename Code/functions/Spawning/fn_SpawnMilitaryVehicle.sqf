@@ -30,7 +30,10 @@ private _group = _result select 2;
 
 [_group] call A3E_fnc_onEnemyGroupSpawn;
 
-{[_x] call A3E_fnc_onEnemySoldierSpawn;} foreach units _group;
+{
+	[_x] call A3E_fnc_onEnemySoldierSpawn;
+	[_x] joinSilent _group;  // Ensure the spawned Unit knows what side they're on
+} foreach units _group;
 
 ["Creating group.",["Spawning","MilitaryTraffic"]] call a3e_fnc_log;
 

@@ -27,7 +27,10 @@ private _group = _result select 2;
 
 [_group] call A3E_fnc_onCivilianGroupSpawn;
 
-{[_x] call A3E_fnc_onCivilianSpawn;} foreach units _group;
+{
+	[_x] call A3E_fnc_onCivilianSpawn;
+	[_x] joinSilent _group;  // Ensure the spawned Civilian knows what side they're on (jic)
+} foreach units _group;
 
 
 clearitemcargoglobal _vehicle;

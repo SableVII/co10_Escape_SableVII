@@ -27,6 +27,7 @@ _group = _result select 2;
 
 {
     _x setRank "PRIVATE";
+	[_x] joinSilent _group; // Ensure the spawned Unit knows what side they're on
 } foreach _crew;
 
 if (_debug) then {
@@ -54,6 +55,7 @@ for "_i" from 1 to _soldiersCount do {
     _insurgentSoldier moveInCargo _vehicle;
     _insurgentSoldier assignAsCargo _vehicle;
     _insurgentSoldiers set [count _insurgentSoldiers, _insurgentSoldier];
+	[_insurgentSoldier] joinSilent _group; // Ensure the spawned Unit knows what side they're on
 };
 
 _group selectLeader (_insurgentSoldiers select 0);
