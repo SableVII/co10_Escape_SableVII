@@ -74,6 +74,14 @@ class Params
 		texts[]={"No Prison Backpack", "Spawn Prison Backpack", "Spawn as Crate"};
 		default = 1;
 	};
+	class A3E_Param_CivilianSpawning
+	{
+		title="Civilian Spawning";
+		values[]={0,1,2,3};
+		texts[]={"No Civilian Spawning", "All Spawning", "Only Civilian Traffic", "Only Village Spawning"};
+		livechanges = 1;
+		default = 1;
+	};
 	class A3E_Param_Spacer2
     {
             title = "==================== Environment Settings ====================";

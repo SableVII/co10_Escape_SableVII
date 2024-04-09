@@ -50,7 +50,7 @@ _groups = _groups select {!(isNull _x)};
 if(count(missionnamespace getvariable ["a3e_arr_Escape_MilitaryTraffic_CivilianVehicleClasses",[]])==0) exitwith {};
 
 
-if(count(_groups)<_maxGroups) then {
+if((A3E_Param_CivilianSpawning == 1 || A3E_Param_CivilianSpawning == 2) && count(_groups)<_maxGroups) then {
 
 	//Get a spawnpos around the players
 	private _spawnpos = [_MinSpawnCircleDistance,_MaxSpawnCircleDistance,"ROAD"] call A3E_fnc_GetCircularSpawnPos;

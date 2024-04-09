@@ -52,7 +52,7 @@ for "_x" from 1 to _patrolCount do {
 
 
 //Spawn some civilians
-if(_patrolCount > 2) then {
+if((A3E_Param_CivilianSpawning == 1 || A3E_Param_CivilianSpawning == 3) && _patrolCount > 2) then {
 
 	private _count = (_patrolCount)+selectRandom[-4,-3,-3,-2,-2,-2,-1,-1,0,0,0,0,0,1,1,1,1];
 	_count = 0 max _count;
