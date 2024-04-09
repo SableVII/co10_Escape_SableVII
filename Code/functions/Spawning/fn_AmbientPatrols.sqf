@@ -52,7 +52,7 @@ if(count(_groups)<_maxAmbientGroups) then {
 	private _spawnpos = [_MinSpawnCircleDistance,_MaxSpawnCircleDistance] call A3E_fnc_GetCircularSpawnPos;
 
 	if(count(_spawnpos)==3) then {//If spawnpos failed it has <3 elements
-		_group = [_spawnpos,selectRandom [A3E_VAR_Side_Opfor,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind],[] call a3e_fnc_getDynamicSquadSize] call A3E_FNC_SpawnPatrol;
+		_group = [_spawnpos,selectRandom [A3E_VAR_Side_Opfor,A3E_VAR_Side_Ind],[] call a3e_fnc_getDynamicSquadSize] call A3E_FNC_SpawnPatrol;
 		["Ambient AI group created",["AmbientAI","Spawning"],[_group,_spawnpos,count(units _group)]] call A3E_fnc_Log;
 		_groups pushBack _group;
 		[_group] spawn A3E_fnc_Patrol;
