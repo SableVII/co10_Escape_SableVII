@@ -41,8 +41,8 @@ class Params
 	class A3E_Param_EnemySpawnDistance
 	{
 		title="Enemy Spawn Distance";
-		values[]={500,800,1200};
-		texts[]={"Short (better performance, spawn in view possible)", "Medium", "Far (for good rigs)"};
+		values[]={500,800,1000,1200};
+		texts[]={"Short (better performance, spawn in view possible)", "Medium", "A Good Bit", "Far (for good rigs)"};
 		default = 800;
 	};
 	class A3E_Param_VillageSpawnCount
