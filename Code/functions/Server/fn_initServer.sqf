@@ -447,9 +447,11 @@ if(false) then {
 
 // Create search chopper
 
-private ["_scriptHandle"];
-_scriptHandle = [getMarkerPos "drn_searchChopperStartPosMarker", A3E_VAR_Side_Opfor, drn_searchAreaMarkerName, _searchChopperSearchTimeMin, _searchChopperRefuelTimeMin, _enemyMinSkill, _enemyMaxSkill, [], A3E_Debug] execVM "Scripts\Escape\CreateSearchChopper.sqf";
-waitUntil {scriptDone _scriptHandle};
+if (A3E_Param_SearchChopper != 0) then { 
+	private ["_scriptHandle"];
+	_scriptHandle = [getMarkerPos "drn_searchChopperStartPosMarker", A3E_VAR_Side_Opfor, drn_searchAreaMarkerName, _searchChopperSearchTimeMin, _searchChopperRefuelTimeMin, _enemyMinSkill, _enemyMaxSkill, [], A3E_Debug] execVM "Scripts\Escape\CreateSearchChopper.sqf";
+	waitUntil {scriptDone _scriptHandle};
+};
 
 
 //Init trap spawning system for mines and other roadside surprises

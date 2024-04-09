@@ -56,8 +56,8 @@ class Params
 	class A3E_Param_SearchChopper
 	{
 		title="Search Chopper Type";
-		values[]={0,1,2};
-		texts[]={"Random (Chooses between Easy and Hard Values)","Easy","Hard"};
+		values[]={-1,0,1,2};
+		texts[]={"None","Random (Chooses between Easy and Hard Values)","Easy","Hard"};
 		default = 0;
 	};
 	class A3E_Param_Spacer2
