@@ -2,7 +2,7 @@
 
 This Arma3 mission is the official successor of the original Escape mission from Arma 2, which was the first of its kind. The name is always prefixed with "co10" to differentiate it from the "Escape from XXX" missions that were released with Arma 3 by Bohemia Interactive.
 
-Co10_Escape_Sable7 is a fork of the amazing [co10_Escape](https://github.com/CaptainPStar/co10_Escape) Arma3 custom missions by CaptainPStar and ScruffyAT. Along with additional fixes, options, and gameplay tweaks, that fits my friends and my tastes.
+Co10_Escape_SableVII is a fork of the amazing [co10_Escape](https://github.com/CaptainPStar/co10_Escape) Arma3 custom missions by CaptainPStar and ScruffyAT. Along with additional fixes, options, and gameplay tweaks, that fits my friends and my tastes.
 
 ## Overview
 
