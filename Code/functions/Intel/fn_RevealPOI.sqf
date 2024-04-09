@@ -9,8 +9,7 @@ private _markertype = "Unknown";
 for [{ _i = 0 }, { _i < _numIntel }, { _i = _i + 1 }] do { 
 	private _poi =  selectRandom _pois;
 	_markerType = [_poi # 0] call A3E_fnc_updateLocationMarker;
-};
-if(_numIntel==1) then {
+	
 	switch(_markerType) do {
 		case "o_hq": { 
 			format["Intel revealed the location of a communication center."] remoteexec ["systemchat",0];
@@ -30,10 +29,5 @@ if(_numIntel==1) then {
 		default { 
 			format["Intel revealed one point of interest on the map."] remoteexec ["systemchat",0];
 		};
-	}
-	
-} else {
-	if(_numIntel>1) then {
-		format["Intel about %1 locations has been added to the map.",str _numIntel] remoteexec ["systemchat",0];
-	};
+	}	
 };
