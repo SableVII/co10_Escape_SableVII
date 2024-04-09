@@ -2,7 +2,7 @@
 	"Code" : "./Code",
 	"BuildDir" : "./Build",
 	"PackedDir" : "./Packed/",
-	"Missionname" : "co10_Escape",
+	"Missionname" : "co10_Escape_SableVII",
 	"cpbo" : "S:\\ArmA3Work\\Tools\\cpbo\\cpbo.exe",
 	"Subconfigs": [
 		"./Configs/subconfig_example.json",
@@ -22,9 +22,9 @@
 	],
 	"replace" :
 		{
-			"VERSION" : "1.10",
+			"VERSION" : "1.10 (SableVII's Tweaks)",
 			"MISSION" : "Escape",
-			"MISSION_FULL": "co10 Escape",
+			"MISSION_FULL": "co10 Escape SableVII",
 			"PLAYER_INIT" : "this setCaptive true; if(local this) then {{this unlinkItem _x;} forEach ['ItemMap','itemGPS','B_UavTerminal'];};",
 			"GAMETYPE" : "Escape"
 		},

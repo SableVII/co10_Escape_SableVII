@@ -1575,6 +1575,10 @@ a3e_arr_CivilianCarWeapons pushback [objNull, "SmokeShell", 5];
 // Here is a list of scopes:
 a3e_arr_Scopes = [
 	"CUP_optic_Kobra"
+	,"CUP_optic_1p63"
+	,"CUP_optic_ekp_8_02"
+	,"CUP_optic_OKP_7"
+	,"CUP_optic_PechenegScope"	
 	,"CUP_optic_PSO_1_AK"
 	,"CUP_optic_PSO_1_AK_open"];
 a3e_arr_Scopes_SMG = [
