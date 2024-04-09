@@ -159,8 +159,8 @@ class Params
 	class A3E_Param_IntelChance
 	{
 		title="Chance an enemy carries intel";
-		values[]={5,10,20,30,40,50};
-		texts[]={"5%","10%","20%","30%","40%","50%"};
+		values[]={5,10,20,30,40,50,100};
+		texts[]={"5%","10%","20%","30%","40%","50%","100%(For Debugging)"};
 		livechanges = 1;
 		default = 20;
 	};
