@@ -45,7 +45,7 @@ if(count _templatesAvailable == 0) exitwith {
 
 private _templatePositions = [_pos,_dir, selectRandom _templatesAvailable]  call a3e_fnc_IsoTemplateRestore;
 
-[format["A3E_Roadblock_%1",count(_roadBlocks)],_pos,"hd_warning","ColorRed",false,false] call a3e_fnc_createLocationMarker;
+[format["A3E_Roadblock_%1",count(_roadBlocks)],_pos,"hd_warning","ColorRed",true,false] call a3e_fnc_createLocationMarker;
 
 private _side = selectRandom _factionsArray;
 private _zoneIndex = [_pos,30,_side,"ROADBLOCK"] call A3E_fnc_initLocationZone;
