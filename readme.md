@@ -28,7 +28,7 @@ The last official release was 1.10.
   - Prison Guard spawn options
   - Starting weapons backpack options
   - Expanding Time Scaling and Spawn Distance options  
-- OpFor spawns slightly more ambient patrols than the Independent Faction to better balance faction encounter types.
+- OpFor spawns increased slightly to better balance faction encounter types.
 - Roadblocks remain hidden on the map until they are revealed by proximity. (Maybe intel too idk)
 - When gathering multiple intel objects at once, what each one revealed will be detailed to the system chat
 
