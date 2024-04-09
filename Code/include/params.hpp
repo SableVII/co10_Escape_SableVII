@@ -60,6 +60,13 @@ class Params
 		texts[]={"None","Random (Chooses between Easy and Hard Values)","Easy","Hard"};
 		default = 0;
 	};
+	class A3E_Param_SpawnGuards
+	{
+		title="Prison Guards";
+		values[]={0,1};
+		texts[]={"No Guards", "Spawn Guards"};
+		default = 1;
+	};
 	class A3E_Param_Spacer2
     {
             title = "==================== Environment Settings ====================";

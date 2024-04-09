@@ -486,6 +486,12 @@ call A3E_fnc_InitTraps;
 
     _guardGroups = [];
     _createNewGroup = true;
+	
+	if (A3E_Param_SpawnGuards == 0) then {
+		_createNewGroup = false;
+	};
+
+	_guardCount = _guardCount * A3E_Param_SpawnGuards;
 
     for [{_i = 0}, {_i < _guardCount}, {_i = _i + 1}] do {
         private ["_pos"];
