@@ -466,11 +466,14 @@ call A3E_fnc_InitTraps;
 
     // Spawn guard
 	_guardCount = [-1,-1,3,8] call a3e_fnc_getDynamicSquadSize;
-	private _i = 0;
-	for [{_i = 0}, {_i < (_guardCount)}, {_i = _i + 1}] do {
-		private _weapon = a3e_arr_PrisonBackpackWeapons select floor(random(count(a3e_arr_PrisonBackpackWeapons)));
-		_backpack addWeaponCargoGlobal[(_weapon select 0),1];
-		_backpack addMagazineCargoGlobal[(_weapon select 1),3];
+		
+	if (!(_backpack isEqualTo objNull)) then {	// _backpack can be a objNull when A3E_Param_SpawnPrisonBackpack == 0
+		private _i = 0;
+		for [{_i = 0}, {_i < (_guardCount)}, {_i = _i + 1}] do {
+			private _weapon = a3e_arr_PrisonBackpackWeapons select floor(random(count(a3e_arr_PrisonBackpackWeapons)));
+			_backpack addWeaponCargoGlobal[(_weapon select 0),1];
+			_backpack addMagazineCargoGlobal[(_weapon select 1),3];
+		};
 	};
 
     // Spawn more guards

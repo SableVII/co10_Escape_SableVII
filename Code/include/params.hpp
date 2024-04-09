@@ -67,6 +67,13 @@ class Params
 		texts[]={"No Guards", "Spawn Guards"};
 		default = 1;
 	};
+	class A3E_Param_SpawnPrisonBackpack
+	{
+		title="Prison Backpack";
+		values[]={0,1,2};
+		texts[]={"No Prison Backpack", "Spawn Prison Backpack", "Spawn as Crate"};
+		default = 1;
+	};
 	class A3E_Param_Spacer2
     {
             title = "==================== Environment Settings ====================";
