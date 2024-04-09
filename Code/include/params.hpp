@@ -188,7 +188,7 @@ class Params
 	};
 	class A3E_Param_War_Torn
 	{
-		title="War-Torn mode (CSAT and AAF are fighting each other)";
+		title="War-Torn mode (OpFor and Independent are fighting each other)";
 		values[]={0,1};
 		texts[]={"Disabled","Enabled"};
 		default = 0;
