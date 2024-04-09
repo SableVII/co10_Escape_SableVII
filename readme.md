@@ -1,4 +1,4 @@
-# Arma 3 Mission: Co10 Escape Sable7's Tweaks
+# Arma 3 Mission: Co10 Escape SableVII's Tweaks
 
 This Arma3 mission is the official successor of the original Escape mission from Arma 2, which was the first of its kind. The name is always prefixed with "co10" to differentiate it from the "Escape from XXX" missions that were released with Arma 3 by Bohemia Interactive.
 
