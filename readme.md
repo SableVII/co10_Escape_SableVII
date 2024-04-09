@@ -29,6 +29,7 @@ The last official release was 1.10.
   - Starting weapons backpack options
   - Expanding Time Scaling and Spawn Distance options  
 - OpFor spawns slightly more ambient patrols than the Independent Faction to better balance faction encounter types.
+- Roadblocks remain hidden on the map until they are revealed by proximity. (Maybe intel too idk)
 
 ## Available Versions
 
