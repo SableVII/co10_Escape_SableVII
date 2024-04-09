@@ -265,36 +265,34 @@ while {true} do {
 					(_list select 0) setvariable["A3E_Accuracy",_unitThatDetectedPositionAccuracy,true];
 					_firstsight = (_list select 0) getvariable ["A3E_FirstSight",diag_tickTime];
 					
-					if(isNil("A3E_Param_Artillery")) then {
-						diag_log "Warning: A3E_Param_Artillery was nil!";
-						A3E_Param_Artillery = 1;
-					};
-					private["_artilleryTimeThreshold","_artilleryCooldown"];
-					_artilleryTimeThreshold = a3e_var_artilleryTimeThreshold/A3E_Param_Artillery;
-					_artilleryCooldown = a3e_var_artillery_cooldown/A3E_Param_Artillery;
-					
-					if((diag_tickTime-_firstsight)>=_artilleryTimeThreshold && (diag_tickTime > (_artilleryCooldown+_lastArtilleryStrike))) then {
-						if(random 100 < a3e_var_artillery_chance) then {
-							if (a3e_debug_artillery) then {
-								player sidechat "HQ is trying to call an artillery strike";
-							};
-							
-							//_strikesuccess = [getpos (_list select 0)] call a3e_fnc_FireArtillery;
-							if(random 100 < 80) then {
-								diag_log ("Escape Searchleader: Calling for artillery strike!");
-								_strikesuccess = [getpos (_list select 0)] call a3e_fnc_FireArtillery;
+					if(!isNil("A3E_Param_Artillery")) then {
+						private["_artilleryTimeThreshold","_artilleryCooldown"];
+						_artilleryTimeThreshold = a3e_var_artilleryTimeThreshold/A3E_Param_Artillery;
+						_artilleryCooldown = a3e_var_artillery_cooldown/A3E_Param_Artillery;
+						
+						if((diag_tickTime-_firstsight)>=_artilleryTimeThreshold && (diag_tickTime > (_artilleryCooldown+_lastArtilleryStrike))) then {
+							if(random 100 < a3e_var_artillery_chance) then {
+								if (a3e_debug_artillery) then {
+									player sidechat "HQ is trying to call an artillery strike";
+								};
+								
+								//_strikesuccess = [getpos (_list select 0)] call a3e_fnc_FireArtillery;
+								if(random 100 < 80) then {
+									diag_log ("Escape Searchleader: Calling for artillery strike!");
+									_strikesuccess = [getpos (_list select 0)] call a3e_fnc_FireArtillery;
+								} else {
+									diag_log ("Escape Searchleader: Calling for CAS strike!");
+									_strikesuccess = [getpos (_list select 0)] call a3e_fnc_CallCAS;
+								};
+								
+								if(_strikesuccess) then {
+									_lastArtilleryStrike = diag_tickTime;
+									_strikesuccess = false;
+								};
 							} else {
-								diag_log ("Escape Searchleader: Calling for CAS strike!");
-								_strikesuccess = [getpos (_list select 0)] call a3e_fnc_CallCAS;
+								//Create a smaller cooldown for the next try
+								_lastArtilleryStrike = diag_tickTime - _artilleryCooldown + a3e_var_artillery_chance_cooldown;
 							};
-							
-							if(_strikesuccess) then {
-								_lastArtilleryStrike = diag_tickTime;
-								_strikesuccess = false;
-							};
-						} else {
-							//Create a smaller cooldown for the next try
-							_lastArtilleryStrike = diag_tickTime - _artilleryCooldown + a3e_var_artillery_chance_cooldown;
 						};
 					};
 				};

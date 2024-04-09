@@ -158,9 +158,9 @@ class Params
 	};
 	class A3E_Param_Artillery
 	{
-		title="Artillery";
-		values[]={0.5,1,2};
-		texts[]={"Reduced","Default","Death in fire"};
+		title="Artillery and CAS Strikes";
+		values[]={0,0.1,0.25,0.5,1,2};
+		texts[]={"None","Really Really Reduced","Really Reduced","Reduced","Default","Death in fire"};
 		livechanges = 1;
 		default = 1;
 	};

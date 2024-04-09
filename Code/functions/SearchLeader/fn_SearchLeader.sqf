@@ -67,31 +67,36 @@ if(count(_knownPositions)==0) then {
 	};
 	
 	//Check if we need to call an arti strike
-	private _lastStrike = missionNamespace getvariable ["A3E_var_LastArtilleryStrike",0];
-	private _strikeCooldown = missionNamespace getvariable ["a3e_var_artillery_cooldown",200];
-	private _strikeTimeThreshold = missionNamespace getvariable ["a3e_var_artilleryTimeThreshold",300];
-	if(diag_TickTime > (_lastStrike+_strikeCooldown)) then {
-		private _strikeCandidates = _knownPositions select {(((_x getVariable ["A3E_LastUpdated",0]) - (_x getVariable ["A3E_FirstSight",0])) >= _strikeTimeThreshold) && ((diag_tickTime -(_x getVariable ["A3E_LastUpdated",0])) < 60)};
-		if(count(_strikeCandidates) > 0) then {
-			private _strikePos = getpos selectRandom(_strikeCandidates);
-			
-			if (a3e_debug_artillery) then {
-				["Trying to call artillery on "+ mapGridPosition _strikePos] call A3E_fnc_SearchLeaderRadio;
+	if (A3E_Param_Artillery > 0) then {
+		private _lastStrike = missionNamespace getvariable ["A3E_var_LastArtilleryStrike",0];
+		private _strikeCooldown = missionNamespace getvariable ["a3e_var_artillery_cooldown",200];
+		private _strikeTimeThreshold = missionNamespace getvariable ["a3e_var_artilleryTimeThreshold",300];
+		_strikeCooldown = _strikeCooldown / A3E_Param_Artillery;
+		_strikeTimeThreshold = _strikeTimeThreshold / A3E_Param_Artillery;
+		if(diag_TickTime > (_lastStrike+_strikeCooldown)) then {
+			private _strikeCandidates = _knownPositions select {(((_x getVariable ["A3E_LastUpdated",0]) - (_x getVariable ["A3E_FirstSight",0])) >= _strikeTimeThreshold) && ((diag_tickTime -(_x getVariable ["A3E_LastUpdated",0])) < 60)};
+			if(count(_strikeCandidates) > 0) then {
+				private _strikePos = getpos selectRandom(_strikeCandidates);
+				
+				if (a3e_debug_artillery) then {
+					["Trying to call artillery on "+ mapGridPosition _strikePos] call A3E_fnc_SearchLeaderRadio;
+				};
+				private _strikesuccess = false;
+				if(random 100 < 80) then {
+					diag_log ("Escape Searchleader: Calling for artillery strike!");
+					_strikesuccess = [_strikePos] call a3e_fnc_FireArtillery;
+				} else {
+					diag_log ("Escape Searchleader: Calling for CAS strike!");
+					_strikesuccess = [_strikePos] call a3e_fnc_CallCAS;
+				};
+				
+				//if(_strikesuccess) then {
+				missionNamespace setvariable ["A3E_var_LastArtilleryStrike",diag_tickTime];
+				//};
 			};
-			private _strikesuccess = false;
-			if(random 100 < 80) then {
-				diag_log ("Escape Searchleader: Calling for artillery strike!");
-				_strikesuccess = [_strikePos] call a3e_fnc_FireArtillery;
-			} else {
-				diag_log ("Escape Searchleader: Calling for CAS strike!");
-				_strikesuccess = [_strikePos] call a3e_fnc_CallCAS;
-			};
-			
-			//if(_strikesuccess) then {
-			missionNamespace setvariable ["A3E_var_LastArtilleryStrike",diag_tickTime];
-			//};
 		};
 	};
+
 };
 private _grouplist = missionNamespace getvariable ["A3E_StatusOfPatrols",[]];
 /*{

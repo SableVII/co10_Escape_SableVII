@@ -7,7 +7,10 @@ _success = false;
 	if((0 < count getArtilleryAmmo [_x]) and {_position inRangeOfArtillery [[_x], (getArtilleryAmmo [_x]) select 0] and {alive gunner _x}}) then {
 		[_x,_position] spawn {
 			private["_mortar","_center","_radius","_artilleryRounds"];
-			_artilleryRounds= a3e_var_artillery_rounds*A3E_Param_Artillery;
+			
+			_minArtilleryRounds = 2;
+			_artilleryRounds= random [_minArtilleryRounds, (_minArtilleryRounds + (_minArtilleryRounds * A3E_Param_Artillery)), 10];
+			
 			for "_i" from 0 to _artilleryRounds do {  //--- 5 = how many rounds you want fired
 				_mortar = _this select 0;                //--- name of the mortar
 				_center = _this select 1;  //--- central point around which the mortar rounds will hit
