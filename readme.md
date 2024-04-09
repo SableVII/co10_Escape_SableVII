@@ -126,4 +126,4 @@ For this it is sufficient to rename your mission by adding your tag or server an
 
 ## Feedback
 
-You can join the original Co10_Escape missions at their Discord server at https://discord.gg/0kV3JvVEhmnMfmq1
+You can join the original Co10_Escape mission's team/community at their Discord server at https://discord.gg/0kV3JvVEhmnMfmq1
