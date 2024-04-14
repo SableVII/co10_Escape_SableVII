@@ -461,20 +461,22 @@ call A3E_fnc_InitTraps;
 // Spawn creation of start position settings
 [A3E_StartPos, _backPack, _enemyFrequency] spawn {
 	params ["_startPos", "_backPack", "_enemyFrequency"];
-    private ["_guardGroup", "_marker", "_guardCount", "_guardGroups", "_unit", "_createNewGroup"];
+    private ["_guardGroup", "_marker", "_guardCount", "_weaponCount", "_guardGroups", "_unit", "_createNewGroup", "_items"];
 
-
-    // Spawn guard
-	_guardCount = [-1,-1,3,8] call a3e_fnc_getDynamicSquadSize;
-		
+	_weaponCount = count([] call A3E_fnc_GetPlayers) + 1;
+	
 	if (!(_backpack isEqualTo objNull)) then {	// _backpack can be a objNull when A3E_Param_SpawnPrisonBackpack == 0
 		private _i = 0;
-		for [{_i = 0}, {_i < (_guardCount)}, {_i = _i + 1}] do {
+		for [{_i = 0}, {_i < (_weaponCount)}, {_i = _i + 1}] do {
 			private _weapon = a3e_arr_PrisonBackpackWeapons select floor(random(count(a3e_arr_PrisonBackpackWeapons)));
 			_backpack addWeaponCargoGlobal[(_weapon select 0),1];
 			_backpack addMagazineCargoGlobal[(_weapon select 1),3];
 		};
 	};
+
+    // Spawn guard
+	_guardCount = [-1,-1,3,8] call a3e_fnc_getDynamicSquadSize;
+	_guardCount = _guardCount + round(random[0,0.4,2]); // Adding a little more variablity for low player count
 
     // Spawn more guards
     _marker = createMarker ["drn_guardAreaMarker", _startPos];
@@ -494,7 +496,7 @@ call A3E_fnc_InitTraps;
 		_createNewGroup = false;
 	};
 
-	_guardCount = _guardCount * A3E_Param_SpawnGuards;
+	_guardCount = _guardCount * A3E_Param_SpawnGuards; // Remove guards if A3E_Param_SpawnGuards == 0
 
     for [{_i = 0}, {_i < _guardCount}, {_i = _i + 1}] do {
         private ["_pos"];
@@ -518,35 +520,40 @@ call A3E_fnc_InitTraps;
         };
     };
 
+	sleep 0.15; // To allow enought time for _unit initilization to complete to allow addItem to work... idk some specific race condition for some units like the Independent faction in CWR
+
     {
         _guardGroup = _x;
 
         _guardGroup setFormDir floor (random 360);
-
+ 
         {
             _unit = _x; //(units _guardGroup) select 0;
             _unit setUnitRank "CAPTAIN";
             _unit unlinkItem "ItemCompass";
+			_unit removeItems "ItemCompass";
             _unit unlinkItem "ItemGPS";
+			_unit removeItems "ItemGPS";			
 
 			[_unit] joinSilent _guardGroup; // Ensure the spawned Guard knows what side they're on
 
 			private _mapItems = missionNamespace getVariable ["A3E_MapItemsUsedInMission",["ItemMap"]];
-			{_unit unlinkItem _x;} foreach _mapItems;
+			{
+				_unit unlinkItem _x;
+				_unit removeItems _x;
+			} foreach _mapItems;
 
 			private _itemsToRemove = missionNamespace getVariable ["A3E_ItemsToBeRemoved",[]];
 			{
 				_unit unlinkItem _x;
+				_unit removeItems _x;
 			} foreach _itemsToRemove;
-
-
 
 			if (ACE_MedicalServer) then {_unit addItem "ACE_epinephrine"};//Add Epinephrine for each unit
 			removeBackpackGlobal _unit;
 
-			if(random 100 < 80) then {
+			if(random 100 < 99) then {
 				removeAllPrimaryWeaponItems _unit;
-
 			};
 
 			private _hmd = hmd _unit;
@@ -567,7 +574,7 @@ call A3E_fnc_InitTraps;
 				_unit unlinkItem _hmd;
 				_unit removeItem _hmd;
 			};
-
+			
 			//Track kills
 			_unit addEventHandler ["Killed", {
 				params ["_unit", "_killer"];
@@ -584,6 +591,12 @@ call A3E_fnc_InitTraps;
             _unit removeMagazines "Handgrenade";
 
             _unit setVehicleAmmo 0.3 + random 0.7;
+			
+			// Ensure there is a FAK added to the Guard's inventory (sometimes the addItem function doesn't work) :\
+			_items = uniformItems _unit + vestItems _unit;
+			if (!("FirstAidKit" in _items) && !("ACE_fieldDressing" in _items)) then {
+				_unit addItem "FirstAidKit";
+			};
 			
 			// Swapping to tracer rounds
 			if (A3E_Param_OnlyTracers == 1) then {
