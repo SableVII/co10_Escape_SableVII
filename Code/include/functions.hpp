@@ -47,6 +47,7 @@ class CfgFunctions
 			class toggleEarplugs {};
 			class initVillageMarkers {};
 			class loadLocalClasses {};
+			class SwapForTracerRounds {};
 		};
 		class AI
 		{

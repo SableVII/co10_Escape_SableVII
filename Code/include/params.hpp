@@ -148,6 +148,14 @@ class Params
             texts[] = {""};
             default = 0;
 	};
+	class A3E_Param_OnlyTracers
+	{
+		title="Only Tracers";
+		values[]={0,1};
+		texts[]={"Disabled","Enabled"};
+		default = 0;
+		tooltip = "This will attempt to swap all AI's primary ammuntion with applicable tracer variant. Enjoy the lightshow!";
+	}	
 	class A3E_Param_UseIntel
 	{
 		title="Collect intel to reveal markers on map";

@@ -49,4 +49,9 @@ missionNamespace setvariable["MaxNumberOfRoadblocks",5];
 //Crashsites
 missionNamespace setvariable["CrashSiteCountMax",3];
 
+//Tracer Replacement
+//a3e_var_TracerReplacementList[]; // To be filled while replacing mags with tracers  [magType, redTracer, greenTracer]. If no mags found, then both redTracer and greenTracer will be null;
+a3e_var_WeaponToCompatMagsMap = createHashMap;	// HashMap [Weapon, HashMap[Mag, true]];
+a3e_var_MagToTracerMagMap = createHashMap;		// HashMap [Mag, [Weapon, R, G, Y, O]];
+a3e_var_WeaponsWithNonReplaceableMags = createHashMap;   // HashMap [Weapon + MagName, true];
 

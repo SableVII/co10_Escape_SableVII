@@ -584,6 +584,11 @@ call A3E_fnc_InitTraps;
             _unit removeMagazines "Handgrenade";
 
             _unit setVehicleAmmo 0.3 + random 0.7;
+			
+			// Swapping to tracer rounds
+			if (A3E_Param_OnlyTracers == 1) then {
+				[_unit] call A3E_FNC_SwapForTracerRounds;
+			};
 
         } foreach units _guardGroup;
 
