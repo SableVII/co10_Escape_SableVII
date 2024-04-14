@@ -4,7 +4,7 @@ private _zone = A3E_Zones select _zoneIndex;
 private _marker = _zone get "marker";
 private _area = _zone get "zonearea";
 
-private _sides = [A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind];
+private _sides = [A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Opfor];
 if(_zoneArea > 5000) then {
 	_sides pushBack A3E_VAR_Side_Opfor;
 };
