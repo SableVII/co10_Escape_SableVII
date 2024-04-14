@@ -130,6 +130,10 @@ if(A3E_Param_UseIntel==1) then {
 	[_unit] call A3E_fnc_AddIntel;
 };
 
+// Swapping to tracer rounds
+if (A3E_Param_OnlyTracers == 1) then {
+	[_unit] call A3E_FNC_SwapForTracerRounds;
+};
 
 
 //Track kills
