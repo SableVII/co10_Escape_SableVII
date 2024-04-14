@@ -85,12 +85,19 @@ if((random 100 < 20)) then {
 if(((random 100 < 10) && (!_nighttime)) OR ((random 100 < 40) && (_nighttime))) then {
 	//Not yet
 };
+
+// Remove potentially loose maps in inventory
+private _mapItems = missionNamespace getVariable ["A3E_MapItemsUsedInMission",["ItemMap"]];
+{_unit removeItems _x;} foreach _mapItems;
+
 if (random 100 > 20) then {
 	//_unit additem "ItemMap";
 	//_unit assignItem "ItemMap";
-	private _mapItems = missionNamespace getVariable ["A3E_MapItemsUsedInMission",["ItemMap"]];
+	//private _mapItems = missionNamespace getVariable ["A3E_MapItemsUsedInMission",["ItemMap"]];
 	{_unit unlinkItem _x;} foreach _mapItems;
 };
+
+_unit removeItems "ItemCompass"; // remove potential loose compasses in inventory
 if (random 100 > 30) then {
 	//_unit additem "ItemCompass";
 	//_unit assignItem "ItemCompass";
@@ -104,6 +111,11 @@ private _itemsToRemove = missionNamespace getVariable ["A3E_ItemsToBeRemoved",[]
 		_unit unlinkItem _x;
 	};
 } foreach _itemsToRemove;
+
+// Make units sometimes not have backpacks
+if (random 5 > 3) then {
+	removeBackpackGlobal _unit;
+};
 
 
 
