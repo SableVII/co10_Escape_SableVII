@@ -1,4 +1,4 @@
-private _factionsArray = [A3E_VAR_Side_Ind, A3E_VAR_Side_Opfor];
+private _factionsArray = [A3E_VAR_Side_Ind, A3E_VAR_Side_Ind, A3E_VAR_Side_Ind , A3E_VAR_Side_Opfor];
 
 private _minSpawnDistance = (missionNamespace getvariable["A3E_MinRoadblockSpawnDistance",1500]);
 private _maxSpawnDistance = (missionNamespace getvariable["A3E_MaxRoadblockSpawnDistance",2000]);
