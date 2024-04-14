@@ -34,7 +34,7 @@ switch (_spawnCount) do
 
 private _edgeSum2 = ((getMarkerSize _marker # 0)+(getMarkerSize _marker # 1))/2;
 private _patrolCount = ceil(_patrolsPerSqmSqrt * sqrt(_area))+round(_edgeSum2/100);
-systemchat str _patrolCount;
+//systemchat str _patrolCount;
 private _groups = [];
 
 //General purpose patrol groups
