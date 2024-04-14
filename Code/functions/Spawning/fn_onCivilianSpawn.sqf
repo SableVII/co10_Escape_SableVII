@@ -25,15 +25,13 @@ private _score = missionNamespace getvariable ["A3E_Warcrime_Score",0];
 
 _unit addEventHandler ["Killed", {
 	params ["_unit", "_killer", "_instigator", "_useEffects"];
-	private _k = _killer;
-	if(isPlayer _instigator) then {
-		_k = _instigator;
-	};
-	
-	if(!(isNull _k)) then {
+	if(isPlayer _instigator || isPlayer _killer) then {
+		if (isNull _instigator) then {
+			_instigator = _killer;
+		};
 		private _score = missionNamespace getvariable ["A3E_Warcrime_Score",0];
 		missionNamespace setvariable ["A3E_Warcrime_Score",_score+500, true];
-		[format["%1 killed a civilian.",name _k]] remoteExec ["systemchat"];
+		[format["%1 killed a civilian.", name _instigator]] remoteExec ["systemchat"];
 		_instigator addScore -5;
 		_instigator addRating 1000; 
 	};

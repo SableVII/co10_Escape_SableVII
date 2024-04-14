@@ -20,7 +20,7 @@ a3e_debug_overwrite = false;
 a3e_debug_artillery = false;
 //a3e_debug_aistate = false;
 
-A3E_SystemLog = true;
+A3E_SystemLog = false;
 
 //Artillery
 //a3e_var_artillery_units  = [arti_1,arti_2,arti_3,arti_4,arti_5,arti_6,arti_7,arti_8,arti_9,arti_10,arti_11,arti_12,arti_13,arti_14];
