@@ -1,11 +1,4 @@
-params ["_unit"];
-//private _unit = player;
-
-//a3e_var_TracerReplacementList = [];
-
-//a3e_var_WeaponToCompatMagsMap = createHashMap;	// HashMap [Weapon, HashMap[Mag, true]];
-//a3e_var_MagToTracerMagMap = createHashMap;		// HashMap [Mag, [Weapon, R, G, Y, O]];
-//a3e_var_WeaponsWithNonReplaceableMags = createHashMap;   // HashMap [Weapon + MagName, true];
+params ["_unit", ["_factionSpecific", false]];
 
 private _weapon = primaryWeapon _unit;
 
@@ -19,8 +12,8 @@ if (_weapon == "") then {
 
 private _tracerColor = "y"; 
 switch (side _unit) do { 
-	case independent:  {_tracerColor = "r"}; 
-	case east: {_tracerColor = "g"}; 
+	case independent:  {_tracerColor = "g"}; 
+	case east: {_tracerColor = "r"}; 
 	case west: {_tracerColor = "y"};
 }; 
 
@@ -88,13 +81,18 @@ TryGetCompatTracerMag = {
 			private _tracerSelectionList = _x;		
 			private _checkingMag = ""; // Should never end up ""
 			
-			switch (_wantedColor) do {
-				case "r": { _checkingMag = _x select 0; };
-				case "g": { _checkingMag = _x select 1; };
-				case "y": { _checkingMag = _x select 2; };
-				default { _checkingMag = _x select 2; };							  
+			// Select by faction color if appicable
+			if (_factionSpecific) then {
+				switch (_wantedColor) do {
+					case "r": { _checkingMag = _x select 0; };
+					case "g": { _checkingMag = _x select 1; };
+					case "y": { _checkingMag = _x select 2; };
+					default { _checkingMag = _x select 3; };							  
+				};
+			} else {
+			  _checkingMag = _x select 3;  
 			};
-			
+					
 			if (_checkingMag in _weaponCompatMagsMap) then {
 				_tracerMag = _checkingMag;
 				_needNewTracerSelectionList = false;
@@ -167,10 +165,10 @@ TryGetCompatTracerMag = {
 			};
 		};
 		
-		private _saveList = ["", "", ""]; // Slots can share other colors. They should never end up empty. 
+		private _saveList = ["", "", "", ""]; // Slots can share other colors. They should never end up empty. [Red, Green, Yellow, Random-One] 
 		 
 		if (count _correctTracerMags > 0) then {
-			_tracerMag = _correctTracerMags select 0;
+			//_tracerMag = _correctTracerMags select 0;
 			 
 			private _redColorMags = [];
 			private _greenColorMags = [];
@@ -244,18 +242,31 @@ TryGetCompatTracerMag = {
 					};
 				};
 			};
-			_saveList set [2, _yellowMag];	 
+			_saveList set [2, _yellowMag];
 			
-			//systemChat (format ["Adding Saved. Red: %1, Green: %2, Yellow: %3, Other: %4", count _redColorMags, count _greenColorMags, count _yellowColorMags, count _otherColorMags]);				   
+			// Saving a random mag for when Faction Specific Mode is on
+			_saveList set [3, _correctTracerMags select (floor random count _correctTracerMags)];
+					
+			//systemChat (format ["Adding Saved. Red: %1, Green: %2, Yellow: %3, Other: %4", count _redColorMags, count _greenColorMags, count _yellowColorMags, count _otherColorMags, _saveList select 3]);				 
 		}; 
 		
+		//a3e_var_MagToTracerMagMap set [_originalMagName, _saveList];
+		//_tracerMag = _saveList select 0;
+		//if (_wantedColor == "g") then {
+		//	_tracerMag = _saveList select 1;
+		//};
+		
 		// Select a mag of prefered color
-		switch (_wantedColor) do {
-			case "r": { _tracerMag = _saveList select 0; };
-			case "g": { _tracerMag = _saveList select 1; };
-			case "y": { _tracerMag = _saveList select 2; };
-			default { _tracerMag = _saveList select 2; };							  
-		};				
+		if (_factionSpecific) then {
+			switch (_wantedColor) do {
+				case "r": { _tracerMag = _saveList select 0; };
+				case "g": { _tracerMag = _saveList select 1; };
+				case "y": { _tracerMag = _saveList select 2; };
+				default { _tracerMag = _saveList select 3; };							  
+			};				
+		} else {
+		  _tracerMag = _saveList select 3;  
+		};
 		
 		// If there isn't a tracer mag available for this Weapon and Original Mag, then remember this combo for later
 		if (_tracerMag == "") then {
@@ -274,13 +285,22 @@ TryGetCompatTracerMag = {
 		};		   
 	};
 	
+	//systemChat Format["Wants to add: %1", _swappingTracerMag];
+	
+	// List details of this magazine needing to be replaced
+	//if (_swappingTracerMag != "") then {
+	//	_magsToReplace pushback [_originalMag, _swappingTracerMag, _originalMagAmmo];
+	//};
+	
 	_tracerMag;
-
+		
+	//} foreach magazinesAmmo _unit;
+	
 };
 
 
 // Now actually do the replacing, first do the mags in inventory
-private _magsToReplace = []; // [Original Mag Name, Replacement Mag Name, Original Ammo Count];
+/*private _magsToReplace = []; // [Original Mag Name, Replacement Mag Name, Original Ammo Count];
 {
 	private _originalMag = _x select 0; 
 	private _tracerMag = [_originalMag, _weaponCompatMagsMap, _tracerColor, _weapon] call TryGetCompatTracerMag;
@@ -300,9 +320,79 @@ if (count _magsToReplace > 0) then {
 	{
 		_unit addMagazine [_x select 1, _x select 2];		
 	} foreach _magsToReplace;
+};*/
+
+ReplaceMagsInContainer = {
+	params ["_container", "_weaponCompatMagsMap", "_wantedColor", "_weaponName"];
+	
+	private _leftoverMags = []; // [[Original Mag Name, Replacement Mag Name, Original Ammo Count]]
+	
+	if (isNull _container == false) then {
+		private _magsToReplace = []; //[[Original Mag Name, Replacement Mag Name, Original Ammo Count]]
+		
+		// Find mags in container
+		{
+			private _originalMag = _x select 0;
+			private _tracerMag = [_originalMag, _weaponCompatMagsMap, _wantedColor, _weaponName] call TryGetCompatTracerMag;
+			
+			if (_tracerMag != "") then {
+				_magsToReplace pushBack [_originalMag, _tracerMag, _x select 1];
+			};	   
+							
+		} foreach magazinesAmmoCargo _container;
+		
+		// Remove original mags with a replacement from the container
+		{
+			_container addMagazineCargoGlobal [_x select 0, -1]; // Removes one magazine of type
+		} foreach _magsToReplace;
+		
+		
+		// Place new mags in container
+		{
+			if (_container canAdd [_x select 1, 1]) then {
+				_container addMagazineAmmoCargo [_x select 1, 1, _x select 2];	 
+			} else {
+				if (name player == "Sable7") then {
+					systemChat "Container too full for replacement Mag!";
+				};
+				_leftoverMags pushBack _x;
+			};
+		} foreach _magsToReplace;
+	};
+
+	_leftoverMags;	   
 };
 
-// Now replace the mag in the Primary Weapon
+// Go through the pockets, and attempt to add the magazine to the correct pockets. If the new mag cannot fit, just try adding the ammo to any pocket.
+private _leftoverMags = []; // [[Original Mag Name, Replacement Mag Name, Original Ammo Count]];
+
+// Uniform
+private _uniformLeftovers = [uniformContainer _unit, _weaponCompatMagsMap, _tracerColor, _weapon] call ReplaceMagsInContainer;
+{
+	_leftoverMags pushback _x;
+} foreach _uniformLeftovers;
+
+// Vest
+private _vestLeftovers = [vestContainer _unit, _weaponCompatMagsMap, _tracerColor, _weapon] call ReplaceMagsInContainer;
+{
+	_leftoverMags pushback _x;
+} foreach _vestLeftovers;
+
+// Backpack
+private _backpackLeftovers = [backpackContainer _unit, _weaponCompatMagsMap, _tracerColor, _weapon] call ReplaceMagsInContainer;
+{
+	_leftoverMags pushback _x;
+} foreach _backpackLeftovers;
+
+// Add whatever leftover mags to the player. The original mags should already be removed.
+{
+	_unit addMagazine [_x select 1, _x select 2];		
+} foreach _leftoverMags;
+if (count _leftoverMags > 0 && name player == "Sable7") then {
+	systemChat "Leftover Mags Case Encountered!";
+};
+
+// Replace the mag in the Primary Weapon
 private _primaryWeaponMagName = (primaryWeaponMagazine _unit) select 0;
 if (_primaryWeaponMagName != "") then {
 	private _tracerMag = [_primaryWeaponMagName, _weaponCompatMagsMap, _tracerColor, _weapon] call TryGetCompatTracerMag;

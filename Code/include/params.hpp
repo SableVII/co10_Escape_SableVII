@@ -148,13 +148,13 @@ class Params
             texts[] = {""};
             default = 0;
 	};
-	class A3E_Param_OnlyTracers
+	class A3E_Param_TracerReplacer
 	{
-		title="Only Tracers";
-		values[]={0,1};
-		texts[]={"Disabled","Enabled"};
+		title="Tracer Replacer";
+		values[]={0,1,2};
+		texts[]={"Disabled","Enabled","Faction Specific"};
 		default = 0;
-		tooltip = "This will attempt to swap all AI's primary ammuntion with applicable tracer variant. Enjoy the lightshow!";
+		tooltip = "This will attempt to swap all spawned AI's primary ammuntion with applicable tracer variants. Enjoy the lightshow! Faction Specific option makes Yellow, Green, and Red, for Bluefor, OpFor, and Independent factions, respectively if applicable.";
 	}	
 	class A3E_Param_UseIntel
 	{

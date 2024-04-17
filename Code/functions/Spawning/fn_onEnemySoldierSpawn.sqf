@@ -142,9 +142,9 @@ if(A3E_Param_UseIntel==1) then {
 	[_unit] call A3E_fnc_AddIntel;
 };
 
-// Swapping to tracer rounds
-if (A3E_Param_OnlyTracers == 1) then {
-	[_unit] call A3E_FNC_SwapForTracerRounds;
+// Replacing mags with tracer mags
+if (A3E_Param_TracerReplacer == 1) then {
+	[_unit,  (A3E_Param_TracerReplacer == 2)] call A3E_FNC_SwapForTracerRounds;
 };
 
 
