@@ -113,9 +113,9 @@ TryGetCompatTracerMag = {
 		private _semiCorrectTracerMags = []; // For mags that have right round count but every few rounds are tracers OR round count != the original mag count but is all tracers
 		private _lessIdealTracerMags = []; // For mags with only last tracers (must match original round count)
 		{
-			// Check for High Explosive, Frag, and Smoke rounds (For shotguns)
+			// Check for High Explosive, Frag, and Smoke mags (For shotguns). Also ignore ACE IR Tracer mags. 
 			private _xLower = toLower _x; 
-			if (_xLower find "_he" > 0 || _xLower find "_frag" > 0 || _xLower find "_smoke" > 0) then {
+			if (_xLower find "_he" > 0 || _xLower find "_frag" > 0 || _xLower find "_smoke" > 0 || _xLower find "_dim" > 0 || _xLower find "_mdim" > 0 || _xLower find "_tdim" > 0) then {
 				continue;
 			};
 		  
