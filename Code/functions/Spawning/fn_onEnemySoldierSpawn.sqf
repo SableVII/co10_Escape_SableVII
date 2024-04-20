@@ -147,6 +147,14 @@ if (A3E_Param_TracerReplacer == 1) then {
 	[_unit,  (A3E_Param_TracerReplacer == 2)] call A3E_FNC_SwapForTracerRounds;
 };
 
+// Bind to Killed event for Ammo Scarcity replacing
+_unit addEventHandler ["Killed", {
+	params ["_unit"];
+	if (_unit getVariable["magsWereRemoved", false] == false) then { // Don't remove mags if they were already removed (ie. from unconcious -> death)
+		call A3E_FNC_RemoveMags;
+	};
+}];
+
 
 //Track kills
 _unit addEventHandler ["Killed", {

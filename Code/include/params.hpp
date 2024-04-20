@@ -82,6 +82,15 @@ class Params
 		livechanges = 1;
 		default = 1;
 	};
+	class A3E_Param_AmmoScarcity
+	{
+		title="Ammo Scarcity";
+		values[]={0,25,50,75,99};
+		texts[]={"None", "Little", "Some", "Scarce", "Extreme"};
+		livechanges = 1;
+		tooltip = "The amount of ammo removed from AI bodies and unconcious (if ACE_Medical is installed).";
+		default = 0;
+	};	
 	class A3E_Param_Spacer2
     {
             title = "==================== Environment Settings ====================";

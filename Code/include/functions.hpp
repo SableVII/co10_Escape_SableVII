@@ -83,6 +83,8 @@ class CfgFunctions
 			class resumeTask {};
 			class SeekShelter {};
 			//class SearchBuilding {};
+			class ReturnRemovedMags {};
+			class RemoveMags {};
 		};
 		class Garrison
 		{

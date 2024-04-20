@@ -44,6 +44,23 @@ ACE_MedicalServer = false;
 if (isClass(configFile >> "CfgPatches" >> "ACE_Medical")) then {
 	ACE_MedicalServer = true;
 	["ace_unconscious", {params["_unit", "_isDown"]; [_unit,_isDown] spawn ACE_fnc_HandleUnconscious;}] call CBA_fnc_addEventHandler;
+	["ace_unconscious", {
+		params ["_unit", "_state"];
+
+		if (isPlayer _unit) then { // Ignore Unconcious Event if Unit is a Player
+			"";
+		};
+
+		if (_state == true) then {
+			// Remove magazines
+			_unit setVariable["unconsciousRemovedMags", [_unit] call A3E_FNC_RemoveMags];
+			_unit setVariable["magsWereRemoved", true];
+		} else {
+			// Return removed magazines
+			[_unit, _unit getVariable["unconsciousRemovedMags", []]] call A3E_FNC_ReturnRemovedMags;
+			_unit setVariable["magsWereRemoved", false];
+		};	
+	}] call CBA_fnc_addEventHandler; // Ammo Scarcity
 };
 publicVariable "ACE_MedicalServer";
 
@@ -602,6 +619,14 @@ call A3E_fnc_InitTraps;
 			if (A3E_Param_TracerReplacer == 1) then {
 				[_unit, (A3E_Param_TracerReplacer == 2)] call A3E_FNC_SwapForTracerRounds;
 			};
+			
+			// Bind to Killed event for Ammo Scarcity replacing
+			_unit addEventHandler ["Killed", {
+				params ["_unit"];
+				if (_unit getVariable["magsWereRemoved", false] == false) then { // Don't remove mags if they were already removed (ie. from unconcious -> death)
+					call A3E_FNC_RemoveMags;
+				};
+			}];
 
         } foreach units _guardGroup;
 
