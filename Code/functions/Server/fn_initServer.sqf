@@ -47,7 +47,7 @@ if (isClass(configFile >> "CfgPatches" >> "ACE_Medical")) then {
 	["ace_unconscious", {
 		params ["_unit", "_state"];
 
-		if (isPlayer _unit) then { // Ignore Unconcious Event if Unit is a Player
+		if (isPlayer _unit) then { // Ignore Unconscious Event if Unit is a Player
 			"";
 		};
 
