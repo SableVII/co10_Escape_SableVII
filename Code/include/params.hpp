@@ -85,8 +85,8 @@ class Params
 	class A3E_Param_AmmoScarcity
 	{
 		title="Ammo Scarcity";
-		values[]={0,25,50,75,99};
-		texts[]={"None", "Little", "Some", "Scarce", "Extreme"};
+		values[]={0,25,50,75,95,99};
+		texts[]={"None", "Little", "Some", "Scarce", "Somewhat Extreme", "Extreme"};
 		livechanges = 1;
 		tooltip = "The amount of ammo removed from AI bodies and unconcious (if ACE_Medical is installed).";
 		default = 0;
