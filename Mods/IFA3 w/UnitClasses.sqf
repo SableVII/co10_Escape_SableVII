@@ -22,13 +22,15 @@ A3E_VAR_Side_Blufor_Str = format["%1",A3E_VAR_Side_Blufor];
 A3E_VAR_Side_Opfor_Str = format["%1",A3E_VAR_Side_Opfor];
 A3E_VAR_Side_Ind_Str = format["%1",A3E_VAR_Side_Ind];
 
+//Disable NVGs parameter for the whole SPE version.
+missionNamespace setvariable["A3E_Param_NoNightvision",1];
+
 // Random array. Start position guard types around the prison.
 a3e_arr_Escape_StartPositionGuardTypes = [
 	"LIB_GER_Unequip_w",
 	"LIB_GER_Rifleman_w",
 	"LIB_GER_Gun_crew_w",
-	"LIB_GER_Unterofficer_w",
-	"LIB_GER_Ober_rifleman_w"];
+	"LIB_GER_Unterofficer_w"];
 
 // Prison backpack secondary weapon (and corresponding magazine type).
 a3e_arr_PrisonBackpackWeapons = [];

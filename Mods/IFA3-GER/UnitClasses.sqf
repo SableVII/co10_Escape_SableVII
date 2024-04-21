@@ -22,6 +22,9 @@ A3E_VAR_Side_Blufor_Str = format["%1",A3E_VAR_Side_Blufor];
 A3E_VAR_Side_Opfor_Str = format["%1",A3E_VAR_Side_Opfor];
 A3E_VAR_Side_Ind_Str = format["%1",A3E_VAR_Side_Ind];
 
+//Disable NVGs parameter for the whole SPE version.
+missionNamespace setvariable["A3E_Param_NoNightvision",1];
+
 // Random array. Start position guard types around the prison.
 a3e_arr_Escape_StartPositionGuardTypes = [
 	"LIB_US_rifleman",

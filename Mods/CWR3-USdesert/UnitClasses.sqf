@@ -573,7 +573,7 @@ a3e_arr_Escape_InfantryTypes = [
 	,"cwr3_b_soldier_hmg_des"
 	,"cwr3_b_soldier_marksman_des"
 	,"cwr3_b_soldier_marksman_des"
-	,"cwr3_b_soldier_marksman_des"
+	,"cwr3_b_soldier_sniper_des"
 	,"cwr3_b_soldier_hg_des"
 	,"cwr3_b_soldier_hg_des"
 	,"cwr3_b_officer_des"
