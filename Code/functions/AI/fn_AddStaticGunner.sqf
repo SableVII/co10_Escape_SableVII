@@ -14,6 +14,7 @@ if(!(isNull _static)) then {
 	_unit assignAsGunner _static;
 	_unit moveInGunner _static;
 	
+	[_unit] call A3E_fnc_onEnemySoldierSpawn;
 	[_unit] joinSilent _group; // Ensure the spawned Static Gunner knows what side they're on
 } else {
 	_unit = objNull;
