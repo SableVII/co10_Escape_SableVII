@@ -14,6 +14,7 @@ _group = creategroup (A3E_Sides select _side);
   {
        _cpos = [_x select 0, _x select 1,_x select 2];
        _unit = _group createUnit [_unitArray select floor(random(count(_unitArray))), _cpos, [], 0, "NONE"];
+	   [_unit] call A3E_fnc_onEnemySoldierSpawn;
 	   [_unit] joinSilent _group; // Ensure the spawned Unit knows what side they're on
        _unit setposASL _cpos;
        _unit setdir (_x select 4);

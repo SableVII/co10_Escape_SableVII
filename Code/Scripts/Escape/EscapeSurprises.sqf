@@ -156,6 +156,7 @@ while {true} do {
                         //_soldier setSkill (_minEnemySkill + random (_maxEnemySkill - _minEnemySkill));
 						//[_soldier, a3e_var_Escape_enemyMinSkill] call EGG_EVO_skill;
                         _soldier setRank "CAPTAIN";
+						[_soldier] joinSilent _dropGroup;
                         _soldier call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
                         _dropUnits pushBack _soldier;
                     };
@@ -203,6 +204,7 @@ while {true} do {
 						//[_soldier, a3e_var_Escape_enemyMinSkill] call EGG_EVO_skill;
                         _soldier setRank "CAPTAIN";
                         _soldier call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
+						[_soldier] joinSilent _dropGroup;
                         _dropUnits pushBack _soldier;
                     };
                     

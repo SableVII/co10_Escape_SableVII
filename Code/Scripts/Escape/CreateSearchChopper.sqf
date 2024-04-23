@@ -68,6 +68,7 @@ private _classList = [a3e_arr_Escape_InfantryTypes_Ind, a3e_arr_Escape_InfantryT
 		_soldier moveInTurret [_chopper, _x];
 	};
 	
+	_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;	
 	[_x] joinSilent _group; // Ensure the spawned Unit knows what side they're on
 } forEach (fullCrew [_chopper, "turret", true] select {_x#4} apply {_x#3});
 
