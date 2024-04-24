@@ -322,7 +322,7 @@ ReplaceMagsInContainer = {
 private _leftoverMags = []; // [[Original Mag Name, Replacement Mag Name, Original Ammo Count]];
 
 // Uniform
-_leftoverMags append ([uniformContainer _unit, _weaponCompatMagsMap, _tracerColor, _weapon] call ReplaceMagsInContainer_);
+_leftoverMags append ([uniformContainer _unit, _weaponCompatMagsMap, _tracerColor, _weapon] call ReplaceMagsInContainer);
 
 // Vest
 _leftoverMags append ([vestContainer _unit, _weaponCompatMagsMap, _tracerColor, _weapon] call ReplaceMagsInContainer);
