@@ -4,10 +4,18 @@ removeContainerMags = {
 	params ["_container"];
 
 	private _removedMags = [];
+	
+	private _intelItems = missionnamespace getvariable ["A3E_IntelItems",["Files","FileTopSecret","FilesSecret","FlashDisk","DocumentsSecret","Wallet_ID","FileNetworkStructure","MobilePhone","SmartPhone"]];
+
 
 	if (isNull _container == false) then {
 		{
 			private _magName = _x select 0;
+			
+			// Ignore any intel items as they are listed as magazines and can't be identified by anything other than their name :\
+			if (_magName in _intelItems) then {
+				continue;
+			}; 
 						
 			// Checking if nameSound == "magazine" or "mgun" ... im not sure what other way to tell if this magazine is a weapon's magazine.
 			private _nameSound = getText(configFile >> "CfgMagazines" >> _magName >> "nameSound");
