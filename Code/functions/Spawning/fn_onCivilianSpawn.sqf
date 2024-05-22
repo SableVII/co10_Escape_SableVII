@@ -99,3 +99,6 @@ _unit addEventHandler["FiredNear",{
 		};
 	};
 }];
+
+// Bind to OnKilled Event
+_unit addEventHandler ["Killed", {params ["_unit"]; [_unit] call A3E_fnc_OnAIKilled;}];

@@ -82,9 +82,12 @@ class CfgFunctions
 			class Occupy {};
 			class resumeTask {};
 			class SeekShelter {};
-			//class SearchBuilding {};
+			//class SearchBuilding {};			
 			class ReturnRemovedMags {};
 			class RemoveMags {};
+			class OnAIKilled {};
+			class OnAIUnconscious {};
+			class RemoveUnconsciousUnit {};			
 		};
 		class Garrison
 		{

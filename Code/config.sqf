@@ -55,3 +55,7 @@ a3e_var_WeaponToCompatMagsMap = createHashMap;	// HashMap [Weapon, HashMap[Mag, 
 a3e_var_MagToTracerMagMap = createHashMap;		// HashMap [Mag, [Weapon, R, G, Y, O]];
 a3e_var_WeaponsWithNonReplaceableMags = createHashMap;   // HashMap [Weapon + MagName, true];
 
+//Unconscious Cleanup
+a3e_var_UnconsciousUnits = [];
+a3e_var_UnconsciousCleanUpTime = 360;
+a3e_var_UnconsciousCheckRate = 30;

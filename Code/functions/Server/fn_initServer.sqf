@@ -44,25 +44,63 @@ ACE_MedicalServer = false;
 if (isClass(configFile >> "CfgPatches" >> "ACE_Medical")) then {
 	ACE_MedicalServer = true;
 	["ace_unconscious", {params["_unit", "_isDown"]; [_unit,_isDown] spawn ACE_fnc_HandleUnconscious;}] call CBA_fnc_addEventHandler;
-	["ace_unconscious", {
-		params ["_unit", "_state"];
-
-		if (isPlayer _unit) then { // Ignore Unconscious Event if Unit is a Player
-			"";
-		};
-
-		if (_state == true) then {
-			// Remove magazines
-			_unit setVariable["unconsciousRemovedMags", [_unit] call A3E_FNC_RemoveMags];
-			_unit setVariable["magsWereRemoved", true];
-		} else {
-			// Return removed magazines
-			[_unit, _unit getVariable["unconsciousRemovedMags", []]] call A3E_FNC_ReturnRemovedMags;
-			_unit setVariable["magsWereRemoved", false];
-		};	
-	}] call CBA_fnc_addEventHandler; // Ammo Scarcity
+	["ace_unconscious", {params["_unit", "_state"]; [_unit, _state] call A3E_fnc_OnAIUnconscious;}] call CBA_fnc_addEventHandler; // Ammo Scarcity/Unconscious removal
 };
 publicVariable "ACE_MedicalServer";
+
+//Spawn Unconscious Clean-Up Scheduled script
+[] spawn {
+	while {true} do {
+		private _currentTime = time; 		
+		private _indexesToRemove = [];
+		
+		//systemChat Format["Checking Unconcious: %1", count a3e_var_UnconsciousUnits];
+		
+		for "_i" from 0 to (count a3e_var_UnconsciousUnits - 1) do {
+			private _unconsciousUnitDetails = a3e_var_UnconsciousUnits select _i;			
+			
+			private _timeUnconcious = _unconsciousUnitDetails select 1;
+			private _unit = _unconsciousUnitDetails select 0;
+			
+			if (_unit isEqualTo objNull) then {
+				//[_unit] call A3E_fnc_RemoveUnconsciousUnit;
+				if (name player == "Sable7") then {
+					systemChat Format["--Rare Case-- Removing Non-Existing Unconcsious"];
+				};
+				_indexesToRemove pushBack _i;
+				continue;
+			};
+			
+			if (_currentTime - _timeUnconcious >= a3e_var_UnconsciousCleanUpTime) then {			
+				_unit setDamage 1;
+				
+				//systemChat "Unconscious Unit Timed Out";
+				
+				// Just to doubly insure that the unit is removed from lists in cases where unit is deleted before they are killed.
+				if (_currentTime - _timeUnconcious >= a3e_var_UnconsciousCleanUpTime + 60) then {
+					[_unit] call A3E_fnc_RemoveUnconsciousUnit;
+					if (name player == "Sable7") then {
+						systemChat Format["--Rare Case-- Super Timed Out %1", name _unit];		
+					};		
+				};
+			};			
+		};
+		
+		private _removedCount = 0;
+		{
+			private _index = _x - _removedCount;
+			a3e_var_UnconsciousUnits deleteAt _index;
+			_removedCount = _removedCount + 1;
+		} foreach _indexesToRemove;
+		
+		// Debug
+		//if (_removedCount > 0) then {
+		//	systemChat Format["Removed %1 Null Units", _removedCount];
+		//};
+		
+		sleep a3e_var_UnconsciousCheckRate;
+	};
+};
 
 //Load Statistics
 [] spawn A3E_fnc_LoadStatistics;
@@ -620,13 +658,10 @@ call A3E_fnc_InitTraps;
 				[_unit, (A3E_Param_TracerReplacer == 2)] call A3E_FNC_SwapForTracerRounds;
 			};
 			
-			// Bind to Killed event for Ammo Scarcity replacing
-			_unit addEventHandler ["Killed", {
-				params ["_unit"];
-				if (_unit getVariable["magsWereRemoved", false] == false) then { // Don't remove mags if they were already removed (ie. from unconcious -> death)
-					call A3E_FNC_RemoveMags;
-				};
-			}];
+			// Bind to OnKilled event
+			_unit addEventHandler ["Killed", {params ["_unit"]; [_unit] call A3E_fnc_OnAIKilled;}];
+			
+			// Bind to Killed event for Unconscious Removal
 
         } foreach units _guardGroup;
 
