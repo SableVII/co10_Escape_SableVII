@@ -28,6 +28,7 @@ _group = _result select 2;
 {
     _x setRank "PRIVATE";
 	[_x] joinSilent _group; // Ensure the spawned Unit knows what side they're on
+    _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;	
 } foreach _crew;
 
 if (_debug) then {
@@ -56,14 +57,10 @@ for "_i" from 1 to _soldiersCount do {
     _insurgentSoldier assignAsCargo _vehicle;
     _insurgentSoldiers set [count _insurgentSoldiers, _insurgentSoldier];
 	[_insurgentSoldier] joinSilent _group; // Ensure the spawned Unit knows what side they're on
+	_insurgentSoldier call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
 };
 
 _group selectLeader (_insurgentSoldiers select 0);
-
-{
-    _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
-    //[_x, a3e_var_Escape_enemyMinSkill] call EGG_EVO_skill;
-} foreach units _group;
 
 [_vehicle, _searchAreaMarker, _debug] spawn drn_fnc_MotorizedSearchGroup;
 

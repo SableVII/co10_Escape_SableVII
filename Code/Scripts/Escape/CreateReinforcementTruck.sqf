@@ -38,6 +38,8 @@ _vehicle call compile format ["%1=_this;", _vehicleVarName];
 
 {
     _x setRank "PRIVATE";
+	[_x] joinSilent _cargoGroup; // Ensure the spawned Unit knows what side they're on	
+    _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
 } foreach _crew;
 
 if (_debug) then {
@@ -63,13 +65,13 @@ for "_i" from 1 to _soldiersCount do {
     _insurgentSoldier assignAsCargo _vehicle;
 	[_insurgentSoldier] joinSilent _cargoGroup; // Ensure the spawned Insurgent knows what side they're on	
     _insurgentSoldiers set [count _insurgentSoldiers, _insurgentSoldier];
+	[_insurgentSoldier] joinSilent _cargoGroup; // Ensure the spawned Unit knows what side they're on	
+	_insurgentSoldier call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;	
 };
 
 {
-    _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
     //_x setSkill (_minSkill + random (_maxSkill - _minSkill));
 	//[_x, a3e_var_Escape_enemyMinSkill] call EGG_EVO_skill;
-	[_x] joinSilent _cargoGroup; // Ensure the spawned Unit knows what side they're on	
 } foreach units _group;
 
 _fnc_OnDroppingGroup = {
