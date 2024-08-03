@@ -188,6 +188,14 @@ class Params
 		texts[]={"Always show (with type)","Always show marker but hide type (questionmark)","Show marker upon discovery","Never show markers"};
 		default = 2;
 	};
+	class A3E_Param_AIUseRadioAnimation
+	{
+		title="AI Use Radio Animation";
+		values[]={0, 1};
+		texts[]={"No", "Yes"};
+		default = 1;
+		tooltip = "Allow AI units to play a animation when calling in your position.";
+	};
 	class A3E_Param_VehicleLock
 	{
 		title="Lock Vehicles";

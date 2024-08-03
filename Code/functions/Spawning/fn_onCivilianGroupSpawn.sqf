@@ -31,7 +31,7 @@ _group addEventHandler ["KnowsAboutChanged", {
 				//sound[] = {"a3\sounds_f\sfx\radio\ambient_radio8",0.398107,1};
 				[_reporter,[_sound,100,1,true,0]] remoteExec ["say3D",0];
 				[_reporter,true] remoteexec ["setRandomLip",0];
-				if(vehicle _reporter == _reporter) then {
+				if(vehicle _reporter == _reporter && A3E_Param_AIUseRadioAnimation == 1) then {
 					//Unit is on foot, lets make him play an animation
 					//_reporter playmovenow "acts_listeningtoradio_in"
 					[_reporter,"acts_listeningtoradio_loop"] remoteExec ["playmovenow", _reporter];
@@ -45,7 +45,7 @@ _group addEventHandler ["KnowsAboutChanged", {
 				};
 				if(alive _reporter && _reportTime == 0) then {
 						[_reporter,false] remoteexec ["setRandomLip",0];
-					if(vehicle _reporter == _reporter) then {
+					if(vehicle _reporter == _reporter && A3E_Param_AIUseRadioAnimation == 1) then {
 						if((animationState _reporter) in ["acts_listeningtoradio_in","acts_listeningtoradio_loop","acts_listeningtoradio_out"]) then  {
 							[_reporter,"acts_listeningtoradio_out"] remoteExec ["playmovenow", _reporter];
 							[_reporter,_player] call A3E_fnc_recordSighting;
