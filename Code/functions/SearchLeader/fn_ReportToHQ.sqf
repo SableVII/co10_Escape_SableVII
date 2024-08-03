@@ -29,7 +29,7 @@ scopeName "main";
 		if((_grp knowsAbout (vehicle _x)) >= _knowledgeThreshold && {alive _x} count (units _grp)>0) then {
 			//We found a group that knows about a player.
 			private _unitsAbleToRadio = [];
-			_unitsAbleToRadio = (units _grp) select {((_x distance _player) > 10) && (getSuppression _x <= 0) && (((stance _x == "STAND") && (_x distance _player) > 100) || (isHidden _x))};
+			_unitsAbleToRadio = (units _grp) select {((_x distance _player) > 10) && (getSuppression _x <= 0) && (((stance _x == "STAND") && (_x distance _player) > 100) || (isHidden _x)) && (_x getVariable ["ACE_isUnconscious", false] == false)};
 
 			if(count(_unitsAbleToRadio) > 0) then 
 			{
