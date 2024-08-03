@@ -27,7 +27,7 @@ _surprises set [count _surprises, _surprise];
 diag_log ("ESCAPE SURPRISE: " + str _surprise);
 
 
-_surpriseArgs = [(_enemyFrequency + 2) + floor random (_enemyFrequency * 2)]; // [NoOfDropUnits]
+_surpriseArgs = [(_enemyFrequency + 4) + floor random (_enemyFrequency * 2)]; // [NoOfDropUnits]
 _timeInSek = 5 * 60 + random (60 * 60);
 //_timeInSek = 15;
 _timeInSek = time + (_timeInSek * (0.5 + (4 - _enemyFrequency) / 4));
