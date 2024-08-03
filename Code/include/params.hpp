@@ -163,7 +163,7 @@ class Params
 		values[]={0,1,2};
 		texts[]={"Disabled","Enabled","Faction Specific"};
 		default = 0;
-		tooltip = "This will attempt to swap all spawned AI's primary ammuntion with applicable tracer variants. Enjoy the lightshow! Faction Specific option makes Yellow, Green, and Red, for Bluefor, OpFor, and Independent factions, respectively if applicable.";
+		tooltip = "Attempt to swap all spawned AI's primary ammuntion with applicable tracer variants. Enjoy the lightshow! Faction Specific option makes Yellow, Green, and Red, for Bluefor, OpFor, and Independent factions, respectively if applicable.";
 	}	
 	class A3E_Param_UseIntel
 	{
