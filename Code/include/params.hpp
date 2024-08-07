@@ -53,6 +53,14 @@ class Params
 		livechanges = 1;
 		default = 1;
 	};
+	class A3E_Param_AmbientPatrolSpawnMultiplier
+	{
+		title="Ambient Patrol Spawns";
+		values[]={0.5, 0.75, 1, 1.25, 1.5, 1.75};
+		texts[]={"Low (better performance)", "Less", "Normal", "More", "High (Demanding)", "Extreme (Very demanding)"};
+		livechanges = 1;
+		default = 1;
+	};	
 	class A3E_Param_SearchChopper
 	{
 		title="Search Chopper Type";

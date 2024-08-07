@@ -1,16 +1,18 @@
 private _groups = missionNamespace getvariable ["A3E_AmbientAIGroups",[]];
 private _maxAmbientGroups = missionNamespace getvariable ["A3E_MaxAmbientAIGroups",15];
 
+_maxAmbientGroups = _maxAmbientGroups * A3E_Param_AmbientPatrolSpawnMultiplier;
+
 private _MinSpawnCircleDistance = missionNamespace getvariable ["A3E_MinSpawnCircleDistance",800];
 private _MaxSpawnCircleDistance = missionNamespace getvariable ["A3E_MaxSpawnCircleDistance",1500];
 private _removalDistance = missionNamespace getvariable ["A3E_UnitRemovalDistance",2000];
 private _plist = [] call A3E_fnc_GetPlayers;
 
 
-//Reduce spawn distance in first 10 seconds of mission
-if(time<10) then {
-	_MinSpawnCircleDistance = _MinSpawnCircleDistance/2;
-	_MaxSpawnCircleDistance = _MaxSpawnCircleDistance/2;
+//Reduce spawn distance in first 20 seconds of mission and slowly grow it
+if(time>0 && time<20) then {
+	_MinSpawnCircleDistance = _MinSpawnCircleDistance/4 + 3/4*time/20;
+	_MaxSpawnCircleDistance = _MaxSpawnCircleDistance/4 + 3/4*time/20;
 };
 
 //Cleanup first

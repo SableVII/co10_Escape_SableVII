@@ -7,10 +7,10 @@ private _groups = missionNamespace getvariable ["A3E_CivilianCommuterGroups",[]]
 
 private _plist = [] call A3E_fnc_GetPlayers;
 
-//Reduce spawn distance in first 10 seconds of mission
-if(time<10) then {
-	_MinSpawnCircleDistance = _MinSpawnCircleDistance/2;
-	_MaxSpawnCircleDistance = _MaxSpawnCircleDistance/2;
+//Reduce spawn distance in first 20 seconds of mission and slowly grow it
+if(time>0 && time<20) then {
+	_MinSpawnCircleDistance = _MinSpawnCircleDistance/4 + 3/4*time/20;
+	_MaxSpawnCircleDistance = _MaxSpawnCircleDistance/4 + 3/4*time/20;
 };
 
 //Cleanup first
