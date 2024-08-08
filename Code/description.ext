@@ -41,19 +41,19 @@ enableDebugConsole = 1;
 allowFunctionsRecompile = 1;
 
 corpseManagerMode = 1;
-corpseLimit = 40;
-corpseRemovalMinTime = 600; //seconds
-corpseRemovalMaxTime = 2800; //seconds
+corpseLimit = 80;
+corpseRemovalMinTime = 1200; //seconds
+corpseRemovalMaxTime = 3600; //seconds
 
 weaponholderManagerMode = 1;
-weaponholderLimit = 50;
-weaponholderRemovalMinTime = 600; //seconds
-weaponholderRemovalMaxTime = 2800; //seconds
+weaponholderLimit = 80;
+weaponholderRemovalMinTime = 1200; //seconds
+weaponholderRemovalMaxTime = 3600; //seconds
 
 wreckManagerMode = 1;
-wreckLimit = 15;
-wreckRemovalMinTime = 600; //seconds
-wreckRemovalMaxTime = 2800; //seconds
+wreckLimit = 20;
+wreckRemovalMinTime = 3600; //seconds
+wreckRemovalMaxTime = 7200; //seconds
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 class CfgDebriefing
