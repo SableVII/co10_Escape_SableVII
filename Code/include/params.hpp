@@ -82,6 +82,13 @@ class Params
 		texts[]={"No Prison Backpack", "Spawn Prison Backpack", "Spawn as Crate"};
 		default = 1;
 	};
+	class A3E_Param_SpawnExtraFirstAid
+	{
+		title="Extra Starting First Aid";
+		values[]={0,1,2};
+		texts[]={"None", "Some", "Lots"};
+		default = 0;
+	};	
 	class A3E_Param_CivilianSpawning
 	{
 		title="Civilian Spawning";

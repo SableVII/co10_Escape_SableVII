@@ -516,9 +516,10 @@ call A3E_fnc_InitTraps;
 // Spawn creation of start position settings
 [A3E_StartPos, _backPack, _enemyFrequency] spawn {
 	params ["_startPos", "_backPack", "_enemyFrequency"];
-    private ["_guardGroup", "_marker", "_guardCount", "_weaponCount", "_guardGroups", "_unit", "_createNewGroup", "_items"];
+    private ["_guardGroup", "_marker", "_guardCount", "_weaponCount", "_guardGroups", "_unit", "_createNewGroup", "_items", "_playerCount"];
 
-	_weaponCount = count([] call A3E_fnc_GetPlayers) + 1;
+	_playerCount = count([] call A3E_fnc_GetPlayers);
+	_weaponCount = _playerCount + 1;	
 	
 	if (!(_backpack isEqualTo objNull)) then {	// _backpack can be a objNull when A3E_Param_SpawnPrisonBackpack == 0
 		private _i = 0;
@@ -526,6 +527,16 @@ call A3E_fnc_InitTraps;
 			private _weapon = a3e_arr_PrisonBackpackWeapons select floor(random(count(a3e_arr_PrisonBackpackWeapons)));
 			_backpack addWeaponCargoGlobal[(_weapon select 0),1];
 			_backpack addMagazineCargoGlobal[(_weapon select 1),3];
+		};
+		
+		// Add Extra First Aid Kits to backpack/crate
+		if (A3E_Param_SpawnExtraFirstAid != 0) then {
+			// (Param = 1: 1 Player = 1 FAK. 2 Players = 3 FAKs. 3 Players = 5 FAKs.) (Param = 2: 1 Player = 2 FAKs. 2 Players = 5 FAKs. 3 Players = 7 FAKs.)
+			private _firstAidCount = A3E_Param_SpawnExtraFirstAid; 
+			if (_playerCount > 1) then {
+				_firstAidCount = _playerCount*2-1 + 2*(A3E_Param_SpawnExtraFirstAid-1);
+			};
+			_backpack addItemCargoGlobal["FirstAidKit", _firstAidCount];
 		};
 	};
 
@@ -575,7 +586,7 @@ call A3E_fnc_InitTraps;
         };
     };
 
-	sleep 0.15; // To allow enought time for _unit initilization to complete to allow addItem to work... idk some specific race condition for some units like the Independent faction in CWR
+	sleep 0.15; // To allow enough time for _unit initilization to complete to allow addItem to work... idk some specific race condition for some units like the Independent faction in CWR
 
     {
         _guardGroup = _x;
