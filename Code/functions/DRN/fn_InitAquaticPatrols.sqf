@@ -65,6 +65,7 @@ _aquaticPatrolZoneNo = 0;
 	_trigger setTriggerStatements["this", "_nil = [a3e_arr_aquaticPatrols_Markers select " + str _aquaticPatrolZoneNo + ", " + str _debug + "] spawn drn_fnc_PopulateAquaticPatrol;", "_nil = [a3e_arr_aquaticPatrols_Markers select " + str _aquaticPatrolZoneNo + ", " + str _debug + "] spawn drn_fnc_DepopulateAquaticPatrol;"];
 
 	_aquaticPatrolZoneNo = _aquaticPatrolZoneNo + 1;
+	
 } foreach a3e_patrolBoatMarkers;
 
 if (_debug) then {

@@ -258,7 +258,7 @@ private _backpack = [] call A3E_fnc_createStartpos;
 //### The following is a mission function now
 
 [true] call A3E_fnc_InitVillageMarkers;
-//[true] call drn_fnc_InitAquaticPatrolMarkers;
+[true] call drn_fnc_InitAquaticPatrolMarkers;
 
 //Wait for players to actually arrive ingame. This may be a long time if server is set to persistent
 waituntil{uisleep 1; count([] call A3E_FNC_GetPlayers)>0};
@@ -303,7 +303,7 @@ _playerGroup = [] call A3E_fnc_GetPlayerGroup;
 [] spawn A3E_fnc_initVillages;
 
 //Uncommenting all legacy scripts for now
-if(false) then {
+//if(false) then {
 [_enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance, _enemyFrequency] spawn {
 	params ["_enemyMinSkill", "_enemyMaxSkill", "_enemySpawnDistance", "_enemyFrequency"];
 
@@ -312,38 +312,46 @@ if(false) then {
 
     _playerGroup = [] call A3E_fnc_GetPlayerGroup;
 
-        switch (_enemyFrequency) do
-        {
-            case 1: // 1-2 players
-            {
-                _minEnemiesPerGroup = 2;
-                _maxEnemiesPerGroup = 4;
-            };
-            case 2: // 3-5 players
-            {
-                _minEnemiesPerGroup = 3;
-                _maxEnemiesPerGroup = 6;
-            };
-            default // 6-8 players
-            {
-                _minEnemiesPerGroup = 4;
-                _maxEnemiesPerGroup = 8;
-            };
-        };
+	switch (_enemyFrequency) do
+	{
+		case 1: // 1-2 players
+		{
+			_minEnemiesPerGroup = 2;
+			_maxEnemiesPerGroup = 4;
+		};
+		case 2: // 3-5 players
+		{
+			_minEnemiesPerGroup = 3;
+			_maxEnemiesPerGroup = 6;
+		};
+		default // 6-8 players
+		{
+			_minEnemiesPerGroup = 4;
+			_maxEnemiesPerGroup = 8;
+		};
+	};
+	
+	_fnc_OnSpawnGroup = {
+		{
+			_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
+		} foreach units _this;
+	};	
 
-        _fnc_OnSpawnGroup = {
-            {
-                _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
-            } foreach units _this;
-        };
+	[(units _playerGroup) select 0, A3E_VAR_Side_Opfor, a3e_arr_Escape_InfantryTypes, _minEnemiesPerGroup, _maxEnemiesPerGroup, 500000, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance + 250, _fnc_OnSpawnGroup, A3E_Debug] call drn_fnc_InitAquaticPatrols;
+};
+if(false) then {
+[_enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance, _enemyFrequency] spawn {
+	params ["_enemyMinSkill", "_enemyMaxSkill", "_enemySpawnDistance", "_enemyFrequency"];
 
-        [(units _playerGroup) select 0, A3E_VAR_Side_Opfor, a3e_arr_Escape_InfantryTypes, _minEnemiesPerGroup, _maxEnemiesPerGroup, 500000, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance + 250, _fnc_OnSpawnGroup, A3E_Debug] call drn_fnc_InitAquaticPatrols;
-
-
-
-
-
+    private ["_fnc_OnSpawnAmbientInfantryGroup", "_fnc_OnSpawnAmbientInfantryUnit", "_scriptHandle"];
+    private ["_playerGroup", "_minEnemiesPerGroup", "_maxEnemiesPerGroup", "_fnc_OnSpawnGroup"];
     // Initialize ambient infantry groups
+
+	_fnc_OnSpawnGroup = {
+		{
+			_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
+		} foreach units _this;
+	};
 
 	_fnc_OnSpawnAmbientInfantryUnit = {
 		_this call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
@@ -489,8 +497,6 @@ if(false) then {
 		private _pos = [] call A3E_fnc_findFlatArea;
 		[_pos] call A3E_fnc_crashSite;
 	};
-
-
 };
 
 };
