@@ -36,6 +36,8 @@ Respawn = "INSTANT";
 RespawnDelay = 5;
 respawnButton = 0;
 
+showMap = 0;
+
 disabledAI = 1;
 enableDebugConsole = 1;
 allowFunctionsRecompile = 1;
@@ -44,6 +46,7 @@ corpseManagerMode = 1;
 corpseLimit = 80;
 corpseRemovalMinTime = 1200; //seconds
 corpseRemovalMaxTime = 3600; //seconds
+minPlayerDistance = 50;
 
 weaponholderManagerMode = 1;
 weaponholderLimit = 80;
