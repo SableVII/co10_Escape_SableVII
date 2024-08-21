@@ -301,6 +301,8 @@ _obj = ["SPE_Banner_01_FFF_F",_center,[8.26221,1.92822,1.90718],_rotation,90] ca
 		{
             _box addItemCargoGlobal _x;
         } foreach _items;
+		
+		_box addItemCargoGlobal ["ItemMap", 2]; // Guarantee a map is in the ammo depot		
     };
 
     // Items

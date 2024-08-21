@@ -301,6 +301,8 @@ _obj = ["Land_SPE_Bocage_Long",_center,[11.0881,-3.74512,0],_rotation,0] call _f
 		{
             _box addItemCargoGlobal _x;
         } foreach _items;
+		
+		_box addItemCargoGlobal ["ItemMap", 2]; // Guarantee a map is in the ammo depot		
     };
 
     // Items

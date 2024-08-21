@@ -46,6 +46,9 @@ _fnc_CreateVehicle = {
     _object = createVehicle [_className, _realpos, [], 0, "NONE"];
     _object setDir _realDir;
 	_object setPos _realPos;
+	
+	_object addItemCargoGlobal ["ItemMap", 1]; // Guarantee a map is inside a motor pool
+	
     _object
 };
 

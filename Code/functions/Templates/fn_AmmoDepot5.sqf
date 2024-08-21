@@ -420,6 +420,8 @@ _obj = ["Flag_CSAT_F",_center,[-16.4143,-1.93066,0],_rotation,266.77] call _fnc_
 		{
             _box addItemCargoGlobal _x;
         } foreach _items;
+		
+		_box addItemCargoGlobal ["ItemMap", 2]; // Guarantee a map is in the ammo depot		
     };
     
     // Items

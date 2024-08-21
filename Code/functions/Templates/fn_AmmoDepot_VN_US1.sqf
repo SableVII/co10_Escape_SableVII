@@ -345,6 +345,8 @@ _obj forceFlagTexture A3E_VAR_Flag_Opfor;
 		{
             _box addItemCargoGlobal _x;
         } foreach _items;
+		
+		_box addItemCargoGlobal ["ItemMap", 2]; // Guarantee a map is in the ammo depot		
     };
 //["vn_b_ammobox_09",_center,[-8.10938,-18.6689,0.0385456],_rotation,1.83589] call _fnc_createObject;
 

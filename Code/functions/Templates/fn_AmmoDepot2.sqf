@@ -399,19 +399,21 @@ if((A3E_Param_Waffelbox)==1) then {
         clearBackpackCargoGlobal _box;
         
         {
-        _box addWeaponCargoGlobal _x;
-    } foreach _weapons;
+			_box addWeaponCargoGlobal _x;
+		} foreach _weapons;
 
-    {
-    _box addMagazineCargoGlobal _x;
-} foreach _weaponMagazines;
-{
-    _box addBackpackCargoGlobal [_x,4];
-} foreach a3e_arr_AmmoDepotVehicleBackpacks;
-{
-    _box addItemCargoGlobal _x;
-} foreach _items;
-};
+		{
+			_box addMagazineCargoGlobal _x;
+		} foreach _weaponMagazines;
+		{
+			_box addBackpackCargoGlobal [_x,4];
+		} foreach a3e_arr_AmmoDepotVehicleBackpacks;
+		{
+			_box addItemCargoGlobal _x;
+		foreach _items;
+
+		_box addItemCargoGlobal ["ItemMap", 2]; // Guarantee a map is in the ammo depot
+	};
 
     // Items
 

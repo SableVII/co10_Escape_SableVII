@@ -284,6 +284,8 @@ _obj = ["Land_SPE_bocage_long_mound",_center,[10.282,0.111816,0],_rotation,0] ca
 		{
             _box addItemCargoGlobal _x;
         } foreach _items;
+		
+		_box addItemCargoGlobal ["ItemMap", 2]; // Guarantee a map is in the ammo depot		
     };
 
     // Items
