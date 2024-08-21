@@ -105,8 +105,10 @@ _boxpos = _position findEmptyPosition [3,15,_boxType];
 	_grp = createGroup A3E_VAR_Side_Blufor;
 	_deadcrew = _grp createUnit [_typeOfUnit select(floor(random(count(_typeOfUnit)))), getpos _box, [], 15, "FORM"] ;   
 	_deadcrew setdammage 1;
+	removeFromRemainsCollector [_deadcrew];
 	_deadcrew = _grp createUnit [_typeOfUnit select(floor(random(count(_typeOfUnit)))), getpos _box, [], 15, "FORM"] ;   
 	_deadcrew setdammage 1;
+	removeFromRemainsCollector [_deadcrew];
 	
 	diag_log format["fn_CrashSite: Camp created at %1", getpos _box];
  };
