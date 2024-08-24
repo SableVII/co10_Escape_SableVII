@@ -23,7 +23,7 @@ private _zoneArea = (_zoneSizeXY select 0)*(_zoneSizeXY select 1);
 
 //Select the side based on the zone size. Small zones are occupied by locals while large cities are occupied by OPFOR
 private _side = A3E_VAR_Side_Ind;
-if(_zoneArea > 5000) then {
+if(_zoneArea > 4700) then {
 	_side = A3E_VAR_Side_Opfor;
 };
 

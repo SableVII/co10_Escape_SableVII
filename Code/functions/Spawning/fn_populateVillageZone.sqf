@@ -5,9 +5,9 @@ private _marker = _zone get "marker";
 private _area = _zone get "zonearea";
 
 // Small villages occupied by Independent and larger cities occupied by Opfor
-private _sides = [A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Opfor];
-if(_zoneArea > 5000) then {
-	_sides = [A3E_VAR_Side_Ind,A3E_VAR_Side_Opfor,A3E_VAR_Side_Opfor,A3E_VAR_Side_Opfor,A3E_VAR_Side_Opfor,A3E_VAR_Side_Opfor];
+private _sides = [A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Ind,A3E_VAR_Side_Opfor];
+if(_area > 4700) then {
+	_sides = [A3E_VAR_Side_Ind,A3E_VAR_Side_Opfor,A3E_VAR_Side_Opfor,A3E_VAR_Side_Opfor,A3E_VAR_Side_Opfor,A3E_VAR_Side_Opfor,A3E_VAR_Side_Opfor,A3E_VAR_Side_Opfor];
 };
 
 
