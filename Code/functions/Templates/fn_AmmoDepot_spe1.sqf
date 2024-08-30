@@ -303,6 +303,13 @@ _obj = ["SPE_Banner_01_FFF_F",_center,[8.26221,1.92822,1.90718],_rotation,90] ca
         } foreach _items;
 		
 		_box addItemCargoGlobal ["ItemMap", 2]; // Guarantee a map is in the ammo depot		
+		
+		// Add Intel
+		if(A3E_Param_UseIntel==1 && A3E_Param_AddIntelToDepots==1) then {
+			private _intelItems = missionnamespace getvariable ["A3E_IntelItems",["Files","FileTopSecret","FilesSecret","FlashDisk","DocumentsSecret","Wallet_ID","FileNetworkStructure","MobilePhone","SmartPhone"]];
+
+			_box addItemCargoGlobal [selectRandom _intelItems, selectRandom [1,1,1,1,2]];
+		};		
     };
 
     // Items

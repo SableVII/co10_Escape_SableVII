@@ -196,6 +196,14 @@ class Params
 		livechanges = 1;
 		default = 20;
 	};
+	class A3E_Param_AddIntelToDepots
+	{
+		title="Adds Intel to Vehicle and Ammo Depots";
+		values[]={0,1};
+		texts[]={"Disabled","Enabled"};
+		default = 0;
+		tooltip = "This will guarantee that one or two pieces of intel will be found inside of a vehicle and ammo depot";
+	};	
 	class A3E_Param_RevealMarkers
 	{
 		title="Display of markers on map";

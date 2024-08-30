@@ -47,8 +47,6 @@ _fnc_CreateVehicle = {
     _object setDir _realDir;
 	_object setPos _realPos;
 	
-	_object addItemCargoGlobal ["ItemMap", 1]; // Guarantee a map is inside a motor pool	
-	
     _object
 };
 
@@ -161,6 +159,7 @@ if (count _staticWeaponClasses > 0) then {
 
 // Armor
 _armor = selectRandom _parkedArmorClasses;
+private _parkedvehicles = [];
 
 if (count _parkedArmorClasses > 0) then {
 
@@ -173,6 +172,7 @@ if (count _parkedArmorClasses > 0) then {
 	_sarmor setdamage random [0.25, 0.5, 0.9];
 	_sarmor setVehicleAmmo random [0, 0.5, 1];
 
+	_parkedvehicles pushBack _sarmor;
 };
 // setVehicleAmmo cannot be used until Ammo Depots rearm all vehicles
 
@@ -189,19 +189,42 @@ if (count _parkedVehicleClasses > 0) then {
 	_stupidvehicle setfuel random 1;
 	_stupidvehicle setdamage random [0, 0.2, 0.5];
 	_stupidvehicle setVehicleAmmo random [0, 0.5, 1];
+	
+	_random = random 1;
+	if (_random > .5 ) then {
+		_pos = [9.2854,2.55762,-0.0134706];
+		_dir = 340;
+		
+		_vehicle = selectRandom _parkedVehicleClasses;
+		_stupidvehicle = [_vehicle, _pos, _dir, _center, _rotation] call _fnc_CreateVehicle;
+		
+		_stupidvehicle setfuel random 1;
+		_stupidvehicle setdamage random [0, 0.2, 0.5];
+		_stupidvehicle setVehicleAmmo random [0, 0.5, 1];
+		
+		_parkedvehicles pushBack _stupidvehicle;		
+	};	
 };
 
-_random = random 1;
-if (_random > .5 ) then {
-    _pos = [9.2854,2.55762,-0.0134706];
-    _dir = 340;
-    
-    _vehicle = selectRandom _parkedVehicleClasses;
-    _stupidvehicle = [_vehicle, _pos, _dir, _center, _rotation] call _fnc_CreateVehicle;
+// Add intel/map items to some of the spawned vehicles
+if (count _parkedvehicles > 0) then {	
+	// Intel
+	if(A3E_Param_UseIntel==1 && A3E_Param_AddIntelToDepots==1) then {
+		private _intelItems = missionnamespace getvariable ["A3E_IntelItems",["Files","FileTopSecret","FilesSecret","FlashDisk","DocumentsSecret","Wallet_ID","FileNetworkStructure","MobilePhone","SmartPhone"]];
+		private _intelAmount = selectRandom [1,1,2,1,1,2,3];
+		
+		for [{ _i = 0 }, { _i < _intelAmount }, { _i = _i + 1 }] do {
+			_stupidvehicle = selectRandom _parkedvehicles;
+			_stupidvehicle addItemCargoGlobal [selectRandom _intelItems, 1];
+		};
+	};
 	
-	_stupidvehicle setfuel random 1;
-	_stupidvehicle setdamage random [0, 0.2, 0.5];
-	_stupidvehicle setVehicleAmmo random [0, 0.5, 1];
+	// Maps
+	private _mapCount = selectRandom [1,1,2];	
+	for [{ _i = 0 }, { _i < _mapCount }, { _i = _i + 1 }] do {
+		_stupidvehicle = selectRandom _parkedvehicles;
+		_stupidvehicle addItemCargoGlobal ["ItemMap", 1];
+	};
 };
 
 

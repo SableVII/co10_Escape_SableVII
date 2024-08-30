@@ -69,8 +69,7 @@ _fnc_CreateVehicle = {
     _realDir = _relativeDir + _rotateDir;
     _object = createVehicle [_className, _realpos, [], 0, "NONE"];
     _object setDir _realDir;
-	
-	_object addItemCargoGlobal ["ItemMap", 1]; // Guarantee a map is inside a motor pool
+	_object setPos _realPos;	
 	
     _object
 };
@@ -573,6 +572,7 @@ if (count _staticWeaponClasses > 0) then {
 
 // Armor
 _armor = selectRandom _parkedArmorClasses;
+private _parkedvehicles = [];
 
 if (count _parkedArmorClasses > 0) then {
 
@@ -585,6 +585,7 @@ if (count _parkedArmorClasses > 0) then {
 	_sarmor setdamage random [0.25, 0.5, 0.9];
 	_sarmor setVehicleAmmo random [0, 0.5, 1];
 
+	_parkedvehicles pushBack _sarmor;
 };
 // setVehicleAmmo cannot be used until Ammo Depots rearm all vehicles
 
@@ -601,30 +602,55 @@ if (count _parkedVehicleClasses > 0) then {
 	_stupidvehicle setfuel random 1;
 	_stupidvehicle setdamage random [0, 0.2, 0.5];
 	_stupidvehicle setVehicleAmmo random [0, 0.5, 1];
+	
+	_random = random 1;
+	if (_random > .5 ) then {
+		_pos = [-20.35, -1.202];
+		_dir = 100;
+		
+		_vehicle = selectRandom _parkedVehicleClasses;
+		_stupidvehicle = [_vehicle, _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
+		
+		_stupidvehicle setfuel random 1;
+		_stupidvehicle setdamage random [0, 0.2, 0.5];
+		_stupidvehicle setVehicleAmmo random [0, 0.5, 1];
+		
+		_parkedvehicles pushBack _stupidvehicle;
+	};
+	if (_random > .75) then {
+		_pos = [-15.247, 12.6];
+		_dir = 144;
+	   
+		 _vehicle = selectRandom _parkedVehicleClasses;
+		_stupidvehicle = [_vehicle, _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
+		
+		_stupidvehicle setfuel random 1;
+		_stupidvehicle setdamage random [0, 0.2, 0.5];
+		_stupidvehicle setVehicleAmmo random [0, 0.5, 1];
+		
+		_parkedvehicles pushBack _stupidvehicle;
+	};
 };
 
-_random = random 1;
-if (_random > .5 ) then {
-    _pos = [-20.35, -1.202];
-    _dir = 100;
-    
-    _vehicle = selectRandom _parkedVehicleClasses;
-    _stupidvehicle = [_vehicle, _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
+// Add intel/map items to some of the spawned vehicles
+if (count _parkedvehicles > 0) then {	
+	// Intel
+	if(A3E_Param_UseIntel==1 && A3E_Param_AddIntelToDepots==1) then {
+		private _intelItems = missionnamespace getvariable ["A3E_IntelItems",["Files","FileTopSecret","FilesSecret","FlashDisk","DocumentsSecret","Wallet_ID","FileNetworkStructure","MobilePhone","SmartPhone"]];
+		private _intelAmount = selectRandom [1,1,2,1,1,2,3];
+		
+		for [{ _i = 0 }, { _i < _intelAmount }, { _i = _i + 1 }] do {
+			_stupidvehicle = selectRandom _parkedvehicles;
+			_stupidvehicle addItemCargoGlobal [selectRandom _intelItems, 1];
+		};
+	};
 	
-	_stupidvehicle setfuel random 1;
-	_stupidvehicle setdamage random [0, 0.2, 0.5];
-	_stupidvehicle setVehicleAmmo random [0, 0.5, 1];
-};
-if (_random > .75) then {
-    _pos = [-15.247, 12.6];
-    _dir = 144;
-   
-     _vehicle = selectRandom _parkedVehicleClasses;
-    _stupidvehicle = [_vehicle, _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-	
-	_stupidvehicle setfuel random 1;
-	_stupidvehicle setdamage random [0, 0.2, 0.5];
-	_stupidvehicle setVehicleAmmo random [0, 0.5, 1];
+	// Maps
+	private _mapCount = selectRandom [1,1,2];	
+	for [{ _i = 0 }, { _i < _mapCount }, { _i = _i + 1 }] do {
+		_stupidvehicle = selectRandom _parkedvehicles;
+		_stupidvehicle addItemCargoGlobal ["ItemMap", 1];
+	};
 };
 
 ["A3E_MotorPoolMapMarker" + str _mNumber,_centerPos,"o_service"] call A3E_fnc_createLocationMarker;
