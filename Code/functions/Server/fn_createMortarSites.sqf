@@ -92,6 +92,7 @@ while {count _positions < _mortarSiteCount} do {
 
 private _mortarSiteTemplates = missionnamespace getvariable ["A3E_MortarSiteTemplates",["A3E_fnc_MortarSite","A3E_fnc_MortarSite2"]];
 {
-    [[_x],_mortarSiteTemplates] call A3E_fnc_callRandomFunction;
-	[_x,40,selectRandom[A3E_VAR_Side_Opfor,A3E_VAR_Side_Ind],"MORTAR"] call A3E_fnc_initLocationZone;
+	private _side = selectRandom[A3E_VAR_Side_Opfor,A3E_VAR_Side_Ind];
+    [[_x,_side],_mortarSiteTemplates] call A3E_fnc_callRandomFunction;
+	[_x,40,_side,"MORTAR"] call A3E_fnc_initLocationZone;
 } foreach _positions;

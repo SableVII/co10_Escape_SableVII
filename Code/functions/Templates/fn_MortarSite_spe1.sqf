@@ -15,7 +15,7 @@ if(isNil("A3E_MortarMarkerNumber")) then {
 _number = A3E_MortarMarkerNumber;
 
 _position = [_this,0] call bis_fnc_param;
-
+_side = [_this,1] call bis_fnc_param;
 
 
 
@@ -109,7 +109,7 @@ _obj setpos _objpos;
 //_obj = ["SPE_GrW278_1",_center,[0.519043,-0.146484,0.0243835],_rotation,360] call _fnc_createObject;
 _objpos = _position vectoradd [0.519043,-0.146484,0.0243835];
 _obj = createVehicle [a3e_arr_MortarSite select(floor(random(count(a3e_arr_MortarSite)))), _objpos, [], 0, "NONE"];
-_gunner = [_obj,A3E_VAR_Side_Opfor] spawn A3E_fnc_AddStaticGunner; 
+_gunner = [_obj,_side] spawn A3E_fnc_AddStaticGunner; 
 a3e_var_artillery_units pushBack _obj;
 _dir = 360;
 _obj setdir _dir;

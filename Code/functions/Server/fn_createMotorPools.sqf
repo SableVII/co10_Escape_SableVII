@@ -77,12 +77,14 @@ a3e_var_Escape_MotorPoolPositions = [];
 private _MotorPoolTemplates = missionnamespace getvariable ["A3E_MotorPoolTemplates",["A3E_fnc_BuildMotorPool"]];
 private _playergroup = [] call A3E_fnc_getPlayerGroup;
 {
+	private _side = selectRandom[A3E_VAR_Side_Opfor,A3E_VAR_Side_Ind];
+
     // Fixme: hard coding to 180° orientation for now
-    [[_x select 0, (_x select 1)-180, a3e_arr_ComCenStaticWeapons,
+    [[_x select 0, (_x select 1)-180, _side, a3e_arr_ComCenStaticWeapons,
      a3e_arr_ComCenParkedVehicles, 
      a3e_arr_ComCenDefence_lightArmorClasses + a3e_arr_ComCenDefence_heavyArmorClasses],_MotorPoolTemplates] call A3E_fnc_callRandomFunction;
 
-    [_x select 0,70,selectRandom[A3E_VAR_Side_Opfor,A3E_VAR_Side_Ind],"MOTORPOOL"] call A3E_fnc_initLocationZone;
+    [_x select 0,70,_side,"MOTORPOOL"] call A3E_fnc_initLocationZone;
 	 a3e_var_Escape_MotorPoolPositions pushBack (_x select 0);
 } foreach _mpPosition;
 

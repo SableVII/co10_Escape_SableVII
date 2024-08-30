@@ -13,10 +13,11 @@ _mNumber = A3E_MotorPoolMarkerNumber;
 
 _center           = [_this, 0] call bis_fnc_param;
 _rotation            = [_this, 1] call bis_fnc_param;
-_staticWeaponClasses  = [_this, 2, []] call bis_fnc_param;
-_parkedVehicleClasses = [_this, 3, []] call bis_fnc_param;
-_parkedArmorClasses   = [_this, 4, []] call bis_fnc_param;
-_staticAAClasses      = [_this, 5, []] call bis_fnc_param;
+_side            	  = [_this, 2] call bis_fnc_param;
+_staticWeaponClasses  = [_this, 3, []] call bis_fnc_param;
+_parkedVehicleClasses = [_this, 4, []] call bis_fnc_param;
+_parkedArmorClasses   = [_this, 5, []] call bis_fnc_param;
+_staticAAClasses      = [_this, 6, []] call bis_fnc_param;
 
 
 _fnc_createObject = {
@@ -144,7 +145,7 @@ if (count _staticWeaponClasses > 0) then {
     _guns = _staticWeaponClasses;
     _gun = selectRandom _guns;
     _static = [_gun, _pos, _dir, _center, _rotation] call _fnc_CreateVehicle;
-	[_static,A3E_VAR_Side_Opfor] spawn A3E_fnc_AddStaticGunner; 
+	[_static,_side] spawn A3E_fnc_AddStaticGunner; 
 };
 if (count _staticWeaponClasses > 0) then {
     // Gun behind sandbags
@@ -154,7 +155,7 @@ if (count _staticWeaponClasses > 0) then {
     _guns = _staticWeaponClasses;
     _gun = selectRandom _guns;
     _static = [_gun, _pos, _dir, _center, _rotation] call _fnc_CreateVehicle;
-	[_static,A3E_VAR_Side_Opfor] spawn A3E_fnc_AddStaticGunner; 
+	[_static,_side] spawn A3E_fnc_AddStaticGunner; 
 };
 
 // Armor
