@@ -6,8 +6,11 @@ if (isPlayer _unit) exitWith { };
 // Remove Magazines for Ammo Scarcity
 if (_state == true) then {
 	// Remove magazines
-	_unit setVariable["unconsciousRemovedMags", [_unit] call A3E_fnc_RemoveMags];
-	_unit setVariable["magsWereRemoved", true];
+	if (A3E_Param_AmmoScarcity < 100) then
+	{
+		_unit setVariable["unconsciousRemovedMags", [_unit] call A3E_fnc_RemoveMags];
+		_unit setVariable["magsWereRemoved", true];
+	};
 	
 } else {
 	// Return removed magazines

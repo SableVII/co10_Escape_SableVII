@@ -19,10 +19,24 @@ removeContainerMags = {
 						
 			// Checking if nameSound == "magazine" or "mgun" ... im not sure what other way to tell if this magazine is a weapon's magazine.
 			private _nameSound = getText(configFile >> "CfgMagazines" >> _magName >> "nameSound");
-			if (_nameSound == "magazine" || _nameSound == "mgun") then {
-				if (A3E_Param_AmmoScarcity >= random 100) then {
+			if (_nameSound == "magazine" || _nameSound == "mgun") then {			
+				//private _removeMag = false;
+				private _chance = A3E_Param_AmmoScarcity;
+				if (A3E_Param_NormalizeScarcity == 1) then {
+					// Normalized Scarcity
+					private _magSize = getNumber(configFile >> "CfgMagazines" >> _magName >> "count");
+					//private _percentage = 100 - A3E_Param_AmmoScarcity;
+					if (_magSize > 30) then { // Pretty linear for mags greater than 30 capacity
+						_chance = 30 / _magSize * A3E_Param_AmmoScarcity;
+					} else { // Some magic formula to make mags less than 30 capacity, less scarce
+						_chance = A3E_Param_AmmoScarcity + (100 - A3E_Param_AmmoScarcity) * (1 - (_magSize / 30)) ^ 1.65;
+					};
+				}; 
+				
+				if (_chance <= random 100) then
+				{
 					_removedMags pushBack [_magName, _x select 1];	
-				}	 
+				};
 			};
 		} foreach magazinesAmmoCargo _container;
 	};

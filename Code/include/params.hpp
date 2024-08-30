@@ -100,12 +100,21 @@ class Params
 	class A3E_Param_AmmoScarcity
 	{
 		title="Ammo Scarcity";
-		values[]={0,25,50,75,95,99};
-		texts[]={"None", "Little", "Some", "Scarce", "Somewhat Extreme", "Extreme"};
+		values[]={100,75,50,25,10,5,1};
+		texts[]={"None", "Little", "Some", "A Lot", "Scarce", "Somewhat Extreme", "Extreme"};
 		livechanges = 1;
 		tooltip = "The amount of ammo removed from AI bodies and unconcious (if ACE_Medical is installed).";
+		default = 100;
+	};
+	class A3E_Param_NormalizeScarcity
+	{
+		title="Normalize Scarcity";
+		values[]={0,1};
+		texts[]={"No", "Yes"};
+		livechanges = 1;
+		tooltip = "Attempts to decrease the chance of magazine removal depending on the magazine size. Smaller mags than 30 capacity will have decrease chance to be removed.";
 		default = 0;
-	};	
+	};		
 	class A3E_Param_Spacer2
     {
             title = "==================== Environment Settings ====================";
