@@ -931,7 +931,7 @@ a3e_arr_roadblocks_Veh_GUE = a3e_arr_Escape_RoadBlock_MannedVehicleTypes_Ind;
 // boats that are spawned
 //////////////////////////////////////////////////////////////////
 a3e_arr_AquaticPatrols = [
-	"CUP_O_PBX_RU"];
+	"CUP_O_LCVP_VIV_SLA"];
 
 //////////////////////////////////////////////////////////////////
 // fn_AmmoDepot
