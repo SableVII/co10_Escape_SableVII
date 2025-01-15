@@ -50,7 +50,8 @@ if(isServer) then {
 		private _return = 	(
 								((([] call A3E_fnc_GetPlayers) findIf {!(_x getVariable ["AT_Revive_isUnconscious",false]);}) == -1) 
 							OR 	((([] call A3E_fnc_GetPlayers) findIf {!(_x getVariable ["ACE_Revive_isUnconscious",false]);}) == -1)
-							);
+							OR 	(ACE_MedicalServer && (([] call A3E_fnc_GetPlayers) findIf {([_x] call ace_medical_status_fnc_hasStableVitals);}) == -1)							
+							);				
 		_return;
 	
 	};
