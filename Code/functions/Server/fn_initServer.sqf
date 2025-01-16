@@ -677,12 +677,11 @@ call A3E_fnc_InitTraps;
 			
 			// Bind to OnKilled event
 			_unit addEventHandler ["Killed", {params ["_unit"]; [_unit] call A3E_fnc_OnAIKilled;}];
-			
-			// Bind to Killed event for Unconscious Removal
 
         } foreach units _guardGroup;
 
-        [_guardGroup, _marker] spawn A3E_fnc_Patrol;
+		// Ignore setting patrol to avoid AI from wandering into prison and triggering escape prematurely
+        //[_guardGroup, _marker, true] spawn A3E_fnc_Patrol;
 
     } foreach _guardGroups;
 
