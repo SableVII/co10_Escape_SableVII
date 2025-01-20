@@ -8,7 +8,13 @@ if(_chance >= random 100) then {
 	if(!isNull(uniformContainer _unit)) then {_containers pushBack 1;};
 	if(!isNull(vestContainer _unit)) then {_containers pushBack 2;};
 	if(!isNull(backpackContainer _unit)) then {_containers pushBack 3;};
-	private _intAmount = selectRandom [1,1,1,1,2];
+	
+	private _intAmount = 1;			
+	// Do a second roll to see if to add a lucky second intel item. Max second intel chance == 20%
+	if (_chance min 20 >= random 100) then {
+		_intAmount = _intAmount + 1;
+	};
+	
 	for [{ _i = 0 }, { _i < _intAmount }, { _i = _i + 1 }] do {		
 		switch (selectRandom _containers) do {
 			case 1: { _unit addItemToUniform (selectRandom _intelItems); };

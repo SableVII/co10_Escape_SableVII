@@ -19,7 +19,7 @@ if(A3E_Param_RevealMarkers == 0 || A3E_Debug) then {
 			_marker setMarkerType "hd_unknown";
 			_trigger = createTrigger["EmptyDetector", _markerPosition, false];
 			_trigger setTriggerInterval 5;
-			_trigger setTriggerArea[200, 200, 0, false];
+			_trigger setTriggerArea[100, 100, 0, false];
 			_trigger setTriggerActivation[A3E_VAR_Side_Blufor_Str, "PRESENT", false];
 			_activation = format["[%1,true] spawn A3E_fnc_UpdateLocationMarker;",str _marker];
 			_trigger setTriggerStatements["this",_activation ,""];
@@ -30,7 +30,7 @@ if(A3E_Param_RevealMarkers == 0 || A3E_Debug) then {
 			_marker setMarkerAlpha 0;
 			_trigger = createTrigger["EmptyDetector", _markerPosition, false];
 			_trigger setTriggerInterval 5;
-			_trigger setTriggerArea[200, 200, 0, false];
+			_trigger setTriggerArea[100, 100, 0, false];
 			_trigger setTriggerActivation["GROUP", "PRESENT", false];
 			_trigger triggerAttachVehicle [([] call A3E_FNC_getPlayers) select 0];
 			_activation = format["[%1,true] spawn A3E_fnc_UpdateLocationMarker;",str _marker];

@@ -3,11 +3,16 @@ params["_numIntel"];
 private _pois = (missionnamespace getvariable ["A3E_POIs",[]] select {_x # 7 && (_x # 4 || _x # 5)});
 _numIntel = _numIntel min count(_pois);
 
-
-private _markertype = "Unknown";
-
+//private _markertype = "Unknown";
 for [{ _i = 0 }, { _i < _numIntel }, { _i = _i + 1 }] do { 
-	private _poi =  selectRandom _pois;
+	private _poi = selectRandom _pois;
+
+	// If type is a communication center, try another roll. (To make communication centers just a bit less likely to be instantly found by intel)
+	_poi params ["_marker","_markerType","_color","_markerPosition","_hidden","_unknown","_accuracy"];	
+	if (_markerType == "o_hq") then {
+		_poi = selectRandom _pois;
+	};
+	
 	_markerType = [_poi # 0] call A3E_fnc_updateLocationMarker;
 	
 	switch(_markerType) do {
@@ -29,5 +34,5 @@ for [{ _i = 0 }, { _i < _numIntel }, { _i = _i + 1 }] do {
 		default { 
 			format["Intel revealed one point of interest on the map."] remoteexec ["systemchat",0];
 		};
-	}	
+	};
 };
