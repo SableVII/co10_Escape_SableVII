@@ -29,6 +29,10 @@ private _location3 = "Land_TacticalBacon_F" createvehicle (getMarkerPos _markerN
 
 //private _isWater = surfaceIsWater (getMarkerPos _markerName);
 
+hideObject _location;
+hideObject _location2;
+hideObject _location3;
+
 private _code = compile format["[%1,""%2"",_this] call A3E_fnc_firedNearExtraction;",_markerNo,_extractionType];
 
 _location3 addeventhandler["firedNear",_code];
