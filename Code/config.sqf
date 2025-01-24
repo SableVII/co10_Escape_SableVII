@@ -59,3 +59,9 @@ a3e_var_WeaponsWithNonReplaceableMags = createHashMap;   // HashMap [Weapon + Ma
 a3e_var_UnconsciousUnits = [];
 a3e_var_UnconsciousCleanUpTime = 360;
 a3e_var_UnconsciousCheckRate = 30;
+
+//Time since last chopper was spawned
+a3e_var_TimeSinceLastChopper = -10000;
+
+//Just a variable to force a test to run via in-game script~ Just for debugging
+a3e_var_Test = false;

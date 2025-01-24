@@ -34,6 +34,57 @@ _unit addEventHandler ["Killed", {
 		[format["%1 killed a civilian.", name _instigator]] remoteExec ["systemchat"];
 		_instigator addScore -5;
 		_instigator addRating 1000; 
+		
+		if (A3E_Param_PunishCivilianKills == 1) then {
+			private _knownPosition = [(getPos _killer), 50] call A3E_fnc_CreateKnownPosition;
+			missionNamespace setvariable ["A3E_KnownPositions", [_knownPosition]];
+			
+			call A3E_fnc_SearchLeader;
+			
+			private _randomPunishment = floor(random 6);
+			switch (_randomPunishment) do {
+				case 0:
+				{
+					call DRN_fnc_SpawnMotorizedSearchGroupSurprise;				
+				};
+				case 1:
+				{		
+					call DRN_fnc_SpawnDropChopperSurprise;
+				};
+				case 2:
+				{
+					call DRN_fnc_SpawnDropChopperISurprise;
+				};
+				case 3:
+				{
+					call DRN_fnc_SpawnReinforcementTruckSurprise;
+				};
+				case 4:
+				{
+					call DRN_fnc_SpawnCivilianEnemySurprise;
+				};
+				case 5:
+				{
+					private _success = false;
+					if (random 100 < 65) then {
+						_success = [(getPos _knownPosition)] call a3e_fnc_FireArtillery;
+						if (!_success) then {
+							_success = [(getPos _knownPosition)] call a3e_fnc_CallCAS;
+							if (_success) then {
+								SystemChat "CAS CALLED SUCCESSFULLY CUZ OUT OF RANGE";
+							};
+						} else {
+							SystemChat "ARTY CALLED SUCCESSFULLY";
+						};
+					} else {
+						_success = [(getPos _knownPosition)] call a3e_fnc_CallCAS;
+						if (_success) then {
+							SystemChat "CAS CALLED SUCCESSFULLY";
+						};
+					};
+				};
+			};		
+		};
 	};
 }];
 

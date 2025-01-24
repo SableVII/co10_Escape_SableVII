@@ -85,6 +85,10 @@ if(count(_knownPositions)==0) then {
 				if(random 100 < 80) then {
 					diag_log ("Escape Searchleader: Calling for artillery strike!");
 					_strikesuccess = [_strikePos] call a3e_fnc_FireArtillery;
+					
+					if (!_strikesuccess && (floor(random 2)) == 0) then { // Call in CAS if no arty is within range with a 50% chance so knocking out a Mortar Pit can actually feel like it stops arty
+						_strikesuccess = [_strikePos] call a3e_fnc_CallCAS;
+					};
 				} else {
 					diag_log ("Escape Searchleader: Calling for CAS strike!");
 					_strikesuccess = [_strikePos] call a3e_fnc_CallCAS;

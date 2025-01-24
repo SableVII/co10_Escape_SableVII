@@ -296,6 +296,11 @@ class CfgFunctions
 			class InitAquaticPatrolMarkers {};
 			class InitAquaticPatrols {};			
 			class GarrisonUnits {};
+			class SpawnMotorizedSearchGroupSurprise {};			
+			class SpawnDropChopperSurprise {};
+			class SpawnDropChopperISurprise {};
+			class SpawnReinforcementTruckSurprise {};
+			class SpawnCivilianEnemySurprise {};
 		};
 	};
 	class ATR

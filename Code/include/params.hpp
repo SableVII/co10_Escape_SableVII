@@ -114,6 +114,15 @@ class Params
 		livechanges = 1;
 		tooltip = "Attempts to decrease the chance of magazine removal depending on the magazine size. Smaller mags than 30 capacity will have decrease chance to be removed.";
 		default = 0;
+	};
+	class A3E_Param_PunishCivilianKills
+	{
+		title="Punish Civilian Kills";
+		values[]={0,1};
+		texts[]={"Disabled", "Enabled"};
+		livechanges = 1;
+		tooltip = "The players will be punished with a deadly surprise if a player kills a civilian.";
+		default = 0;
 	};		
 	class A3E_Param_Spacer2
     {

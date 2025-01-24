@@ -95,6 +95,15 @@ _extractionGuard = {
 [_boat3] spawn _heloGuard;
 [_boat1,_boat2,(_extraction select 4)] spawn _extractionGuard;
 
+// Tell the enemy where you are at and spawn Enemies for one last battle
+private _knownPosition = [(getMarkerPos _extractionMarkerName), 50] call A3E_fnc_CreateKnownPosition;
+missionNamespace setvariable ["A3E_KnownPositions", [_knownPosition]];
+
+call DRN_fnc_SpawnReinforcementTruckSurprise;
+call DRN_fnc_SpawnDropChopperSurprise;
+call DRN_fnc_SpawnMotorizedSearchGroupSurprise;
+call DRN_fnc_SpawnCivilianEnemySurprise;
+
 sleep 1;
 
 

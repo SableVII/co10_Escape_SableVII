@@ -1,12 +1,14 @@
 if (!isServer) exitWith {};
 
-private ["_chopper", "_dropPosition", "_onGroupDropped", "_debug", "_group", "_waypoint", "_dropUnits"];
+private ["_chopper", "_noOfDropUnits", "_dropPosition", "_side", "_spawnPos", "_onGroupDropped", "_debug", "_group", "_waypoint"];
 
 _chopper = _this select 0;
-_dropUnits = _this select 1;
+_noOfDropUnits = _this select 1;
 _dropPosition = _this select 2;
-if (count _this > 3) then {_onGroupDropped = _this select 3;} else {_onGroupDropped = {};};
-if (count _this > 4) then {_debug = _this select 4;} else {_debug = false;};
+_side = _this select 3;
+_spawnPos = _this select 4;
+if (count _this > 5) then {_onGroupDropped = _this select 5;} else {_onGroupDropped = {};};
+if (count _this > 6) then {_debug = _this select 6;} else {_debug = false;};
 
 _group = group _chopper;
 
@@ -22,14 +24,20 @@ if (vehicleVarName _chopper == "") exitWith {
 _chopper setVariable ["waypointFulfilled", false];
 _chopper setVariable ["missionCompleted", false];
 
-[_chopper, _dropUnits, _dropPosition, _onGroupDropped, _debug] spawn {
-	private ["_chopper", "_dropUnits", "_dropPosition", "_onGroupDropped", "_debug", "_i", "_dropGroup"];
-    
+[_chopper, _noOfDropUnits, _dropPosition, _onGroupDropped, _side, _spawnPos, _debug] spawn {
+	private ["_chopper", "_noOfDropUnits", "_dropPosition", "_onGroupDropped", "_side", "_spawnPos", "_debug", "_i", "_dropGroup", "_dropUnits", "_soldierType"];
+	
     _chopper = _this select 0;
-    _dropUnits = _this select 1;
-    _dropPosition = _this select 2;
+    //_dropUnits = _this select 1;
+    _noOfDropUnits = _this select 1;
+	_dropPosition = _this select 2;
     _onGroupDropped = _this select 3;
-    _debug = _this select 4;
+	_side = _this select 4;
+	_spawnPos = _this select 5;
+    _debug = _this select 6;
+	
+	_dropGroup = createGroup _side;	
+	_dropUnits = [];
     
 	while {!(_chopper getVariable "waypointFulfilled")} do {
 		sleep 1;
@@ -39,13 +47,33 @@ _chopper setVariable ["missionCompleted", false];
 		player sideChat "Drop chopper dropping cargo...";
 	};
 	
+	
+	
+	if (_side == A3E_VAR_Side_Opfor) then {
+		_soldierType = A3E_arr_recon_InfantryTypes select floor (random count A3E_arr_recon_InfantryTypes);
+	} else {
+		_soldierType = a3e_arr_recon_I_InfantryTypes select floor (random count a3e_arr_recon_I_InfantryTypes);
+	};
+	
+	for "_i" from 0 to (_noOfDropUnits) step 1 do {
+		// Create Unit
+		private _dropUnit = _dropGroup createUnit [_soldierType, _spawnPos, [], 0, "FORM"];
+		_dropUnit setRank "CAPTAIN";
 
-
-   for "_i" from 0 to ((count _dropUnits - 1)) step 1 do{
-		_dropUnit = _dropUnits select _i;
+		[_dropUnit] joinSilent _dropGroup;
+		_dropUnit call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
+		_dropUnits pushBack _soldier;
+		
+		// Assign as Cargo to hopefully make them 'Eject' correctly
+		_dropUnit assignAsCargo _chopper;
+		_dropUnit moveInCargo _chopper;
+				
+				
+		//_dropUnit = _dropUnits select _i;
+		//_dropUnit enableAI "ALL"; // Re-enable AI 
 		removeBackpack _dropUnit;
 		unassignVehicle _dropUnit;
-		 _dropUnit action ["eject", _chopper]; 
+		_dropUnit action ["eject", _chopper]; 
 		 
 		_dropUnit setdir ((direction _chopper)-25+(random 50));
 		_dropUnit setPos [(getPos _chopper) select 0,(getPos _chopper) select 1, ((getPos _chopper) select 2) - 5];
@@ -76,9 +104,6 @@ _chopper setVariable ["missionCompleted", false];
 		
 		sleep (selectRandom[0.3,0.3,0.35,0.4]);
 	};
-	
-	
-	
 	
 
     _dropUnits = units (group (_dropUnits select 0));

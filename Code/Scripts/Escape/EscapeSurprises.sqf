@@ -99,19 +99,28 @@ diag_log ("ESCAPE SURPRISE: " + str _surprise);
 
 // Execute surprises
 
+// Note: Everytime a surprise is played, a new surprise is added to the end of the list. The old surprise is left just sitting there never to be needed again... Probally requires re-writting. (Optionally make new surprises happen a tad more frequently over time)
+
 _executedSurprises = 0;
 
 while {true} do {
+	//SystemChat Format["Checking for Escape Surprise: %1", a3e_var_ForceEscapeSurprise];
+
+	private _index = -1;
     {
+		_index = _index + 1;
         _surprise = _x;
         _surpriseID = _x select 0;
         _surpriseTimeSec = _x select 1;
         _condition = _x select 2;
         _isExecuted = _x select 3;
         _surpriseArgs = _x select 4;
-        
-        if (!_isExecuted && time > _surpriseTimeSec) then {
-            
+
+		//SystemChat Format["SurpriseID: %1   Is The Same As Surprise: %2", _surpriseID, _surpriseID == a3e_var_ForceEscapeSurprise];
+		
+        if (!_isExecuted && (time > _surpriseTimeSec || _surpriseID == a3e_var_ForceEscapeSurprise)) then {
+            //SystemChat Format["Spawning Escape Surprise: %1", _surpriseID];
+			
             if (call _condition) then {
                 _surprise set [3, true];
                 _executedSurprises = _executedSurprises + 1;
@@ -121,108 +130,41 @@ while {true} do {
                 };
                 
                 if (_surpriseID == "MOTORIZEDSEARCHGROUP") then {
-                    private ["_enemyMinSkill", "_enemyMaxSkill"];
-                    
-                    _enemyMinSkill = _surpriseArgs select 0;
-                    _enemyMaxSkill = _surpriseArgs select 1;
-                    
-                    _spawnSegment = [] call A3E_fnc_FindSpawnRoad;
-                    if(!isNull _spawnSegment) then {
-                        [getPos _spawnSegment, drn_searchAreaMarkerName, _enemyFrequency, _enemyMinSkill, _enemyMaxSkill, A3E_Debug] execVM "Scripts\Escape\CreateMotorizedSearchGroup.sqf";
-                    } else {
-                        diag_log "ESCAPE SURPRISE: Unable to find spawn road for Motorized Searchgroup";
-                    };
+					call DRN_fnc_SpawnMotorizedSearchGroupSurprise;				
+				
                     _surpriseArgs = [_minEnemySkill, _maxEnemySkill];
                     _timeInSek = 20 * 60 + random (60 * 60);
                     _timeInSek = time + _timeInSek * (4 - _enemyFrequency);
                     _surprise = ["MOTORIZEDSEARCHGROUP", _timeInSek, {[drn_searchAreaMarkerName] call drn_fnc_CL_MarkerExists}, false, _surpriseArgs];
-                    _surprises set [count _surprises, _surprise];
+                    _surprises set [_index, _surprise];
                     diag_log ("ESCAPE SURPRISE: " + str _surprise);
+					
+					//a3e_var_ForceEscapeSurprise = "";
+					
+					//SystemChat "Escape Surprise: MOTORIZEDSEARCHGROUP";						
                 };
                 
                 if (_surpriseID == "DROPCHOPPER") then {
-                    private ["_noOfDropUnits", "_noOfDropUnits"];
-                    private ["_dropUnitTypeArray", "_dropGroup", "_soldierType", "_soldier", "_dropUnits", "_i", "_dropPosition"];
-                    private ["_onGroupDropped","_helitype","_crewtype"];
-                    
-                    _noOfDropUnits = _surpriseArgs select 0;
-                    
-                    _dropGroup = createGroup A3E_VAR_Side_Opfor;
-                    _dropUnits = [];
-                    
-                    for [{_i = 0}, {_i < _noOfDropUnits}, {_i = _i + 1}] do {
-                        _soldierType = A3E_arr_recon_InfantryTypes select floor (random count A3E_arr_recon_InfantryTypes);
-                        _soldier = _dropGroup createUnit [_soldierType, [0,0,30], [], 0, "FORM"];
-                        //_soldier setSkill (_minEnemySkill + random (_maxEnemySkill - _minEnemySkill));
-						//[_soldier, a3e_var_Escape_enemyMinSkill] call EGG_EVO_skill;
-                        _soldier setRank "CAPTAIN";
-						[_soldier] joinSilent _dropGroup;
-                        _soldier call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
-                        _dropUnits pushBack _soldier;
-                    };
-                    
-                    _dropPosition = [drn_searchAreaMarkerName] call drn_fnc_CL_GetRandomMarkerPos;
-                    
-                    _onGroupDropped = {
-                        private ["_group", "_dropPos"];
-                        
-                        _group = _this select 0;
-                        _dropPos = _this select 1;
-                        
-                        //[_group, drn_searchAreaMarkerName, _dropPos, a3e_var_Escape_DebugSearchGroup] execVM "Scripts\DRN\SearchGroup\SearchGroup.sqf";
-                        [_group, drn_searchAreaMarkerName, _dropPos, A3E_Debug] spawn DRN_fnc_SearchGroup;
-                    };
-                    _helitype = a3e_arr_O_transport_heli select floor(random(count(a3e_arr_O_transport_heli)));
-					_crewtype = a3e_arr_O_pilots select floor(random(count(a3e_arr_O_pilots)));
-                    [getMarkerPos "drn_dropChopperStartPosMarker", A3E_VAR_Side_Opfor, _helitype, _crewtype, _dropUnits, _dropPosition, _minEnemySkill, _maxEnemySkill, _onGroupDropped, A3E_Debug] execVM "Scripts\Escape\CreateDropChopper.sqf";
-                    
-                    // Create next drop chopper
-                    _surpriseArgs = [(_enemyFrequency + 2) + floor random (_enemyFrequency * 2)]; // [NoOfDropUnits]
-                    _timeInSek = random (45 * 60);
+					call DRN_fnc_SpawnDropChopperSurprise;
+
+					// Create next drop chopper
+					//_surpriseArgs = [(_enemyFrequency + 2) + floor random (_enemyFrequency * 2)]; // [NoOfDropUnits]
+					_timeInSek = random (45 * 60);
 					//_timeInSek = 15;
-                    _timeInSek = time + (_timeInSek * (0.5 + (4 - _enemyFrequency) / 4));
-                    _condition = {true};
-                    _surprise = ["DROPCHOPPER", _timeInSek, _condition, false, _surpriseArgs];
-                    _surprises set [count _surprises, _surprise];
-                    diag_log ("ESCAPE SURPRISE: " + str _surprise);
+					_timeInSek = time + (_timeInSek * (0.5 + (4 - _enemyFrequency) / 4));
+					_condition = {true};
+					_surprise = ["DROPCHOPPER", _timeInSek, _condition, false, _surpriseArgs];
+					_surprises set [_index, _surprise];
+					diag_log ("ESCAPE SURPRISE: " + str _surprise);					
+					
+					//a3e_var_ForceEscapeSurprise = "";
+					
+					//SystemChat "Escape Surprise: DROPCHOPPER";				
                 };
                 
 				if (_surpriseID == "DROPCHOPPER_I") then {
-                    private ["_noOfDropUnits", "_noOfDropUnits"];
-                    private ["_dropUnitTypeArray", "_dropGroup", "_soldierType", "_soldier", "_dropUnits", "_i", "_dropPosition"];
-                    private ["_onGroupDropped","_helitype","_crewtype"];
-                    
-                    _noOfDropUnits = _surpriseArgs select 0;
-                    
-                    _dropGroup = createGroup A3E_VAR_Side_Ind;
-                    _dropUnits = [];
-                    
-                    for [{_i = 0}, {_i < _noOfDropUnits}, {_i = _i + 1}] do {
-                        _soldierType = a3e_arr_recon_I_InfantryTypes select floor (random count a3e_arr_recon_I_InfantryTypes);
-                        _soldier = _dropGroup createUnit [_soldierType, [0,0,30], [], 0, "FORM"];
-                        //_soldier setSkill (_minEnemySkill + random (_maxEnemySkill - _minEnemySkill));
-						//[_soldier, a3e_var_Escape_enemyMinSkill] call EGG_EVO_skill;
-                        _soldier setRank "CAPTAIN";
-                        _soldier call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
-						[_soldier] joinSilent _dropGroup;
-                        _dropUnits pushBack _soldier;
-                    };
-                    
-                    _dropPosition = [drn_searchAreaMarkerName] call drn_fnc_CL_GetRandomMarkerPos;
-                    
-                    _onGroupDropped = {
-                        private ["_group", "_dropPos"];
-                        
-                        _group = _this select 0;
-                        _dropPos = _this select 1;
-                        
-                        //[_group, drn_searchAreaMarkerName, _dropPos, a3e_var_Escape_DebugSearchGroup] execVM "Scripts\DRN\SearchGroup\SearchGroup.sqf";
-                        [_group, drn_searchAreaMarkerName, _dropPos, A3E_Debug] spawn DRN_fnc_SearchGroup;
-                    };
-                    _helitype = a3e_arr_I_transport_heli select floor(random(count(a3e_arr_I_transport_heli)));
-					_crewtype = a3e_arr_I_pilots select floor(random(count(a3e_arr_I_pilots)));
-                    [getMarkerPos "drn_dropChopperStartPosMarker", A3E_VAR_Side_Ind, _helitype, _crewtype, _dropUnits, _dropPosition, _minEnemySkill, _maxEnemySkill, _onGroupDropped, A3E_Debug] execVM "Scripts\Escape\CreateDropChopper.sqf";
-                    
+					call DRN_fnc_SpawnDropChopperISurprise;
+
                     // Create next drop chopper
                     _surpriseArgs = [(_enemyFrequency + 2) + floor random (_enemyFrequency * 2)]; // [NoOfDropUnits]
                     _timeInSek = random (45 * 60);
@@ -230,8 +172,12 @@ while {true} do {
                     _timeInSek = time + (_timeInSek * (0.5 + (4 - _enemyFrequency) / 4));
                     _condition = {true};
                     _surprise = ["DROPCHOPPER_I", _timeInSek, _condition, false, _surpriseArgs];
-                    _surprises set [count _surprises, _surprise];
-                    diag_log ("ESCAPE SURPRISE: " + str _surprise);
+                    _surprises set [_index, _surprise];
+					diag_log ("ESCAPE SURPRISE: " + str _surprise);					
+					
+					//a3e_var_ForceEscapeSurprise = "";
+					
+					//SystemChat "Escape Surprise: DROPCHOPPER_I";							
                 };
 				
                 if (_surpriseID == "RUSSIANSEARCHCHOPPER") then {
@@ -270,8 +216,12 @@ while {true} do {
                     _timeInSek = 30 * 60 + random (45 * 60);
                     _timeInSek = time + (_timeInSek * (0.5 + (4 - _enemyFrequency) / 4));
                     _surprise = ["RUSSIANSEARCHCHOPPER", _timeInSek, {[drn_searchAreaMarkerName] call drn_fnc_CL_MarkerExists}, false, _surpriseArgs];
-                    _surprises set [count _surprises, _surprise];
+                    _surprises set [_index, _surprise];
                     diag_log ("ESCAPE SURPRISE: " + str _surprise);
+					
+					//a3e_var_ForceEscapeSurprise = "";
+					
+					SystemChat "Escape Surprise: RUSSIANSEARCHCHOPPER";						
                 };
 				
 				
@@ -294,8 +244,12 @@ while {true} do {
                     _timeInSek = 30 * 60 + random (45 * 60);
                     _timeInSek = time + (_timeInSek * (0.5 + (4 - _enemyFrequency) / 4));
                     _surprise = ["SEARCHDRONE", _timeInSek, {[drn_searchAreaMarkerName] call drn_fnc_CL_MarkerExists}, false, _surpriseArgs];
-                    _surprises set [count _surprises, _surprise];
+                    _surprises set [_index, _surprise];
                     diag_log ("ESCAPE SURPRISE: " + str _surprise);
+					
+					//a3e_var_ForceEscapeSurprise = "";
+					
+					SystemChat "Escape Surprise: SEARCHDRONE";								
                 };
 				
 				if (_surpriseID == "LEAFLETDRONE") then {
@@ -320,53 +274,49 @@ while {true} do {
                     _timeInSek = 30 * 60 + random (45 * 60);
                     _timeInSek = time + (_timeInSek * (0.5 + (4 - _enemyFrequency) / 4));
                     _surprise = ["LEAFLETDRONE", _timeInSek, {[drn_searchAreaMarkerName] call drn_fnc_CL_MarkerExists}, false, _surpriseArgs];
-                    _surprises set [count _surprises, _surprise];
+                    _surprises set [_index, _surprise];
                     diag_log ("ESCAPE SURPRISE: " + str _surprise);
+					
+					//a3e_var_ForceEscapeSurprise = "";
+					
+					SystemChat "Escape Surprise: LEAFLETDRONE";						
                 };
                 
                 if (_surpriseID == "REINFORCEMENTTRUCK") then {
-                    private ["_enemyMinSkill", "_enemyMaxSkill", "_playerPos"];
-                    
-                    _enemyMinSkill = _surpriseArgs select 0;
-                    _enemyMaxSkill = _surpriseArgs select 1;
-
-                    _spawnSegment = [] call A3E_fnc_FindSpawnRoad;
-
-                    if(!isNull _spawnSegment) then {
-                        [getPos _spawnSegment, _enemyMinSkill, _enemyMaxSkill,_enemyFrequency,  A3E_Debug] execVM "Scripts\Escape\CreateReinforcementTruck.sqf";
-                    } else {
-                        diag_log ("ESCAPE SURPRISE: Unable to find road segment for Reinforcement truck");
-                    };
+					call DRN_fnc_SpawnReinforcementTruckSurprise;                    
+					
                     _surpriseArgs = [_minEnemySkill, _maxEnemySkill];
                     _timeInSek = random (45 * 60);
                     _timeInSek = time + (_timeInSek * (0.5 + (4 - _enemyFrequency) / 4));
                     _surprise = ["REINFORCEMENTTRUCK", _timeInSek, {[drn_searchAreaMarkerName] call drn_fnc_CL_MarkerExists}, false, _surpriseArgs];
-                    _surprises set [count _surprises, _surprise];
+                    _surprises set [_index, _surprise];
                     diag_log ("ESCAPE SURPRISE: " + str _surprise);
+					
+					//a3e_var_ForceEscapeSurprise = "";
+					
+					SystemChat "Escape Surprise: REINFORCEMENTTRUCK";					
                 };
                 
                 if (_surpriseID == "CIVILIANENEMY") then {
-                    
-                    _spawnSegment = [] call A3E_fnc_FindSpawnRoad;
-                    if(!isNull _spawnSegment) then {
-                         [call A3E_fnc_GetPlayerGroup, getPos _spawnSegment, A3E_VAR_Side_Opfor, a3e_arr_Escape_EnemyCivilianCarTypes, A3E_arr_recon_InfantryTypes, _enemyFrequency] execVM "Scripts\Escape\CreateCivilEnemy.sqf";
-                    } else {
-                        diag_log ("ESCAPE SURPRISE: Unable to find road segment for Civil Enemy");
-                    };
-
+					call DRN_fnc_SpawnCivilianEnemySurprise;
                     
                     _surpriseArgs = [_minEnemySkill, _maxEnemySkill];
                     _timeInSek = 15 * 60 + random (45 * 60);
                     _timeInSek = time + (_timeInSek * (0.5 + (4 - _enemyFrequency) / 4));
                     _surprise = ["CIVILIANENEMY", _timeInSek, {[drn_searchAreaMarkerName] call drn_fnc_CL_MarkerExists}, false, _surpriseArgs];
-                    _surprises set [count _surprises, _surprise];
+                    _surprises set [_index, _surprise];
                     diag_log ("ESCAPE SURPRISE: " + str _surprise);
+					
+					//a3e_var_ForceEscapeSurprise = "";
+					
+					SystemChat "Escape Surprise: CIVILIANENEMY";
                 };
             };
         };
+		
     } foreach _surprises;
     
-    sleep 60;
+    sleep 5;
 };
 
 

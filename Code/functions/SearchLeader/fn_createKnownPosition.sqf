@@ -25,3 +25,5 @@ if(count(_list)==0) then {
 	_knownPosition setvariable["A3E_NumOfReports",_numRep+1,true];
 	_firstsight = _knownPosition getvariable ["A3E_FirstSight",diag_tickTime];
 };
+
+_knownPosition;
