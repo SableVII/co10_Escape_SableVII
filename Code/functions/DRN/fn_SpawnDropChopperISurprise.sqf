@@ -35,4 +35,5 @@ if (_allowSpawn) then {
 	private _crewtype = a3e_arr_I_pilots select floor(random(count(a3e_arr_I_pilots)));
 	[_spawnLoc, A3E_VAR_Side_Ind, _helitype, _crewtype, (A3E_Param_EnemyFrequency + 2) + floor random (A3E_Param_EnemyFrequency * 2), _dropPosition, a3e_var_Escape_enemyMinSkill, a3e_var_Escape_enemyMaxSkill, _onGroupDropped, A3E_Debug] execVM "Scripts\Escape\CreateDropChopper.sqf";
 };
+
 //SystemChat "Escape Surprise: DROPCHOPPER I";

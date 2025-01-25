@@ -104,8 +104,6 @@ diag_log ("ESCAPE SURPRISE: " + str _surprise);
 _executedSurprises = 0;
 
 while {true} do {
-	//SystemChat Format["Checking for Escape Surprise: %1", a3e_var_ForceEscapeSurprise];
-
 	private _index = -1;
     {
 		_index = _index + 1;
@@ -116,9 +114,7 @@ while {true} do {
         _isExecuted = _x select 3;
         _surpriseArgs = _x select 4;
 
-		//SystemChat Format["SurpriseID: %1   Is The Same As Surprise: %2", _surpriseID, _surpriseID == a3e_var_ForceEscapeSurprise];
-		
-        if (!_isExecuted && (time > _surpriseTimeSec || _surpriseID == a3e_var_ForceEscapeSurprise)) then {
+        if (!_isExecuted && (time > _surpriseTimeSec)) then {
             //SystemChat Format["Spawning Escape Surprise: %1", _surpriseID];
 			
             if (call _condition) then {
@@ -139,8 +135,6 @@ while {true} do {
                     _surprises set [_index, _surprise];
                     diag_log ("ESCAPE SURPRISE: " + str _surprise);
 					
-					//a3e_var_ForceEscapeSurprise = "";
-					
 					//SystemChat "Escape Surprise: MOTORIZEDSEARCHGROUP";						
                 };
                 
@@ -157,8 +151,6 @@ while {true} do {
 					_surprises set [_index, _surprise];
 					diag_log ("ESCAPE SURPRISE: " + str _surprise);					
 					
-					//a3e_var_ForceEscapeSurprise = "";
-					
 					//SystemChat "Escape Surprise: DROPCHOPPER";				
                 };
                 
@@ -174,8 +166,6 @@ while {true} do {
                     _surprise = ["DROPCHOPPER_I", _timeInSek, _condition, false, _surpriseArgs];
                     _surprises set [_index, _surprise];
 					diag_log ("ESCAPE SURPRISE: " + str _surprise);					
-					
-					//a3e_var_ForceEscapeSurprise = "";
 					
 					//SystemChat "Escape Surprise: DROPCHOPPER_I";							
                 };
@@ -219,9 +209,7 @@ while {true} do {
                     _surprises set [_index, _surprise];
                     diag_log ("ESCAPE SURPRISE: " + str _surprise);
 					
-					//a3e_var_ForceEscapeSurprise = "";
-					
-					SystemChat "Escape Surprise: RUSSIANSEARCHCHOPPER";						
+					//SystemChat "Escape Surprise: RUSSIANSEARCHCHOPPER";						
                 };
 				
 				
@@ -247,9 +235,7 @@ while {true} do {
                     _surprises set [_index, _surprise];
                     diag_log ("ESCAPE SURPRISE: " + str _surprise);
 					
-					//a3e_var_ForceEscapeSurprise = "";
-					
-					SystemChat "Escape Surprise: SEARCHDRONE";								
+					//SystemChat "Escape Surprise: SEARCHDRONE";								
                 };
 				
 				if (_surpriseID == "LEAFLETDRONE") then {
@@ -277,9 +263,7 @@ while {true} do {
                     _surprises set [_index, _surprise];
                     diag_log ("ESCAPE SURPRISE: " + str _surprise);
 					
-					//a3e_var_ForceEscapeSurprise = "";
-					
-					SystemChat "Escape Surprise: LEAFLETDRONE";						
+					//SystemChat "Escape Surprise: LEAFLETDRONE";						
                 };
                 
                 if (_surpriseID == "REINFORCEMENTTRUCK") then {
@@ -292,9 +276,7 @@ while {true} do {
                     _surprises set [_index, _surprise];
                     diag_log ("ESCAPE SURPRISE: " + str _surprise);
 					
-					//a3e_var_ForceEscapeSurprise = "";
-					
-					SystemChat "Escape Surprise: REINFORCEMENTTRUCK";					
+					//SystemChat "Escape Surprise: REINFORCEMENTTRUCK";					
                 };
                 
                 if (_surpriseID == "CIVILIANENEMY") then {
@@ -307,9 +289,7 @@ while {true} do {
                     _surprises set [_index, _surprise];
                     diag_log ("ESCAPE SURPRISE: " + str _surprise);
 					
-					//a3e_var_ForceEscapeSurprise = "";
-					
-					SystemChat "Escape Surprise: CIVILIANENEMY";
+					//SystemChat "Escape Surprise: CIVILIANENEMY";
                 };
             };
         };
