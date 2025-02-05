@@ -27,7 +27,7 @@ A3E_VAR_Side_Ind_Str = format["%1",A3E_VAR_Side_Ind];
 A3E_Var_AllowVanillaNightVision = false;
 
 A3E_MapItemsUsedInMission = ["ItemMap"]; //MapItems that should be removed from guards and are allowed to be carried randomly by patrols
-A3E_ItemsToBeRemoved = ["gm_ge_army_conat2","gm_ferod51_oli","gm_ferod51_des","gm_ferod51_win","gm_gc_compass_f73","gm_nsg66_oli","gm_df7x40_blk","gm_fero51_oli"]; //Items to randomly remove from units and to remove from guards
+A3E_ItemsToBeRemoved = ["gm_ge_army_conat2","gm_ferod16_oli","gm_ferod16_des","gm_ferod16_win","gm_gc_compass_f73","gm_nsg66_oli","gm_df7x40_blk","gm_fero51_oli"]; //Items to randomly remove from units and to remove from guards
 
 //////////////////////////////////////////////////////////////////
 // fn_createStartPos.sqf

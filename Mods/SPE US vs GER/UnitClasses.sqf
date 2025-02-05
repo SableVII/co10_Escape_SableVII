@@ -24,7 +24,7 @@ A3E_VAR_Side_Blufor_Str = format["%1",A3E_VAR_Side_Blufor];
 A3E_VAR_Side_Opfor_Str = format["%1",A3E_VAR_Side_Opfor];
 A3E_VAR_Side_Ind_Str = format["%1",A3E_VAR_Side_Ind];
 
-A3E_ItemsToBeRemoved = ["SPE_GER_ItemCompass_deg","SPE_GER_ItemCompass","SPE_Binocular_GER"]; //Items to randomly remove from units and to remove from guards
+A3E_ItemsToBeRemoved = ["SPE_GER_ItemCompass_deg","SPE_GER_ItemCompass","SPE_Binocular_GER","SPE_Binocular_US","SPE_US_ItemCompass"]; //Items to randomly remove from units and to remove from guards
 
 //Disable NVGs parameter for the whole SPE version.
 missionNamespace setvariable["A3E_Param_NoNightvision",1];

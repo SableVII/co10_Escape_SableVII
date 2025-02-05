@@ -1284,4 +1284,4 @@ A3E_Trap_Pathes = ["TRACK", "TRAIL"]; //Classnames of roads and pathes for the t
 A3E_Var_AllowVanillaNightVision = false;
 
 A3E_MapItemsUsedInMission = ["vn_b_item_map","vn_o_item_map"]; //MapItems that should be removed from guards and are allowed to be carried randomly by patrols
-A3E_ItemsToBeRemoved = ["vn_b_item_watch","vn_b_item_compass_sog","vn_b_item_compass"]; //Items to randomly remove from units and to remove from guards
+A3E_ItemsToBeRemoved = ["vn_b_item_watch","vn_b_item_compass_sog","vn_b_item_compass", "vm_m19_bincos_grn", "vm_m19_bincos_grey", "vm_mk12_bincos"]; //Items to randomly remove from units and to remove from guards
