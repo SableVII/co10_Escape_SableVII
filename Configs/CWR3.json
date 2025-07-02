@@ -610,6 +610,20 @@
 			"name" : "co10_Escape_CWR3_SOV_vs_US"
 		},
 		{
+			"island" : "Lybor Winter",
+			"sqm": "Lybor",
+			"mod" : "CWR3-US",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_SOV_vs_US"
+		},
+		{
+			"island" : "Fjord",
+			"sqm": "Fjord",
+			"mod" : "CWR3-US",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_SOV_vs_US"
+		},
+		{
 			"island" : "Altis",
 			"sqm": "Altis",
 			"mod" : "CWR3-USMC",
@@ -1135,6 +1149,13 @@
 			"name" : "co10_Escape_CWR3_SOV_vs_USMC"
 		},
 		{
+			"island" : "Fjord",
+			"sqm": "Fjord",
+			"mod" : "CWR3-USMC",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_SOV_vs_USMC"
+		},
+		{
 			"island" : "Altis",
 			"sqm": "Altis",
 			"mod" : "CWR3-SOV",
@@ -1618,6 +1639,20 @@
 			"name" : "co10_Escape_CWR3_US_vs_SOV"
 		},
 		{
+			"island" : "Lybor Winter",
+			"sqm": "Lybor",
+			"mod" : "CWR3-SOV",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_US_vs_SOV"
+		},
+		{
+			"island" : "Fjord",
+			"sqm": "Fjord",
+			"mod" : "CWR3-SOV",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_US_vs_SOV"
+		},
+		{
 			"island" : "Kapaulio",
 			"sqm": "Kapaulio",
 			"mod" : "CWR3-SOV",
@@ -1639,6 +1674,27 @@
 			"name" : "co10_Escape_CWR3_SOV_vs_USMC"
 		},
 		{
+			"island" : "Yulakia",
+			"sqm": "Yulakia",
+			"mod" : "CWR3-SOV",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_US_vs_SOV"
+		},
+		{
+			"island" : "Yulakia",
+			"sqm": "Yulakia",
+			"mod" : "CWR3-US",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_SOV_vs_US"
+		},
+		{
+			"island" : "Yulakia",
+			"sqm": "Yulakia",
+			"mod" : "CWR3-USMC",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_SOV_vs_USMC"
+		},
+		{
 			"island" : "IslaPera",
 			"sqm": "IslaPera",
 			"mod" : "CWR3-SOV",
@@ -1655,6 +1711,69 @@
 		{
 			"island" : "IslaPera",
 			"sqm": "IslaPera",
+			"mod" : "CWR3-USMC",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_SOV_vs_USMC"
+		},
+		{
+			"island" : "Laghisola",
+			"sqm": "Laghisola",
+			"mod" : "CWR3-SOV",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_US_vs_SOV"
+		},
+		{
+			"island" : "Laghisola",
+			"sqm": "Laghisola",
+			"mod" : "CWR3-US",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_SOV_vs_US"
+		},
+		{
+			"island" : "Laghisola",
+			"sqm": "Laghisola",
+			"mod" : "CWR3-USMC",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_SOV_vs_USMC"
+		},
+		{
+			"island" : "Mehland",
+			"sqm": "Mehland",
+			"mod" : "CWR3-USMC",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_SOV_vs_USMC"
+		},
+		{
+			"island" : "Mehland",
+			"sqm": "Mehland",
+			"mod" : "CWR3-US",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_SOV_vs_US"
+		},
+		{
+			"island" : "Mehland",
+			"sqm": "Mehland",
+			"mod" : "CWR3-SOV",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_US_vs_SOV"
+		},
+		{
+			"island" : "Stubbhult",
+			"sqm": "Stubbhult",
+			"mod" : "CWR3-SOV",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_US_vs_SOV"
+		},
+		{
+			"island" : "Stubbhult",
+			"sqm": "Stubbhult",
+			"mod" : "CWR3-US",
+			"replace" : {},
+			"name" : "co10_Escape_CWR3_SOV_vs_US"
+		},
+		{
+			"island" : "Stubbhult",
+			"sqm": "Stubbhult",
 			"mod" : "CWR3-USMC",
 			"replace" : {},
 			"name" : "co10_Escape_CWR3_SOV_vs_USMC"
