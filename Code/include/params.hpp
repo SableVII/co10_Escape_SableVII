@@ -380,6 +380,15 @@ class Params
             texts[] = {""};
             default = 0;
 	};
+	class A3E_Param_NoAutomaticMissionEnd
+	{
+		title="No Automatic Mission End";
+		values[]={0,1};
+		texts[]={"Off","On"};
+		livechanges = 1;		
+		default = 0;
+		tooltip = "The mission will no longer automatically end. Useful if you want to spectate around to do some sort of after action report.";		
+	};	
 	class A3E_Param_Debug
 	{
 		title="Debug (you should keep this off)";
