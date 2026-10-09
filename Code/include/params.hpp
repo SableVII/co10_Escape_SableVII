@@ -109,8 +109,8 @@ class Params
 	class A3E_Param_NormalizeScarcity
 	{
 		title="Normalize Scarcity";
-		values[]={0,1};
-		texts[]={"No", "Yes"};
+		values[]={0,1,2,4,6};
+		texts[]={"Disabled", "Strong", "Basic", "Weak", "Very Weak"};
 		livechanges = 1;
 		tooltip = "Attempts to decrease the chance of magazine removal depending on the magazine size. Smaller mags than 30 capacity will have decrease chance to be removed.";
 		default = 0;
