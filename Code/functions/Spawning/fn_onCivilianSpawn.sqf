@@ -70,17 +70,9 @@ _unit addEventHandler ["Killed", {
 						_success = [(getPos _knownPosition)] call a3e_fnc_FireArtillery;
 						if (!_success) then {
 							_success = [(getPos _knownPosition)] call a3e_fnc_CallCAS;
-							if (_success) then {
-								SystemChat "CAS CALLED SUCCESSFULLY CUZ OUT OF RANGE";
-							};
-						} else {
-							SystemChat "ARTY CALLED SUCCESSFULLY";
 						};
 					} else {
 						_success = [(getPos _knownPosition)] call a3e_fnc_CallCAS;
-						if (_success) then {
-							SystemChat "CAS CALLED SUCCESSFULLY";
-						};
 					};
 				};
 			};		

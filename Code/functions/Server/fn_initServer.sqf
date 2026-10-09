@@ -64,9 +64,6 @@ publicVariable "ACE_MedicalServer";
 			
 			if (_unit isEqualTo objNull) then {
 				//[_unit] call A3E_fnc_RemoveUnconsciousUnit;
-				if (name player == "Sable7") then {
-					systemChat Format["--Rare Case-- Removing Non-Existing Unconcsious"];
-				};
 				_indexesToRemove pushBack _i;
 				continue;
 			};
@@ -78,10 +75,7 @@ publicVariable "ACE_MedicalServer";
 				
 				// Just to doubly insure that the unit is removed from lists in cases where unit is deleted before they are killed.
 				if (_currentTime - _timeUnconcious >= a3e_var_UnconsciousCleanUpTime + 60) then {
-					[_unit] call A3E_fnc_RemoveUnconsciousUnit;
-					if (name player == "Sable7") then {
-						systemChat Format["--Rare Case-- Super Timed Out %1", name _unit];		
-					};		
+					[_unit] call A3E_fnc_RemoveUnconsciousUnit;		
 				};
 			};			
 		};
@@ -104,32 +98,6 @@ publicVariable "ACE_MedicalServer";
 
 //Load Statistics
 [] spawn A3E_fnc_LoadStatistics;
-
-// TEST DELETE ME
-[] spawn {
-	while {true} do {	
-		if (a3e_var_Test == true) then {
-			SystemChat "Should be spawning Drop Chopper";
-			
-			private _p = ([] call  A3E_FNC_GetPlayers) select 0;
-			
-			private _knownPosition = [(getPos _p), 50] call A3E_fnc_CreateKnownPosition;
-			missionNamespace setvariable ["A3E_KnownPositions", [_knownPosition]];
-			
-			//SystemChat "-Calling Search Leader-";
-			call A3E_fnc_SearchLeader;
-			
-			if (random 2 < 1) then {
-				call DRN_fnc_SpawnDropChopperSurprise;
-			} else {
-				call DRN_fnc_SpawnDropChopperISurprise;
-			};
-
-			a3e_var_Test = false;
-		};
-		sleep 1;
-	};
-};
 
 
 // Add crashsite here
