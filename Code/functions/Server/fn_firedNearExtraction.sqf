@@ -9,7 +9,7 @@ _handler params ["_unit","_firer","_distance","_weapon","_muzzle","_mode","_ammo
 //_unit setvariable ["A3E_ExtractionOnStandby",false];
 
 private _parents = ([(configFile >> "CfgAmmo" >> _ammo),true] call BIS_fnc_returnParents);
-private _allowed = ["SmokeShell","Chemlight_base","FlareBase","SmokeLauncherAmmo"];
+private _allowed = ["SmokeShell","FlareBase","SmokeLauncherAmmo"];
 if(count(_allowed arrayIntersect _parents) > 0 ) then {
 	switch (_extractionType) do {
 		case "air": {

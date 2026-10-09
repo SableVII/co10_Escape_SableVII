@@ -8,8 +8,9 @@ _spawnMarkerName = "A3E_HeliExtractionSpawnPos" + str _extractionPointNo;
 _extractionMarkerName = "A3E_HeliExtractionPos" + str _extractionPointNo;
 _extractionMarkerName2 = "A3E_HeliExtractionPos" + str _extractionPointNo + "_1";
 
-private _spawnVector = (getMarkerPos _spawnMarkerName) vectorDiff (getMarkerPos _extractionMarkerName);
-private _dir = (getMarkerPos _spawnMarkerName) getDir (getMarkerPos _extractionMarkerName);
+private _spawnMarkerPos = getMarkerPos _spawnMarkerName;
+private _spawnVector = (_spawnMarkerPos) vectorDiff (getMarkerPos _extractionMarkerName);
+private _dir = (_spawnMarkerPos) getDir (getMarkerPos _extractionMarkerName);
 private _pos = ((getMarkerPos _extractionMarkerName) vectorAdd _spawnVector) vectorAdd [0,0,40];
 private _result = [_pos,_dir, selectRandom a3e_arr_extraction_chopper, A3E_VAR_Side_Blufor] call BIS_fnc_spawnVehicle;
 private _boat1 = _result select 0;
@@ -122,6 +123,15 @@ _extractionGuard = {
 [_boat3] spawn _heloGuard;
 [_boat1,_boat2,(_extraction select 4)] spawn _extractionGuard;
 
+// Tell the enemy where you are at and spawn Enemies for one last battle
+private _knownPosition = [(getMarkerPos _extractionMarkerName), 50] call A3E_fnc_CreateKnownPosition;
+missionNamespace setvariable ["A3E_KnownPositions", [_knownPosition]];
+
+call DRN_fnc_SpawnReinforcementTruckSurprise;
+call DRN_fnc_SpawnDropChopperSurprise;
+call DRN_fnc_SpawnMotorizedSearchGroupSurprise;
+call DRN_fnc_SpawnCivilianEnemySurprise;
+
 sleep 1;
 
 
@@ -129,8 +139,17 @@ sleep 1;
 (driver _boat1) action ["LightOff", _boat1];
 (driver _boat2) action ["LightOff", _boat2];
 
-
+private _boat1Dead = false;
+private _boat2Dead = false;
 while {{(_x in  _boat1) || (_x in _boat2)} count (call A3E_fnc_GetPlayers) != count(call A3E_fnc_GetPlayers)} do {
+	if (!(alive _boat1)) then {
+		_boat1Dead = true;
+	};
+	
+	if (!(alive _boat2)) then {
+		_boat2Dead = true;
+	};	
+	
 	sleep 1;
 };
 _boat1 setvariable ["State","Evac"];
@@ -150,9 +169,71 @@ if(alive (driver _boat1)) then {
 sleep 10;
 
 ["Task complete: Rendesvouz with allied forces."] call drn_fnc_CL_ShowTitleTextAllClients;
+
+// Check to see if evac helicopters fly far enough away to be safe-enough to succed in the mission.
+private _negSpawnDir = (vectorNormalized _spawnVector) vectorMultiply -1;
+private _boat1FarEnough = false;
+private _boat2FarEnough = false;
+while { true; } do {
+	//SystemChat "Checking Evac";
+
+	// Check for Both Helicopters are destroyed
+	if (!(alive _boat1)) then {
+		_boat1Dead = true;
+		if (_boat2FarEnough) then {
+			break;
+		};
+	};
+	
+	if (!(alive _boat2)) then {
+		_boat2Dead = true;
+		if (_boat1FarEnough) then {
+			break;
+		};
+	};
+	
+	// Both boats are destroyed, fail the mission
+	if (_boat1Dead && _boat2Dead) then {		
+		break;
+	};
+	
+	// Boat 1 Checking
+	if (!_boat1FarEnough && !_boat1Dead) then {
+		private _boat1Vector = (getPos _boat1) vectorDiff (_spawnMarkerPos);
+		_boat1Vector = vectorNormalized _boat1Vector;
+
+		if (_negSpawnDir vectorDotProduct _boat1Vector < 0) then {
+			_boat1FarEnough = true;
+		};			
+	};
+	
+	// Boat 2 Checking
+	if (!_boat2FarEnough && !_boat2Dead) then {
+		private _boat2Vector = (getPos _boat2) vectorDiff (_spawnMarkerPos);
+		_boat2Vector = vectorNormalized _boat2Vector;
+
+		if (_negSpawnDir vectorDotProduct _boat2Vector < 0) then {
+			_boat2FarEnough = true;
+		};			
+	};
+	
+	// One of the boats made it past its starting position
+	if (_boat1FarEnough || _boat2FarEnough) then {
+		break;
+	};
+
+	sleep 5;
+};
+
+sleep 1;
+
+if (_boat1Dead && _boat2Dead) exitWith {
+	a3e_var_Escape_MissionFailed_LeftBehind = true;
+	publicVariable "a3e_var_Escape_MissionFailed_LeftBehind";
+};
+
 A3E_Task_Exfil_Complete = true;
 publicvariable "A3E_Task_Exfil_Complete";
-sleep 35;
 
 if({vehicle _x == _boat1 || vehicle _x == _boat2} count (call A3E_fnc_GetPlayers) == count (call A3E_fnc_GetPlayers)) then {
 	a3e_var_Escape_MissionComplete = true;
@@ -161,4 +242,3 @@ if({vehicle _x == _boat1 || vehicle _x == _boat2} count (call A3E_fnc_GetPlayers
 	a3e_var_Escape_MissionFailed_LeftBehind = true;
 	publicVariable "a3e_var_Escape_MissionFailed_LeftBehind";
 };
-

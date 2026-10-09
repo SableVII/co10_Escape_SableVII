@@ -8,8 +8,9 @@ _spawnMarkerName = "A3E_ExtractionSpawnPos" + str _extractionPointNo;
 _extractionMarkerName = "A3E_ExtractionPos" + str _extractionPointNo;
 _extractionMarkerName2 = "A3E_ExtractionPos" + str _extractionPointNo + "_1";
 
-private _spawnVector = (getMarkerPos _spawnMarkerName) vectorDiff (getMarkerPos _extractionMarkerName);
-private _dir = (getMarkerPos _spawnMarkerName) getDir (getMarkerPos _extractionMarkerName);
+private _spawnMarkerPos = getMarkerPos _spawnMarkerName;
+private _spawnVector = (_spawnMarkerPos) vectorDiff (getMarkerPos _extractionMarkerName);
+private _dir = (_spawnMarkerPos) getDir (getMarkerPos _extractionMarkerName);
 private _pos = ((getMarkerPos _extractionMarkerName) vectorAdd _spawnVector) vectorAdd [0,0,40];
 private _result = [_pos,_dir, selectRandom a3e_arr_extraction_chopper, A3E_VAR_Side_Blufor] call BIS_fnc_spawnVehicle;
 private _boat1 = _result select 0;
@@ -143,12 +144,10 @@ private _boat2Dead = false;
 while {{(_x in  _boat1) || (_x in _boat2)} count (call A3E_fnc_GetPlayers) != count(call A3E_fnc_GetPlayers)} do {
 	if (!(alive _boat1)) then {
 		_boat1Dead = true;
-		SystemChat "Boat 1 is Destroyed Before Player Evac!";
 	};
 	
 	if (!(alive _boat2)) then {
 		_boat2Dead = true;
-		SystemChat "Boat 2 is Destroyed Before Player Evac!";
 	};	
 	
 	sleep 1;
@@ -170,9 +169,6 @@ if(alive (driver _boat1)) then {
 sleep 10;
 
 ["Task complete: Rendesvouz with allied forces."] call drn_fnc_CL_ShowTitleTextAllClients;
-A3E_Task_Exfil_Complete = true;
-publicvariable "A3E_Task_Exfil_Complete";
-
 
 // Check to see if evac helicopters fly far enough away to be safe-enough to succed in the mission.
 private _negSpawnDir = (vectorNormalized _spawnVector) vectorMultiply -1;
@@ -184,71 +180,45 @@ while { true; } do {
 	// Check for Both Helicopters are destroyed
 	if (!(alive _boat1)) then {
 		_boat1Dead = true;
-		//SystemChat "Boat 1 is Destroyed!";
-		
 		if (_boat2FarEnough) then {
-			//SystemChat "Boat 1 is destoryed, but Boat 2 made it far enough: Mission Ending";
 			break;
 		};
 	};
 	
 	if (!(alive _boat2)) then {
 		_boat2Dead = true;
-		//SystemChat "Boat 2 is Destroyed!";
-		
 		if (_boat1FarEnough) then {
-			//SystemChat "Boat 2 is destoryed, but Boat 1 made it far enough: Mission Ending";
 			break;
 		};
 	};
 	
 	// Both boats are destroyed, fail the mission
-	if (_boat1Dead && _boat2Dead) then {
-		//SystemChat "Both Boats are Destroyed: Mission Failed";		
+	if (_boat1Dead && _boat2Dead) then {		
 		break;
 	};
 	
 	// Boat 1 Checking
 	if (!_boat1FarEnough && !_boat1Dead) then {
-		private _boat1Vector = (getPos _boat1) vectorDiff (getMarkerPos _spawnMarkerName);
+		private _boat1Vector = (getPos _boat1) vectorDiff (_spawnMarkerPos);
 		_boat1Vector = vectorNormalized _boat1Vector;
-		private _boat1Dot = _negSpawnDir vectorDotProduct _boat1Vector;
 
-		//SystemChat Format["Boat 1 Dot: %1", _boat1Dot];
-
-		if (_boat1Dot < 0) then {
+		if (_negSpawnDir vectorDotProduct _boat1Vector < 0) then {
 			_boat1FarEnough = true;
-			/*SystemChat "Boat 1 is far enough";
-			
-			if (_boat2Dead) then {
-				SystemChat "Boat 1 Made it while Boat 2 was destroyed";
-				break;
-			};*/
 		};			
 	};
 	
 	// Boat 2 Checking
 	if (!_boat2FarEnough && !_boat2Dead) then {
-		private _boat2Vector = (getPos _boat2) vectorDiff (getMarkerPos _spawnMarkerName);
+		private _boat2Vector = (getPos _boat2) vectorDiff (_spawnMarkerPos);
 		_boat2Vector = vectorNormalized _boat2Vector;
-		private _boat2Dot = _negSpawnDir vectorDotProduct _boat2Vector;
 
-		//SystemChat Format["Boat 2 Dot: %1", _boat2Dot];
-
-		if (_boat2Dot < 0) then {
+		if (_negSpawnDir vectorDotProduct _boat2Vector < 0) then {
 			_boat2FarEnough = true;
-			/*SystemChat "Boat 2 is far enough";
-			
-			if (_boat1Dead) then {
-				SystemChat "Boat 2 Made it while Boat 1 was destroyed";
-				break;
-			};*/
 		};			
 	};
 	
 	// One of the boats made it past its starting position
 	if (_boat1FarEnough || _boat2FarEnough) then {
-		//SystemChat "Both Boats Made it out successfully";
 		break;
 	};
 
@@ -257,6 +227,14 @@ while { true; } do {
 
 sleep 1;
 
+if (_boat1Dead && _boat2Dead) exitWith {
+	a3e_var_Escape_MissionFailed_LeftBehind = true;
+	publicVariable "a3e_var_Escape_MissionFailed_LeftBehind";
+};
+
+A3E_Task_Exfil_Complete = true;
+publicvariable "A3E_Task_Exfil_Complete";
+
 if({vehicle _x == _boat1 || vehicle _x == _boat2} count (call A3E_fnc_GetPlayers) == count (call A3E_fnc_GetPlayers)) then {
 	a3e_var_Escape_MissionComplete = true;
 	publicVariable "a3e_var_Escape_MissionComplete";
@@ -264,4 +242,3 @@ if({vehicle _x == _boat1 || vehicle _x == _boat2} count (call A3E_fnc_GetPlayers
 	a3e_var_Escape_MissionFailed_LeftBehind = true;
 	publicVariable "a3e_var_Escape_MissionFailed_LeftBehind";
 };
-
