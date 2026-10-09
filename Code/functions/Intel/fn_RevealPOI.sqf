@@ -31,8 +31,14 @@ for [{ _i = 0 }, { _i < _numIntel }, { _i = _i + 1 }] do {
 		case "o_mortar": { 
 			format["Intel revealed the location of a mortar site."] remoteexec ["systemchat",0];
 		};
-		default { 
-			format["Intel revealed one point of interest on the map."] remoteexec ["systemchat",0];
+		default {
+			_markerType = [_poi # 0, true] call A3E_fnc_updateLocationMarker; // Force reveal crashsites and roadblocks as they start hidden
+			if ("CrashSite" in _marker) then
+			{
+				format["Intel revealed the location of an allied crash site."] remoteexec ["systemchat",0];
+			} else {
+				format["Intel revealed the location of a roadblock."] remoteexec ["systemchat",0];
+			};
 		};
 	};
 };
