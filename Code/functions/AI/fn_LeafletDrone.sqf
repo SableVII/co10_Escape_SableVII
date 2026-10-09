@@ -146,7 +146,9 @@ while {!_exitScript} do {
 			};
 		};
 		default {
-			player sideChat "ERROR IN fn_leafletDrone.sqf: Case " + _state + " not taken care of (1st switch)!";
+			if (A3E_Debug) then {		
+				player sideChat "ERROR IN fn_leafletDrone.sqf: Case " + _state + " not taken care of (1st switch)!";
+			};
 		};
 	};
 
@@ -172,7 +174,9 @@ while {!_exitScript} do {
 					_state = "LANDING";
 				};
 				default {
-					player sideChat "ERROR IN fnLeafletDrone.sqf: Case " + _state + " not taken care of (2nd switch)!";
+					if (A3E_Debug) then {					
+						player sideChat "ERROR IN fnLeafletDrone.sqf: Case " + _state + " not taken care of (2nd switch)!";
+					};
 				};
 			};
 		};
