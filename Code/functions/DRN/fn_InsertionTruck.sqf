@@ -159,7 +159,6 @@ _truck setVariable ["missionCompleted", false];
     while {{vehicle _x != _x} count _cargoUnits > 0} do {
         {
             if ((vehicle _x != _x) && (!alive _x)) then {
-                player sideChat "Deleting dead unit";
                 _x setPos getPos _truck;
             };
         } foreach _cargoUnits;
