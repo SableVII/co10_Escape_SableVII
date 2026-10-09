@@ -55,19 +55,35 @@ _chopper setVariable ["missionCompleted", false];
 		_soldierType = a3e_arr_recon_I_InfantryTypes select floor (random count a3e_arr_recon_I_InfantryTypes);
 	};
 	
-	for "_i" from 0 to (_noOfDropUnits) step 1 do {
+	private _flareDropUnit = round random (_noOfDropUnits - 1);
+	
+	for "_i" from 0 to (_noOfDropUnits - 1) step 1 do {
 		// Create Unit
 		private _dropUnit = _dropGroup createUnit [_soldierType, _spawnPos, [], 0, "FORM"];
 		_dropUnit setRank "CAPTAIN";
 
 		[_dropUnit] joinSilent _dropGroup;
 		_dropUnit call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
-		_dropUnits pushBack _soldier;
+		_dropUnits pushBack _dropUnit;
 		
 		// Assign as Cargo to hopefully make them 'Eject' correctly
 		_dropUnit assignAsCargo _chopper;
 		_dropUnit moveInCargo _chopper;
 				
+		// Determine if its night	
+		private _sunriseSunsetTime = date call BIS_fnc_sunriseSunsetTime;
+		private _sunrise = _sunriseSunsetTime select 0;
+		private _sunset = _sunriseSunsetTime select 1;
+		private _isNight = _sunrise == -1; // Checking for polar winter (always night)
+		if (_isNight == false and _sunset != -1) then // not polar summer (always day)
+		{
+			if (_sunset < _sunrise) then
+			{
+				_isNight = dayTime > _sunset and dayTime < _sunrise;
+			} else {
+				_isNight = dayTime > _sunset or dayTime < _sunrise;		
+			};
+		};
 				
 		//_dropUnit = _dropUnits select _i;
 		//_dropUnit enableAI "ALL"; // Re-enable AI 
@@ -81,7 +97,10 @@ _chopper setVariable ["missionCompleted", false];
 		// _dropUnit action ["eject", _chopper]; 
         // waitUntil {vehicle _dropUnit != _chopper};
 		
-		[_dropUnit,_chopper,85+(random 10),false,true,false] spawn {
+		private _dropFlares = _isNight and (_i == _flareDropUnit); // Drop only at night
+		private _dropSmokes = (_isNight == false) and (_i == 0 or _i == (_noOfDropUnits - 1)); // Drop only at day
+		private _dropChemlights = _isNight; // Drop chemlights at night for units who isnt dropping a flare
+		[_dropUnit,_chopper,85+(random 10),false,_dropSmokes,_dropFlares,_dropChemlights] spawn {
 			params ["_unit","_chopper","_openHeight","_para","_smokes","_flares","_chems"];
 			private ["_smoke","_flare","_chem"];
 			
@@ -92,6 +111,27 @@ _chopper setVariable ["missionCompleted", false];
 			};
 			
 			_unit addBackPackGlobal "B_parachute";
+			
+			// Drop flare
+			if (_flares) then {
+				waitUntil{((getPos _unit)select 2)<35};
+				_flare = createVehicle ["F_40mm_" + selectRandom["red", "yellow", "green", "white"],  (getPos _unit), [], 0, "NONE"];
+				_flare setVelocity [wind select 0, wind select 1, 15]; // Nudge flare to simulate phsyics
+			};
+			
+			// Drop smokes
+			if (_smokes) then {
+				waitUntil{((getPos _unit)select 2)<10};
+				_smoke = createVehicle ["SmokeShell", (getPos _unit), [], 0, "NONE"];
+			};
+			
+			// Drop chemlights
+			if (_chems) then {
+				waitUntil{((getPos _unit)select 2)<5};
+				
+				_chem = createVehicle ["Chemlight_" + selectRandom["red", "yellow", "green", "blue"], (getPos _unit), [], 0, "NONE"];
+			};
+			
 			/*private _vel = velocity _unit;
 			_para = createVehicle ["Steerable_Parachute_F", [0,0,0], [], direction _unit, 'CAN_COLLIDE'];
 			_para disableCollisionWith _unit;
@@ -102,7 +142,8 @@ _chopper setVariable ["missionCompleted", false];
 
 		};
 		
-		sleep (selectRandom[0.3,0.3,0.35,0.4]);
+		// Delay till next spawning next unit
+		sleep (0.3 + random 0.3);
 	};
 	
 
