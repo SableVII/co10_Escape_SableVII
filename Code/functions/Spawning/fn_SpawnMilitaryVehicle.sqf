@@ -35,6 +35,16 @@ private _group = _result select 2;
 	[_x] joinSilent _group;  // Ensure the spawned Unit knows what side they're on
 } foreach units _group;
 
+// Randomize Weapons
+if (A3E_Param_RandomizeWeapons > 0) then {
+	[_vehicle] call A3E_FNC_RandomizeContainerWeapons;
+};
+
+// Replace Mags with Tracers
+if (A3E_Param_TracerReplacer > 0) then {
+	[_vehicle, A3E_Param_TracerReplacer == 2, _side] call A3E_FNC_SwapForTracerMagsInContainer;
+};	
+
 ["Creating group.",["Spawning","MilitaryTraffic"]] call a3e_fnc_log;
 
 _group

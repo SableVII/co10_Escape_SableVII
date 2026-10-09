@@ -42,6 +42,16 @@ _fnc_OnDroppingGroup = {
     [_this, "drn_searchAreaMarker", [0, 0, 0]] spawn drn_fnc_SearchGroup;
 };
 
+// Randomize Weapons
+if (A3E_Param_RandomizeWeapons > 0) then {
+	[_vehicle] call A3E_FNC_RandomizeContainerWeapons;
+};
+
+// Replace Mags with Tracers
+if (A3E_Param_TracerReplacer > 0) then {
+	[_vehicle, A3E_Param_TracerReplacer == 2, _side] call A3E_FNC_SwapForTracerMagsInContainer;
+};	
+
 [_referenceGroup, _vehicle, _group, _fnc_OnDroppingGroup, _debug] execVM "Scripts\Escape\CivilEnemy.sqf";
 
 

@@ -24,17 +24,44 @@ private _pos = ((getMarkerPos _extractionMarkerName) vectorAdd _spawnVector) vec
 private _result = [_pos,_dir, selectRandom a3e_arr_extraction_boat, A3E_VAR_Side_Blufor] call BIS_fnc_spawnVehicle;
 private _boat1 = _result select 0;
 private _group1 = _result select 2;
+// Randomize Weapons
+if (A3E_Param_RandomizeWeapons > 0) then {
+	[_boat1] call A3E_FNC_RandomizeContainerWeapons;
+};
+
+// Replace mags with Tracers
+if (A3E_Param_TracerReplacer > 0) then {
+	[_boat1, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Blufor] call A3E_FNC_SwapForTracerMagsInContainer;
+};
 
 
 _pos = ((getMarkerPos _extractionMarkerName2) vectorAdd (_spawnVector vectorMultiply 1.2)) vectorAdd [0,0,0];
 _result = [_pos,_dir, selectRandom a3e_arr_extraction_boat, A3E_VAR_Side_Blufor] call BIS_fnc_spawnVehicle;
 private _boat2 = _result select 0;
 private _group2 = _result select 2;
+// Randomize Weapons
+if (A3E_Param_RandomizeWeapons > 0) then {
+	[_boat2] call A3E_FNC_RandomizeContainerWeapons;
+};
+
+// Replace mags with Tracers
+if (A3E_Param_TracerReplacer > 0) then {
+	[_boat2, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Blufor] call A3E_FNC_SwapForTracerMagsInContainer;
+};
 
 _pos = ((getMarkerPos _extractionMarkerName) vectorAdd (_spawnVector vectorMultiply 0.8)) vectorAdd [0,0,0];
 _result = [_pos,_dir, selectRandom a3e_arr_extraction_boat_escort, A3E_VAR_Side_Blufor] call BIS_fnc_spawnVehicle;
 private _boat3 = _result select 0;
 private _group3 = _result select 2;
+// Randomize Weapons
+if (A3E_Param_RandomizeWeapons > 0) then {
+	[_boat3] call A3E_FNC_RandomizeContainerWeapons;
+};
+
+// Replace mags with Tracers
+if (A3E_Param_TracerReplacer > 0) then {
+	[_boat3, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Blufor] call A3E_FNC_SwapForTracerMagsInContainer;
+};
 
 _boat1 setvariable ["State","Init"];
 _boat2 setvariable ["State","Init"];

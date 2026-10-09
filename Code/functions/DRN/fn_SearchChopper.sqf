@@ -24,6 +24,16 @@ _homePos = getPos _chopper;
 private _updateSearchAreaTime = 0;
 ["Starting search chopper script..."] call A3E_fnc_DebugMsg;
 
+// Randomize Weapons
+if (A3E_Param_RandomizeWeapons > 0) then {
+	[_chopper] call A3E_FNC_RandomizeContainerWeapons;
+};
+
+// Replace mags with Tracers
+if (A3E_Param_TracerReplacer > 0) then {
+	[_chopper, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+};
+
 
 if (vehicleVarName _chopper == "") exitWith {
 	["Search chopper must have a name. Script exiting."] call A3E_fnc_DebugMsg;

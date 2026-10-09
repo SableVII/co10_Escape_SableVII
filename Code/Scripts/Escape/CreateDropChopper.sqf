@@ -72,6 +72,18 @@ _chopper setUnloadInCombat [false, false];
 	[_x] joinSilent _group // Ensure the spawned Unit knows what side they're on
 } foreach units _group;
 
+// Randomize Weapons
+if (A3E_Param_RandomizeWeapons > 0) then {
+	[_chopper] call A3E_FNC_RandomizeContainerWeapons;
+};
+
+// Replace Mags with Tracers
+if (A3E_Param_TracerReplacer > 0) then {
+	[_chopper, A3E_Param_TracerReplacer == 2, _side] call A3E_FNC_SwapForTracerMagsInContainer;
+};	
+
+
+
 [_chopper, _noOfDropUnits, _dropPosition, _side, _spawnPos, _onGroupDropped, _debug] execVM "Scripts\Escape\DropChopper.sqf";
 
 

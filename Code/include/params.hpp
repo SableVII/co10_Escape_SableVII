@@ -190,6 +190,14 @@ class Params
             texts[] = {""};
             default = 0;
 	};
+	class A3E_Param_RandomizeWeapons
+	{
+		title="Randomize Weapons";
+		values[]={0,1,2};
+		texts[]={"Disabled","Mission Specific","Completely Random"};
+		default = 0;
+		tooltip = "Swaps out each primary weapon with a random other weapon including attachments. Select Mission Specific to only randomize between weapons pre-defined for the mission type.";
+	}		
 	class A3E_Param_TracerReplacer
 	{
 		title="Tracer Replacer";
@@ -284,8 +292,8 @@ class Params
 	class A3E_Param_NoNightvision
 	{
 		title="NVG-Goggles and TWS Scopes";
-		values[]={0,1};
-		texts[]={"All", "No Goggles and TWS"};
+		values[]={0,1,2};
+		texts[]={"All", "No Goggles and TWS","Only At Ammo Depots"};
 		livechanges = 1;
 		default = 0;
 	};

@@ -35,6 +35,16 @@ for [{_i=0},{_i<=_groups},{_i=_i+1}] do {
 		 _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
 	} foreach _crew;
 	_script = [_group, _markerName] spawn A3E_fnc_AquaticPatrol;
+	
+	// Randomize Weapons
+	if (A3E_Param_RandomizeWeapons > 0) then {
+		[_boat] call A3E_FNC_RandomizeContainerWeapons;
+	};
+	
+	// Replace mags with Tracers
+	if (A3E_Param_TracerReplacer > 0) then {
+		[_boat, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+	};	
 
 	_group setvariable["A3E_GroupPatrolScript",_script];
 	sleep 1;

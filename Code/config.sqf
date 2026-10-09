@@ -65,3 +65,10 @@ a3e_var_TimeSinceLastChopper = -10000;
 
 //Just a variable to force a test to run via in-game script~ Just for debugging
 a3e_var_Test = false;
+
+//Weapon Randomization
+a3e_var_WeaponToWeaponMap = createHashMap; //{originalWeapon, [newWeapon, [mag, magCount, randomExtraMag], [muzzle, [muzzleMag, magCount, randomExtraMag], [flareMags]] or "none", [possible optics], [possible muzzle attachments], [possible bipod attachments], [possible rail attachments]}
+a3e_var_RandomWeaponPool = [];
+a3e_var_RandomSecondaryWeaponPool = [];
+a3e_var_RandomHandgunWeaponPool = [];
+a3e_var_MuzzleToCompatMagsMap = createHashMap;

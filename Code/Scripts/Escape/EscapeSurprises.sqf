@@ -197,6 +197,16 @@ while {true} do {
                         _x setUnitRank "LIEUTENANT";
                         _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
                     } foreach units _group;
+					
+					// Randomize Weapons
+					if (A3E_Param_RandomizeWeapons > 0) then {
+						[_chopper] call A3E_FNC_RandomizeContainerWeapons;
+					};
+
+					// Replace Mags with Tracers
+					if (A3E_Param_TracerReplacer > 0) then {
+						[_chopper, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+					};	
                     
                     //[_chopper, drn_searchAreaMarkerName, (5 + random 15), (5 + random 15), a3e_var_Escape_debugSearchChopper] execVM "Scripts\DRN\SearchChopper\SearchChopper.sqf";
                     [_chopper, drn_searchAreaMarkerName, (5 + random 15), (5 + random 15), A3E_Debug] spawn DRN_fnc_SearchChopper;

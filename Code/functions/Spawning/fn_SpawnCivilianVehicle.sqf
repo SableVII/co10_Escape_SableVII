@@ -44,6 +44,16 @@ if (random 100 < 20) then {
 	
 	_vehicle addWeaponCargoGlobal [_weaponItem select 0, 1];
 	_vehicle addMagazineCargoGlobal [_weaponItem select 1, _weaponItem select 2];
+	
+	// Randomize Weapons
+	if (A3E_Param_RandomizeWeapons > 0) then {
+		[_vehicle] call A3E_FNC_RandomizeContainerWeapons;
+	};
+	
+	// Replace Mags with Tracers
+	if (A3E_Param_TracerReplacer > 0) then {
+		[_vehicle] call A3E_FNC_SwapForTracerMagsInContainer;
+	};		
 };	
 if (random 100 < 80) then {
    _vehicle addItemCargoglobal ["firstaidkit", 3];	

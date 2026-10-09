@@ -88,8 +88,26 @@ if (count _parkedVehicleClasses > 0) then {
     // Cars
     _vehicle = selectRandom _parkedVehicleClasses;
 	_obj = [_vehicle,_center,[-3.01941,-13.6514,0.0263076],_rotation,269.938] call _fnc_createObject;
+	// Randomize Weapons
+	if (A3E_Param_RandomizeWeapons > 0) then {
+		[_obj] call A3E_FNC_RandomizeContainerWeapons;
+	};
+	
+	// Replace Mags with Tracers
+	if (A3E_Param_TracerReplacer > 0) then {
+		[_obj, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+	};		
     
     
     _vehicle = selectRandom _parkedVehicleClasses;
 	_obj = [_vehicle,_center,[-9.7395,-3.92725,0.0251126],_rotation,178.996] call _fnc_createObject;
+	// Randomize Weapons
+	if (A3E_Param_RandomizeWeapons > 0) then {
+		[_obj] call A3E_FNC_RandomizeContainerWeapons;
+	};
+	
+	// Replace Mags with Tracers
+	if (A3E_Param_TracerReplacer > 0) then {
+		[_obj, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+	};		
 };

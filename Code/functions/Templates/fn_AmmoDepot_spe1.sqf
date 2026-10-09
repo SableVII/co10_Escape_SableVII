@@ -52,7 +52,17 @@ private _fnc_createObject = {
 
 		_obj = [_car,_center,[-11.4243,-1.82373,0.0185852],_rotation,180] call _fnc_createObject;
 
-		[_obj,A3E_VAR_Side_Opfor] spawn A3E_fnc_AddStaticGunner; 
+		[_obj,A3E_VAR_Side_Opfor] spawn A3E_fnc_AddStaticGunner;
+		
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_obj] call A3E_FNC_RandomizeContainerWeapons;
+		};
+		
+		// Replace mags with Tracers
+		if (A3E_Param_TracerReplacer > 0) then {
+			[_obj, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+		};
     };
 //_obj = ["B_T_Truck_01_fuel_F",_center,[-11.4243,-1.82373,0.0185852],_rotation,180] call _fnc_createObject;
 
@@ -136,6 +146,16 @@ _obj = ["SPE_Banner_01_FFF_F",_center,[8.26221,1.92822,1.90718],_rotation,90] ca
         {
             _box addMagazineCargoGlobal _x;
         } foreach _weaponMagazines;
+		
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_box] call A3E_FNC_RandomizeContainerWeapons;
+		};
+		
+		// Replace mags with Tracers
+		if (A3E_Param_TracerReplacer > 0) then {
+			[_box, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+		};
     };
 
     // Special Weapon Box
@@ -180,14 +200,44 @@ _obj = ["SPE_Banner_01_FFF_F",_center,[8.26221,1.92822,1.90718],_rotation,90] ca
         {
             _box addMagazineCargoGlobal _x;
         } foreach _weaponMagazines;
+		
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_box] call A3E_FNC_RandomizeContainerWeapons;
+		};
+		
+		// Replace mags with Tracers
+		if (A3E_Param_TracerReplacer > 0) then {
+			[_box, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+		};
     };
 
 	//additional boxes (only spawned if activated in mission parameters)
 	if((A3E_Param_Waffelbox)==1) then {
 		_box = [a3e_additional_weapon_box_1,_center,[3.61914,3.03125,0.131509],_rotation,89.9911] call _fnc_createObject;
-        _box call A3E_fnc_initArsenal;		  
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_box] call A3E_FNC_RandomizeContainerWeapons;
+		};
+		
+		// Replace mags with Tracers
+		if (A3E_Param_TracerReplacer > 0) then {
+			[_box, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+		};
+		_box call A3E_fnc_initArsenal;
+		
+		
 		_box = [a3e_additional_weapon_box_2,_center,[6.41284,3.28174,0.131508],_rotation,0.00162917] call _fnc_createObject;
-        _box call A3E_fnc_initArsenal;				  
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_box] call A3E_FNC_RandomizeContainerWeapons;
+		};
+		
+		// Replace mags with Tracers
+		if (A3E_Param_TracerReplacer > 0) then {
+			[_box, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+		};
+		_box call A3E_fnc_initArsenal;	
 	 };
 
     // Ordnance
@@ -232,6 +282,16 @@ _obj = ["SPE_Banner_01_FFF_F",_center,[8.26221,1.92822,1.90718],_rotation,90] ca
         {
             _box addMagazineCargoGlobal _x;
         } foreach _weaponMagazines;
+		
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_box] call A3E_FNC_RandomizeContainerWeapons;
+		};
+		
+		// Replace mags with Tracers
+		if (A3E_Param_TracerReplacer > 0) then {
+			[_box, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+		};
     };
 
 
@@ -302,13 +362,30 @@ _obj = ["SPE_Banner_01_FFF_F",_center,[8.26221,1.92822,1.90718],_rotation,90] ca
             _box addItemCargoGlobal _x;
         } foreach _items;
 		
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_box] call A3E_FNC_RandomizeContainerWeapons;
+		};
+		
+		// Replace mags with Tracers
+		if (A3E_Param_TracerReplacer > 0) then {
+			[_box, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+		};
+		
+		// Add Maps
 		_box addItemCargoGlobal ["ItemMap", 2]; // Guarantee a map is in the ammo depot		
 		
 		// Add Intel
 		if(A3E_Param_UseIntel==1 && A3E_Param_AddIntelToDepots==1) then {
-			private _intelItems = missionnamespace getvariable ["A3E_IntelItems",["Files","FileTopSecret","FilesSecret","FlashDisk","DocumentsSecret","Wallet_ID","FileNetworkStructure","MobilePhone","SmartPhone"]];
+			private _intelItems = missionnamespace getvariable ["A3E_IntelItems",["Files","FileTopSecret","FilesSecret","DocumentsSecret","Wallet_ID","FileNetworkStructure"]];
 
 			_box addItemCargoGlobal [selectRandom _intelItems, selectRandom [1,1,1,1,2]];
+		};
+		
+		// Add NVGs
+		if (A3E_Param_NoNightvision == 0 or A3E_Param_NoNightvision == 2) then
+		{
+			_box addItemCargoGlobal ["NVGoggles_OPFOR", count([] call A3E_fnc_GetPlayers)];
 		};		
     };
 
@@ -341,6 +418,16 @@ _obj = ["SPE_Banner_01_FFF_F",_center,[8.26221,1.92822,1.90718],_rotation,90] ca
         {
             _box addItemCargoGlobal _x;
         } foreach _weapons;
+		
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_box] call A3E_FNC_RandomizeContainerWeapons;
+		};
+		
+		// Replace mags with Tracers
+		if (A3E_Param_TracerReplacer > 0) then {
+			[_box, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+		};
     };
 
     // Launchers
@@ -383,6 +470,16 @@ _obj = ["SPE_Banner_01_FFF_F",_center,[8.26221,1.92822,1.90718],_rotation,90] ca
         {
             _box addMagazineCargoGlobal _x;
         } foreach _weaponMagazines;
+		
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_box] call A3E_FNC_RandomizeContainerWeapons;
+		};
+		
+		// Replace mags with Tracers
+		if (A3E_Param_TracerReplacer > 0) then {
+			[_box, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+		};
     };
 
 /*

@@ -569,6 +569,16 @@ call A3E_fnc_InitTraps;
 			};
 			_backpack addItemCargoGlobal["FirstAidKit", _firstAidCount];
 		};
+		
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_backpack] call A3E_FNC_RandomizeContainerWeapons;
+		};
+
+		// Replacing mags with tracer mags
+		if (A3E_Param_TracerReplacer == 1) then {
+			[_backpack, (A3E_Param_TracerReplacer == 2)] call A3E_FNC_SwapForTracerMagsInContainer;
+		};		
 	};
 
     // Spawn guard
@@ -630,7 +640,11 @@ call A3E_fnc_InitTraps;
             _unit unlinkItem "ItemCompass";
 			_unit removeItems "ItemCompass";
             _unit unlinkItem "ItemGPS";
-			_unit removeItems "ItemGPS";			
+			_unit removeItems "ItemGPS";
+			_unit unlinkItem "Rangefinder";
+			_unit removeItems "Rangefinder";			
+			_unit unlinkItem "Binocular";
+			_unit removeItems "Binocular";			
 
 			[_unit] joinSilent _guardGroup; // Ensure the spawned Guard knows what side they're on
 
@@ -648,10 +662,6 @@ call A3E_fnc_InitTraps;
 
 			if (ACE_MedicalServer) then {_unit addItem "ACE_epinephrine"};//Add Epinephrine for each unit
 			removeBackpackGlobal _unit;
-
-			if(random 100 < 99) then {
-				removeAllPrimaryWeaponItems _unit;
-			};
 
 			private _hmd = hmd _unit;
 			if (_hmd isEqualTo "") then {
@@ -671,6 +681,48 @@ call A3E_fnc_InitTraps;
 				_unit unlinkItem _hmd;
 				_unit removeItem _hmd;
 			};
+
+
+			// NVGoggles
+			private _nvgs = hmd _unit; 
+			if (_nvgs isEqualTo "") then {
+				// Find some unequiped NVGs on the unit if any
+				private _cfgWeapons = configFile >> "CfgWeapons";
+				{
+					if (616 == getNumber (_cfgWeapons >> _x >> "ItemInfo" >> "type")) exitWith {
+						_nvgs = _x;
+					};
+				} forEach items _unit;
+			};
+
+			if (A3E_Param_NoNightvision>0) then
+			{
+				// Remove night vision
+				if (random 100 > 1) then
+				{
+					_unit unlinkItem _nvgs;
+					_unit removeItem _nvgs;	
+				};
+			} else {
+				if(_nvgs != "") then {
+					// If NVGs were found, have a chance to remove them
+					if (random 100 < 40) then
+					{
+						_unit unlinkItem _nvgs;
+						_unit removeItem _nvgs;	
+					};
+				} else {
+					// If NVGs were not found, have a chance to add vanilla night vision if supported by mission type
+					if (random 100 < 40) then
+					{
+						if (missionnamespace getvariable ["A3E_Var_AllowVanillaNightVision", true]) then
+						{
+							_unit linkItem "NVGoggles_OPFOR";
+						};
+					};
+				};
+			};
+			
 			
 			//Track kills
 			_unit addEventHandler ["Killed", {
@@ -686,8 +738,6 @@ call A3E_fnc_InitTraps;
 
 			//This should remove all types of handgrenades (for example RHS)
             _unit removeMagazines "Handgrenade";
-
-            _unit setVehicleAmmo 0.3 + random 0.7;
 			
 			// Ensure there is a FAK added to the Guard's inventory (sometimes the addItem function doesn't work) :\
 			_items = uniformItems _unit + vestItems _unit;
@@ -695,10 +745,26 @@ call A3E_fnc_InitTraps;
 				_unit addItem "FirstAidKit";
 			};
 			
+			if(random 100 < 99) then {
+				removeAllPrimaryWeaponItems _unit;
+			};					
+			
+			// Randomize Weapon
+			if (A3E_Param_RandomizeWeapons != 0) then {
+				[_unit, random 100 < 1, true, random 100 < 7, random 100 < 0.5] call A3E_FNC_RandomizeUnitWeapons;
+			};	
+			
 			// Replacing mags with tracer mags
 			if (A3E_Param_TracerReplacer == 1) then {
-				[_unit, (A3E_Param_TracerReplacer == 2)] call A3E_FNC_SwapForTracerRounds;
+				[_unit, (A3E_Param_TracerReplacer == 2)] call A3E_FNC_SwapUnitMagsForTracers;
 			};
+			
+			if(random 100 < 70) then
+			{
+				_unit addPrimaryWeaponItem "acc_flashlight";
+			};
+			
+            _unit setVehicleAmmo 0.3 + random 0.7;			
 			
 			// Bind to OnKilled event
 			_unit addEventHandler ["Killed", {params ["_unit"]; [_unit] call A3E_fnc_OnAIKilled;}];

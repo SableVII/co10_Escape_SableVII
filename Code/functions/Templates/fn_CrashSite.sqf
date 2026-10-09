@@ -100,13 +100,35 @@ _boxpos = _position findEmptyPosition [3,15,_boxType];
 		_box addItemCargoGlobal _x;
 	} foreach _items;
 	
+	// Randomize Weapons
+	if (A3E_Param_RandomizeWeapons > 0) then {
+		[_box] call A3E_FNC_RandomizeContainerWeapons;
+	};
+	
+	// Replace Mags with Tracers
+	if (A3E_Param_TracerReplacer > 0) then {
+		[_box, A3E_Param_TracerReplacer == 2] call A3E_FNC_SwapForTracerMagsInContainer;
+	};	
 
 	
 	_grp = createGroup A3E_VAR_Side_Blufor;
-	_deadcrew = _grp createUnit [_typeOfUnit select(floor(random(count(_typeOfUnit)))), getpos _box, [], 15, "FORM"] ;   
+	_deadcrew = _grp createUnit [_typeOfUnit select(floor(random(count(_typeOfUnit)))), getpos _box, [], 15, "FORM"] ;
+	if (A3E_Param_RandomizeWeapons > 0) then {
+		[_deadcrew, random 100 < 45, true, random 100 < 50, random 100 < 7.5] call A3E_FNC_RandomizeUnitWeapons;
+	};
+	if (A3E_Param_TracerReplacer == 1) then {
+		[_deadcrew,  (A3E_Param_TracerReplacer == 2), A3E_VAR_Side_Blufor] call A3E_FNC_SwapUnitMagsForTracers;
+	};	
 	_deadcrew setdammage 1;
 	removeFromRemainsCollector [_deadcrew];
-	_deadcrew = _grp createUnit [_typeOfUnit select(floor(random(count(_typeOfUnit)))), getpos _box, [], 15, "FORM"] ;   
+	
+	_deadcrew = _grp createUnit [_typeOfUnit select(floor(random(count(_typeOfUnit)))), getpos _box, [], 15, "FORM"] ;
+	if (A3E_Param_RandomizeWeapons > 0) then {
+		[_deadcrew, random 100 < 45, true, random 100 < 50, random 100 < 7.5] call A3E_FNC_RandomizeUnitWeapons;
+	};
+	if (A3E_Param_TracerReplacer == 1) then {
+		[_deadcrew,  (A3E_Param_TracerReplacer == 2), A3E_VAR_Side_Blufor] call A3E_FNC_SwapUnitMagsForTracers;
+	};
 	_deadcrew setdammage 1;
 	removeFromRemainsCollector [_deadcrew];
 	

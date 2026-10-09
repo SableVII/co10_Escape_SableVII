@@ -81,6 +81,16 @@ if(count(_possibleVehicles) > 0) then {
 			[_x] joinSilent _group; // Ensure the spawned Unit knows what side they're on
 		} foreach _crew;
 		
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_vehicle] call A3E_FNC_RandomizeContainerWeapons;
+		};
+
+		// Replace mags with Tracers
+		if (A3E_Param_TracerReplacer > 0) then {
+			[_vehicle, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+		};			
+		
 	} foreach _vehicles;
 };
 

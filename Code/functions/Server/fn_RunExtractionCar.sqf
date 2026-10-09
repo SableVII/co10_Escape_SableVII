@@ -14,17 +14,44 @@ private _pos = ((getMarkerPos _extractionMarkerName) vectorAdd _spawnVector) vec
 private _result = [_pos,_dir, selectRandom a3e_arr_extraction_car, A3E_VAR_Side_Blufor] call BIS_fnc_spawnVehicle;
 private _car1 = _result select 0;
 private _group1 = _result select 2;
+// Randomize Weapons
+if (A3E_Param_RandomizeWeapons > 0) then {
+	[_car1] call A3E_FNC_RandomizeContainerWeapons;
+};
+
+// Replace mags with Tracers
+if (A3E_Param_TracerReplacer > 0) then {
+	[_car1, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Blufor] call A3E_FNC_SwapForTracerMagsInContainer;
+};
 
 
 _pos = ((getMarkerPos _extractionMarkerName2) vectorAdd (_spawnVector vectorMultiply 1.2)) vectorAdd [0,0,0];
 _result = [_pos,_dir, selectRandom a3e_arr_extraction_car, A3E_VAR_Side_Blufor] call BIS_fnc_spawnVehicle;
 private _car2 = _result select 0;
 private _group2 = _result select 2;
+// Randomize Weapons
+if (A3E_Param_RandomizeWeapons > 0) then {
+	[_car2] call A3E_FNC_RandomizeContainerWeapons;
+};
+
+// Replace mags with Tracers
+if (A3E_Param_TracerReplacer > 0) then {
+	[_car2, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Blufor] call A3E_FNC_SwapForTracerMagsInContainer;
+};
 
 _pos = ((getMarkerPos _extractionMarkerName) vectorAdd (_spawnVector vectorMultiply 0.8)) vectorAdd [0,0,0];
 _result = [_pos,_dir, selectRandom a3e_arr_extraction_car_escort, A3E_VAR_Side_Blufor] call BIS_fnc_spawnVehicle;
 private _car3 = _result select 0;
 private _group3 = _result select 2;
+// Randomize Weapons
+if (A3E_Param_RandomizeWeapons > 0) then {
+	[_car3] call A3E_FNC_RandomizeContainerWeapons;
+};
+
+// Replace mags with Tracers
+if (A3E_Param_TracerReplacer > 0) then {
+	[_car3, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Blufor] call A3E_FNC_SwapForTracerMagsInContainer;
+};
 
 _car1 setvariable ["State","Init"];
 _car2 setvariable ["State","Init"];

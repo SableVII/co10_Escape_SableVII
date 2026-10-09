@@ -412,6 +412,16 @@ drn_fnc_Escape_AddRemoveComCenArmor = {
             _waypoint setWaypointType "GUARD";
             _waypoint setWaypointBehaviour "AWARE";
             _waypoint setWaypointCombatMode "YELLOW";
+			
+			// Randomize Weapons
+			if (A3E_Param_RandomizeWeapons > 0) then {
+				[_vehicle] call A3E_FNC_RandomizeContainerWeapons;
+			};
+
+			// Replace Mags with Tracers
+			if (A3E_Param_TracerReplacer > 0) then {
+				[_vehicle, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+			};	
             
             _spawnedArmors set [count _spawnedArmors, _vehicle];
         } foreach _armorClasses;

@@ -47,7 +47,18 @@ class CfgFunctions
 			class toggleEarplugs {};
 			class initVillageMarkers {};
 			class loadLocalClasses {};
-			class SwapForTracerRounds {};
+			//class SwapForTracerRounds {};
+			class TryGetCompatibleWeaponMags {};
+			class GetWeaponTracerMagazine {};
+			class SwapUnitMagsForTracers {};
+			class SwapForTracerMagsInContainer {};
+			class AwaitEndKeyPress {};
+			class GetWeaponCompatibleAttachments {};			
+			class ConvertToRandomWeapon {};			
+			class SwapToRandomizedWeapon {};
+			class RandomizeContainerWeapons {};
+			class PopulateWeaponArray {};
+			class RandomizeUnitWeapons {};
 		};
 		class AI
 		{

@@ -78,6 +78,16 @@ _fnc_OnDroppingGroup = {
     [_this, "drn_searchAreaMarker", [0, 0, 0]] spawn drn_fnc_SearchGroup;
 };
 
+// Randomize Weapons
+if (A3E_Param_RandomizeWeapons > 0) then {
+	[_vehicle] call A3E_FNC_RandomizeContainerWeapons;
+};
+
+// Replace Mags with Tracers
+if (A3E_Param_TracerReplacer > 0) then {
+	[_vehicle, A3E_Param_TracerReplacer == 2, A3E_VAR_Side_Opfor] call A3E_FNC_SwapForTracerMagsInContainer;
+};	
+
 [_vehicle, _cargoGroup, drn_searchAreaMarkerName, true, _fnc_OnDroppingGroup, _debug] spawn drn_fnc_InsertionTruck;
 
 

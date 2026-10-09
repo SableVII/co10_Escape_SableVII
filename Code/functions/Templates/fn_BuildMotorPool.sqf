@@ -586,6 +586,16 @@ if (count _parkedArmorClasses > 0) then {
 	_sarmor setdamage random [0.25, 0.5, 0.9];
 	_sarmor setVehicleAmmo random [0, 0.5, 1];
 
+	// Randomize Weapons
+	if (A3E_Param_RandomizeWeapons > 0) then {
+		[_sarmor] call A3E_FNC_RandomizeContainerWeapons;
+	};
+	
+	// Replace Mags with Tracers
+	if (A3E_Param_TracerReplacer > 0) then {
+		[_sarmor, A3E_Param_TracerReplacer == 2, _side] call A3E_FNC_SwapForTracerMagsInContainer;
+	};
+	
 	_parkedvehicles pushBack _sarmor;
 };
 // setVehicleAmmo cannot be used until Ammo Depots rearm all vehicles
@@ -604,6 +614,16 @@ if (count _parkedVehicleClasses > 0) then {
 	_stupidvehicle setdamage random [0, 0.2, 0.5];
 	_stupidvehicle setVehicleAmmo random [0, 0.5, 1];
 	
+	// Randomize Weapons
+	if (A3E_Param_RandomizeWeapons > 0) then {
+		[_stupidvehicle] call A3E_FNC_RandomizeContainerWeapons;
+	};
+	
+	// Replace Mags with Tracers
+	if (A3E_Param_TracerReplacer > 0) then {
+		[_stupidvehicle, A3E_Param_TracerReplacer == 2, _side] call A3E_FNC_SwapForTracerMagsInContainer;
+	};	
+	
 	_random = random 1;
 	if (_random > .5 ) then {
 		_pos = [-20.35, -1.202];
@@ -615,6 +635,16 @@ if (count _parkedVehicleClasses > 0) then {
 		_stupidvehicle setfuel random 1;
 		_stupidvehicle setdamage random [0, 0.2, 0.5];
 		_stupidvehicle setVehicleAmmo random [0, 0.5, 1];
+		
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_stupidvehicle] call A3E_FNC_RandomizeContainerWeapons;
+		};
+		
+		// Replace Mags with Tracers
+		if (A3E_Param_TracerReplacer > 0) then {
+			[_stupidvehicle, A3E_Param_TracerReplacer == 2, _side] call A3E_FNC_SwapForTracerMagsInContainer;
+		};	
 		
 		_parkedvehicles pushBack _stupidvehicle;
 	};
@@ -628,6 +658,16 @@ if (count _parkedVehicleClasses > 0) then {
 		_stupidvehicle setfuel random 1;
 		_stupidvehicle setdamage random [0, 0.2, 0.5];
 		_stupidvehicle setVehicleAmmo random [0, 0.5, 1];
+		
+		// Randomize Weapons
+		if (A3E_Param_RandomizeWeapons > 0) then {
+			[_stupidvehicle] call A3E_FNC_RandomizeContainerWeapons;
+		};
+		
+		// Replace Mags with Tracers
+		if (A3E_Param_TracerReplacer > 0) then {
+			[_stupidvehicle, A3E_Param_TracerReplacer == 2, _side] call A3E_FNC_SwapForTracerMagsInContainer;
+		};	
 		
 		_parkedvehicles pushBack _stupidvehicle;
 	};
